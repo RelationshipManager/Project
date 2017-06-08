@@ -4,10 +4,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <android.support.design.internal.BottomNavigationItemView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <design
-    </android.support.design.internal.BottomNavigationItemView>
+
 
 </android.support.constraint.ConstraintLayout>
