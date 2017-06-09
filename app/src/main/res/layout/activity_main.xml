@@ -5,20 +5,24 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.zhang.myapplication.MainActivity">
+    tools:context="com.example.zhang.relationshipManager.MainActivity">
 
-    <android.support.v7.widget.RecyclerView
+    <fragment
+        android:id="@+id/contactList"
+        android:name="com.example.zhang.relationshipManager.ShowContactFragment"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1">
+        android:layout_weight="7"
+        />
 
-    </android.support.v7.widget.RecyclerView>
 
     <android.support.design.widget.BottomNavigationView
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:layout_gravity="bottom"
-        app:menu="@menu/navigation_items">
+        app:menu="@menu/navigation_items"
+        android:backgroundTint="@color/colorPrimary">
 
     </android.support.design.widget.BottomNavigationView>
 

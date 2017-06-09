@@ -1,4 +1,4 @@
-package com.example.zhang.myapplication;
+package com.example.zhang.relationshipManager;
 
 import org.junit.Test;
 

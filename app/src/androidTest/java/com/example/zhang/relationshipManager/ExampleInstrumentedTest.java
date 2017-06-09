@@ -1,4 +1,4 @@
-package com.example.zhang.myapplication;
+package com.example.zhang.relationshipManager;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
