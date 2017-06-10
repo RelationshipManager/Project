@@ -7,7 +7,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.zhang.relationshipManager.ShowContactFragment.OnListFragmentInteractionListener;
-import com.example.zhang.relationshipManager.Person;
 
 import java.util.List;
 
@@ -29,7 +28,7 @@ public class ContactListAdapter extends RecyclerView.Adapter<ContactListAdapter.
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.fragment_show_contact, parent, false);
+                .inflate(R.layout.contact_list_item, parent, false);
         return new ViewHolder(view);
     }
 

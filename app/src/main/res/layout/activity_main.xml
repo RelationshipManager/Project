@@ -8,12 +8,15 @@
     tools:context="com.example.zhang.relationshipManager.MainActivity">
 
     <android.support.v4.view.ViewPager
+        android:id="@+id/viewPager"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"></android.support.v4.view.ViewPager>
+        android:layout_weight="1"
+        android:overScrollMode="never"></android.support.v4.view.ViewPager>
 
 
     <android.support.design.widget.BottomNavigationView
+        android:id="@+id/navigation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
