@@ -1,4 +1,4 @@
-package com.example.zhang.relationshipManager;
+package com.example.zhang.relationshipManager.models;
 
 /**
  * Created by zhang on 2017-06-08.
