@@ -1,4 +1,4 @@
-package com.example.zhang.relationshipManager;
+package com.example.zhang.relationshipManager.models;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -6,8 +6,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.example.zhang.relationshipManager.ShowContactFragment.OnListFragmentInteractionListener;
-import com.example.zhang.relationshipManager.Person;
+import com.example.zhang.relationshipManager.R;
+import com.example.zhang.relationshipManager.models.ShowContactFragment.OnListFragmentInteractionListener;
 
 import java.util.List;
 
