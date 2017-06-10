@@ -1,6 +1,5 @@
-package com.example.zhang.relationshipManager;
+package com.example.zhang.relationshipManager.fragment;
 
-import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -13,12 +12,12 @@ import com.example.zhang.relationshipManager.R;
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link ShowRelationMapFragemnt.OnFragmentInteractionListener} interface
+ * {@link ShowSettingsFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link ShowRelationMapFragemnt#newInstance} factory method to
+ * Use the {@link ShowSettingsFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ShowRelationMapFragemnt extends Fragment {
+public class ShowSettingsFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -30,7 +29,7 @@ public class ShowRelationMapFragemnt extends Fragment {
 
 //    private OnFragmentInteractionListener mListener;
 
-    public ShowRelationMapFragemnt() {
+    public ShowSettingsFragment() {
         // Required empty public constructor
     }
 
@@ -40,11 +39,11 @@ public class ShowRelationMapFragemnt extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment ShowRelationMapFragemnt.
+     * @return A new instance of fragment ShowSettingsFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static ShowRelationMapFragemnt newInstance(String param1, String param2) {
-        ShowRelationMapFragemnt fragment = new ShowRelationMapFragemnt();
+    public static ShowSettingsFragment newInstance(String param1, String param2) {
+        ShowSettingsFragment fragment = new ShowSettingsFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -65,9 +64,8 @@ public class ShowRelationMapFragemnt extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_relation_map, container, false);
+        return inflater.inflate(R.layout.fragment_show_settings, container, false);
     }
-
 
 //    @Override
 //    public void onAttach(Context context) {

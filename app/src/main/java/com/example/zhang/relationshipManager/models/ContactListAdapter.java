@@ -6,17 +6,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-<<<<<<< HEAD:app/src/main/java/com/example/zhang/relationshipManager/models/ContactListAdapter.java
-import com.example.zhang.relationshipManager.models.ShowContactFragment.OnListFragmentInteractionListener;
+import com.example.zhang.relationshipManager.fragment.ShowContactFragment.OnListFragmentInteractionListener;
 import com.example.zhang.relationshipManager.R;
-import com.example.zhang.relationshipManager.models.ShowContactFragment.OnListFragmentInteractionListener;
-import com.example.zhang.relationshipManager.R;
-import com.example.zhang.relationshipManager.models.ShowContactFragment.OnListFragmentInteractionListener;
-=======
-import com.example.zhang.relationshipManager.R;
-import com.example.zhang.relationshipManager.models.ShowContactFragment.OnListFragmentInteractionListener;
-
->>>>>>> 1c8654bf5807a78f773018a7fbc3f7c51dd40a98:app/src/main/java/com/example/zhang/relationshipManager/models/ContactListAdapter.java
 import java.util.List;
 
 /**
