@@ -21,10 +21,6 @@ import com.example.zhang.relationshipManager.models.Person;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
-
 /**
  * A fragment representing a list of Items.
  * <p/>
@@ -95,16 +91,18 @@ public class ShowContactFragment extends Fragment {
 
         Initial();
         // Set the adapter
-        if (view instanceof RecyclerView) {
-            Context context = view.getContext();
-            RecyclerView recyclerView = (RecyclerView) view;
-            if (mColumnCount <= 1) {
-                recyclerView.setLayoutManager(new LinearLayoutManager(context));
-            } else {
-                recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
-            }
-            recyclerView.setAdapter(new ContactListAdapter(contactLIst, null));
-        }
+//        if (view instanceof RecyclerView) {
+//            Context context = view.getContext();
+//            RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.list);
+//            if (mColumnCount <= 1) {
+//                recyclerView.setLayoutManager(new LinearLayoutManager(context));
+//            } else {
+//                recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
+//            }
+//        }
+        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.list);
+        ContactListAdapter a = new ContactListAdapter(contactLIst,null);
+        recyclerView.setAdapter(a);
         return view;
     }
 
