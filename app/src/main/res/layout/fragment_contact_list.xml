@@ -9,5 +9,5 @@
     android:layout_marginLeft="16dp"
     android:layout_marginRight="16dp"
     app:layoutManager="LinearLayoutManager"
-    tools:context="com.example.zhang.relationshipManager.models.ShowContactFragment"
+    tools:context="com.example.zhang.relationshipManager.fragment.ShowContactFragment"
     tools:listitem="@layout/contact_list_item" />

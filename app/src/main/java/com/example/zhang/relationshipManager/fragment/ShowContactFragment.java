@@ -1,4 +1,4 @@
-package com.example.zhang.relationshipManager.models;
+package com.example.zhang.relationshipManager.fragment;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -12,6 +12,8 @@ import android.view.ViewGroup;
 
 
 import com.example.zhang.relationshipManager.R;
+import com.example.zhang.relationshipManager.models.ContactListAdapter;
+import com.example.zhang.relationshipManager.models.Person;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +30,7 @@ public class ShowContactFragment extends Fragment {
     private static final String ARG_COLUMN_COUNT = "column-count";
     // TODO: Customize parameters
     private int mColumnCount = 1;
-//    private OnListFragmentInteractionListener mListener;
+    //    private OnListFragmentInteractionListener mListener;
     private List<Person> contactLIst = new ArrayList<>();
 
     /**
