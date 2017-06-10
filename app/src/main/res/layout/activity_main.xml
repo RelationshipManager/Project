@@ -7,22 +7,18 @@
     android:layout_height="match_parent"
     tools:context="com.example.zhang.relationshipManager.MainActivity">
 
-    <fragment
-        android:id="@+id/contactList"
-        android:name="com.example.zhang.relationshipManager.ShowContactFragment"
+    <android.support.v4.view.ViewPager
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="7"
-        />
+        android:layout_weight="1"></android.support.v4.view.ViewPager>
 
 
     <android.support.design.widget.BottomNavigationView
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        app:menu="@menu/navigation_items"
-        android:backgroundTint="@color/colorPrimary">
+        android:backgroundTint="@color/colorPrimary"
+        app:menu="@menu/navigation_items">
 
     </android.support.design.widget.BottomNavigationView>
 
