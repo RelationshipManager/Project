@@ -30,7 +30,7 @@ public class MainActivity extends BaseActivity {
     private List<Fragment> fragmentList;
 
     public static void startActivity(Context context){
-        Intent intent=new Intent(context,TestMainActivity.class);
+        Intent intent=new Intent(context,MainActivity.class);
         context.startActivity(intent);
     }
 
