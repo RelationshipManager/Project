@@ -20,6 +20,12 @@ public class ContactListAdapter extends RecyclerView.Adapter<ContactListAdapter.
     private final List<Person> mValues;
     private final OnListFragmentInteractionListener mListener;
 
+    public interface OnItemClickListener {
+        void onItemClick(View view, int position);
+
+        void onItemLongClick(View view, int position);
+    }
+
     public ContactListAdapter(List<Person> items, OnListFragmentInteractionListener listener) {
         mValues = items;
         mListener = listener;
@@ -46,6 +52,12 @@ public class ContactListAdapter extends RecyclerView.Adapter<ContactListAdapter.
                     // fragment is attached to one) that an item has been selected.
                     mListener.onListFragmentInteraction(holder.mItem);
                 }
+            }
+        });
+        holder.mView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                return false;
             }
         });
     }

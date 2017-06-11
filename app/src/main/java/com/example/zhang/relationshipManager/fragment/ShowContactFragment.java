@@ -6,13 +6,17 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.example.zhang.relationshipManager.R;
 import com.example.zhang.relationshipManager.models.ContactListAdapter;
@@ -33,8 +37,9 @@ public class ShowContactFragment extends Fragment {
     private static final String ARG_COLUMN_COUNT = "column-count";
     // TODO: Customize parameters
     private int mColumnCount = 1;
-    //    private OnListFragmentInteractionListener mListener;
+    private OnListFragmentInteractionListener mListener;
     private List<Person> contactLIst = new ArrayList<>();
+    private RecyclerView recyclerView;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -100,9 +105,9 @@ public class ShowContactFragment extends Fragment {
 //                recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
 //            }
 //        }
-        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.list);
-        ContactListAdapter a = new ContactListAdapter(contactLIst,null);
-        recyclerView.setAdapter(a);
+        recyclerView = (RecyclerView) view.findViewById(R.id.list);
+        ContactListAdapter contactListAdapter = new ContactListAdapter(contactLIst, mListener);
+        recyclerView.setAdapter(contactListAdapter);
         return view;
     }
 
@@ -116,7 +121,7 @@ public class ShowContactFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 AddContactFragment addContactFragment = new AddContactFragment();
-                addContactFragment.show(getFragmentManager(),"添加新的联系人");
+                addContactFragment.show(getFragmentManager(), "添加新的联系人");
             }
         });
     }
