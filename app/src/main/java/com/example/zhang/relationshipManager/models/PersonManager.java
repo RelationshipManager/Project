@@ -55,7 +55,7 @@ public class PersonManager extends DatabaseHelper {
             return true;
         }
     }
-
+    // @// TODO: 2017-06-12 操作完成之后通知前台更新
     public void updatePerson(Person oldPerson, String name) {
         ContentValues values = new ContentValues();
         values.put("name", name);
@@ -63,6 +63,10 @@ public class PersonManager extends DatabaseHelper {
         db.update("person", values, "id=?", new String[]{String.valueOf(oldPerson.getId())});
     }
 
+    public boolean removePerson(String id){
+        SQLiteDatabase db = getWritableDatabase();
+        return db.delete("person","id = ?",new String[]{id}) > 0;
+    }
 
     public Person getPersonById(int id) {
         String name;
@@ -98,7 +102,9 @@ public class PersonManager extends DatabaseHelper {
             do {
                 int id = cursor.getInt(cursor.getColumnIndex("id"));
                 String name = cursor.getString(cursor.getColumnIndex("name"));
-                personList.add(new Person(id, name));
+                // 不显示 本机用户
+                if (id > 1)
+                    personList.add(new Person(id, name));
             } while (cursor.moveToNext());
         } else {
             return personList;

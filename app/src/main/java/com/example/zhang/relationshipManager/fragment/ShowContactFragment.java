@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import com.example.zhang.relationshipManager.R;
 import com.example.zhang.relationshipManager.models.ContactListAdapter;
 import com.example.zhang.relationshipManager.models.Person;
+import com.example.zhang.relationshipManager.models.PersonManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -63,13 +64,7 @@ public class ShowContactFragment extends Fragment {
      */
 
     private void Initial() {
-        char name = 'A';
-        Person example;
-        for (int i = 0; i < 20; i++) {
-            example = new Person(i, String.valueOf(name));
-            contactLIst.add(example);
-            name++;
-        }
+        contactLIst = PersonManager.getInstance(getContext()).getAllPerson();
     }
 
     @Override
@@ -98,7 +93,7 @@ public class ShowContactFragment extends Fragment {
 //            }
 //        }
         recyclerView = (RecyclerView) view.findViewById(R.id.list);
-        ContactListAdapter contactListAdapter = new ContactListAdapter(contactLIst, view);
+        ContactListAdapter contactListAdapter = new ContactListAdapter(contactLIst, view, getActivity());
         recyclerView.setAdapter(contactListAdapter);
         return view;
     }

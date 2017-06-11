@@ -5,8 +5,8 @@ package com.example.zhang.relationshipManager.models;
  */
 
 public class Person {
-    int id;
-    String name;
+    private int id;
+    private String name;
     int[] mRelationshipIds;
 
     public Person(int id, String name) {
