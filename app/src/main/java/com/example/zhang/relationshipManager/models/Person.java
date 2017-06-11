@@ -12,7 +12,7 @@ public class Person {
     public Person(int id, String name) {
         this.id = id;
         this.name = name;
-        this.mRelationshipIds=new int[0];
+        this.mRelationshipIds = new int[0];
     }
 
     public int getId() {

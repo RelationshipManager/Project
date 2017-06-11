@@ -29,7 +29,7 @@ public class ShowContactFragment extends Fragment {
     private static final String ARG_COLUMN_COUNT = "column-count";
     // TODO: Customize parameters
     private int mColumnCount = 1;
-    private OnListFragmentInteractionListener mListener;
+    //    private OnListFragmentInteractionListener mListener;
     private List<Person> contactLIst = new ArrayList<>();
     private RecyclerView recyclerView;
 
@@ -98,7 +98,7 @@ public class ShowContactFragment extends Fragment {
 //            }
 //        }
         recyclerView = (RecyclerView) view.findViewById(R.id.list);
-        ContactListAdapter contactListAdapter = new ContactListAdapter(contactLIst, mListener);
+        ContactListAdapter contactListAdapter = new ContactListAdapter(contactLIst, view);
         recyclerView.setAdapter(contactListAdapter);
         return view;
     }
