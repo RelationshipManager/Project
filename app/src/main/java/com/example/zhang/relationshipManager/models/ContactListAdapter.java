@@ -6,8 +6,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.example.zhang.relationshipManager.fragment.ShowContactFragment.OnListFragmentInteractionListener;
 import com.example.zhang.relationshipManager.R;
+import com.example.zhang.relationshipManager.fragment.ShowContactFragment.OnListFragmentInteractionListener;
+
 import java.util.List;
 
 /**
@@ -19,12 +20,6 @@ public class ContactListAdapter extends RecyclerView.Adapter<ContactListAdapter.
 
     private final List<Person> mValues;
     private final OnListFragmentInteractionListener mListener;
-
-    public interface OnItemClickListener {
-        void onItemClick(View view, int position);
-
-        void onItemLongClick(View view, int position);
-    }
 
     public ContactListAdapter(List<Person> items, OnListFragmentInteractionListener listener) {
         mValues = items;
@@ -65,6 +60,12 @@ public class ContactListAdapter extends RecyclerView.Adapter<ContactListAdapter.
     @Override
     public int getItemCount() {
         return mValues.size();
+    }
+
+    public interface OnItemClickListener {
+        void onItemClick(View view, int position);
+
+        void onItemLongClick(View view, int position);
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

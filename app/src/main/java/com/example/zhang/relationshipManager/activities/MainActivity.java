@@ -29,8 +29,8 @@ public class MainActivity extends BaseActivity {
     ViewPager viewPager;
     private List<Fragment> fragmentList;
 
-    public static void startActivity(Context context){
-        Intent intent=new Intent(context,MainActivity.class);
+    public static void startActivity(Context context) {
+        Intent intent = new Intent(context, MainActivity.class);
         context.startActivity(intent);
     }
 
@@ -54,7 +54,7 @@ public class MainActivity extends BaseActivity {
             @Override
             public void onPageSelected(int position) {
                 int itemID = 0;
-                switch (position){
+                switch (position) {
                     case 0:
                         itemID = R.id.contact_list;
                         break;
@@ -94,7 +94,7 @@ public class MainActivity extends BaseActivity {
                         break;
                 }
                 // @todo 设置成 false 可以取消滑动效果
-                viewPager.setCurrentItem(itemID,true);
+                viewPager.setCurrentItem(itemID, true);
                 return true;
             }
         });

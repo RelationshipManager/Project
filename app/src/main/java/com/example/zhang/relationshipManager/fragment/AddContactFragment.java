@@ -34,7 +34,7 @@ public class AddContactFragment extends DialogFragment {
             @Override
             public void onClick(View v) {
                 dismiss();
-                Snackbar.make(getActivity().getCurrentFocus(),"联系人已成功添加",Snackbar.LENGTH_SHORT).show();
+                Snackbar.make(getActivity().getCurrentFocus(), "联系人已成功添加", Snackbar.LENGTH_SHORT).show();
             }
         });
         cancel_button.setOnClickListener(new View.OnClickListener() {

@@ -33,21 +33,6 @@ public class ShowContactFragment extends Fragment {
     private List<Person> contactLIst = new ArrayList<>();
     private RecyclerView recyclerView;
 
-    /**
-     * Mandatory empty constructor for the fragment manager to instantiate the
-     * fragment (e.g. upon screen orientation changes).
-     */
-
-    private void Initial() {
-        char name = 'A';
-        Person example;
-        for (int i = 0; i < 20; i++) {
-            example = new Person(i, String.valueOf(name));
-            contactLIst.add(example);
-            name++;
-        }
-    }
-
     public ShowContactFragment() {
     }
 
@@ -70,6 +55,21 @@ public class ShowContactFragment extends Fragment {
         args.putInt(ARG_COLUMN_COUNT, columnCount);
         fragment.setArguments(args);
         return fragment;
+    }
+
+    /**
+     * Mandatory empty constructor for the fragment manager to instantiate the
+     * fragment (e.g. upon screen orientation changes).
+     */
+
+    private void Initial() {
+        char name = 'A';
+        Person example;
+        for (int i = 0; i < 20; i++) {
+            example = new Person(i, String.valueOf(name));
+            contactLIst.add(example);
+            name++;
+        }
     }
 
     @Override
@@ -145,7 +145,7 @@ public class ShowContactFragment extends Fragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        Log.w("Fragment show contact","Destroy");
+        Log.w("Fragment show contact", "Destroy");
     }
 
     public interface OnListFragmentInteractionListener {
