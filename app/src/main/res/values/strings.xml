@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">My Application</string>
+    <string name="app_name">RelationshipManager</string>
     <string name="contact_activity">联系人</string>
     <string name="map_activity">关系图谱</string>
     <string name="settings_activity">设置中心</string>
