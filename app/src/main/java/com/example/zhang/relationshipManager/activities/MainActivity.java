@@ -9,22 +9,18 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
 
-import com.example.zhang.relationshipManager.TestActivities.TestMainActivity;
-import com.example.zhang.relationshipManager.fragment.*;
+import com.example.zhang.relationshipManager.R;
+import com.example.zhang.relationshipManager.fragment.ShowContactFragment;
+import com.example.zhang.relationshipManager.fragment.ShowRelationMapFragemnt;
+import com.example.zhang.relationshipManager.fragment.ShowSettingsFragment;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-
-import com.example.zhang.relationshipManager.R;
 
 public class MainActivity extends BaseActivity {
     @BindView(R.id.navigation)

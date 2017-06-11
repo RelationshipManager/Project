@@ -1,22 +1,14 @@
 package com.example.zhang.relationshipManager.fragment;
 
-import android.app.Dialog;
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.widget.Button;
-import android.widget.Toast;
 
 import com.example.zhang.relationshipManager.R;
 import com.example.zhang.relationshipManager.models.ContactListAdapter;
@@ -148,6 +140,13 @@ public class ShowContactFragment extends Fragment {
 //        super.onDetach();
 //        mListener = null;
 //    }
+
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Log.w("Fragment show contact","Destroy");
+    }
 
     public interface OnListFragmentInteractionListener {
         // TODO: Update argument type and name
