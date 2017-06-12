@@ -3,11 +3,13 @@ package com.example.zhang.relationshipManager.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.AppCompatEditText;
 import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.example.zhang.relationshipManager.R;
 
@@ -22,6 +24,8 @@ public class Contact_Detail_Activity extends AppCompatActivity {
     Toolbar toolbar;
     @BindView(R.id.textView_contactID)
     AppCompatTextView textViewContactID;
+    @BindView(R.id.manage_relationship)
+    AppCompatButton manageRelationship;
     private boolean isEditing = false;
 
     @Override
@@ -33,9 +37,17 @@ public class Contact_Detail_Activity extends AppCompatActivity {
         Intent intent = getIntent();
         contactName.setText(intent.getStringExtra("name"));
         textViewContactID.setText(intent.getStringExtra("id"));
+        manageRelationship.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // @todo 等待跳转页面
+            }
+        });
         setSupportActionBar(toolbar);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+
     }
 
     @Override
@@ -58,7 +70,7 @@ public class Contact_Detail_Activity extends AppCompatActivity {
                     String name = newContactName.getText().toString();
                     BaseActivity.getPersonManager().updatePerson(id, name);
                     sendBroadcast(new Intent("DataChanged"));
-                } else{
+                } else {
                     isEditing = true;
                     newContactName.setEnabled(true);
                     item.setIcon(R.drawable.ic_done_white_36dp);
