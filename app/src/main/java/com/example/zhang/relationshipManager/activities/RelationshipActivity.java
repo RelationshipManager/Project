@@ -127,6 +127,7 @@ public class RelationshipActivity extends BaseActivity {
             case R.id.add_relationship:
                 new AddRelationshipFragment().setAttri(this,mPerson).show("addRelationship");
                 break;
+            // @// TODO: 2017-06-12 让返回键起效
             case android.R.id.home:
                 finish();
                 break;

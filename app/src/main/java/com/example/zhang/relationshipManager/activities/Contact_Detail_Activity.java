@@ -3,13 +3,16 @@ package com.example.zhang.relationshipManager.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.AppCompatEditText;
 import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.example.zhang.relationshipManager.R;
+import com.example.zhang.relationshipManager.models.Person;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -20,9 +23,10 @@ public class Contact_Detail_Activity extends AppCompatActivity {
     AppCompatEditText contactName;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
-    @BindView(R.id.textView_contactID)
-    AppCompatTextView textViewContactID;
+    @BindView(R.id.manage_relationship)
+    AppCompatButton manageRelationship;
     private boolean isEditing = false;
+    private String personID,personName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,11 +35,21 @@ public class Contact_Detail_Activity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         Intent intent = getIntent();
-        contactName.setText(intent.getStringExtra("name"));
-        textViewContactID.setText(intent.getStringExtra("id"));
+        personName = intent.getStringExtra("name");
+        personID = intent.getStringExtra("id");
+        contactName.setText(personName);
+        manageRelationship.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // @todo 等待跳转页面
+                RelationshipActivity.startActivity(v.getContext(),new Person(Integer.parseInt(personID),personName));
+            }
+        });
         setSupportActionBar(toolbar);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+
     }
 
     @Override
@@ -54,11 +68,11 @@ public class Contact_Detail_Activity extends AppCompatActivity {
                     isEditing = false;
                     newContactName.setEnabled(false);
                     item.setIcon(R.drawable.ic_edit_white_24dp);
-                    int id = Integer.parseInt(textViewContactID.getText().toString());
+                    int id = Integer.parseInt(personID);
                     String name = newContactName.getText().toString();
                     BaseActivity.getPersonManager().updatePerson(id, name);
                     sendBroadcast(new Intent("DataChanged"));
-                } else{
+                } else {
                     isEditing = true;
                     newContactName.setEnabled(true);
                     item.setIcon(R.drawable.ic_done_white_36dp);
