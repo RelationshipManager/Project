@@ -71,6 +71,7 @@ public class ContactListAdapter extends RecyclerView.Adapter<ContactListAdapter.
             public void onClick(View v) {
                 Intent intent = new Intent("android.intent.action.ContactDetailActivity");
                 intent.putExtra("name",holder.contactName.getText().toString());
+                intent.putExtra("id",holder.contactID.getText().toString());
                 mActivity.startActivity(intent);
             }
         });

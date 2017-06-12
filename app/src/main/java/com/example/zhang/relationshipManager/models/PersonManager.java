@@ -56,11 +56,11 @@ public class PersonManager extends DatabaseHelper {
         }
     }
     // @// TODO: 2017-06-12 操作完成之后通知前台更新
-    public void updatePerson(Person oldPerson, String name) {
+    public void updatePerson(int person_ID, String name) {
         ContentValues values = new ContentValues();
         values.put("name", name);
         SQLiteDatabase db = getWritableDatabase();
-        db.update("person", values, "id=?", new String[]{String.valueOf(oldPerson.getId())});
+        db.update("person", values, "id=?", new String[]{String.valueOf(person_ID)});
     }
 
     public boolean removePerson(String id){

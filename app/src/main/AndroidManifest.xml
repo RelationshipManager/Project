@@ -22,7 +22,8 @@
         </activity>
         <activity android:name=".activities.MainActivity" />
         <activity android:name=".TestActivities.TestMainActivity" />
-        <activity android:name=".activities.Contact_Detail_Activity">
+        <activity android:name=".activities.Contact_Detail_Activity"
+            android:label="联系人详情">
             <intent-filter>
                 <action android:name="android.intent.action.ContactDetailActivity" />
                 <category android:name="android.intent.category.DEFAULT" />

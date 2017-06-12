@@ -29,6 +29,6 @@ public class BaseActivity extends AppCompatActivity {
             sPersonManager = PersonManager.getInstance(this);
             sRelationshipManager = RelationshipManager.getInstance(this);
         }
-        getSupportActionBar().hide();
+        //getSupportActionBar().hide();
     }
 }
