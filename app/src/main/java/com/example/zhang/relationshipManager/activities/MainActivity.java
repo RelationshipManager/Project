@@ -9,12 +9,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
-
-import com.example.zhang.relationshipManager.TestActivities.TestMainActivity;
 import com.example.zhang.relationshipManager.fragment.*;
 
 import java.util.ArrayList;
@@ -45,7 +41,7 @@ public class MainActivity extends BaseActivity {
         ButterKnife.bind(this);
         fragmentList = new ArrayList<>();
         fragmentList.add(new ShowContactFragment());
-        fragmentList.add(new ShowRelationMapFragemnt());
+        fragmentList.add(new ShowRelationMapFragment());
         fragmentList.add(new ShowSettingsFragment());
 
         viewPager.setAdapter(new MyFragmentAdapter(getSupportFragmentManager(), fragmentList));

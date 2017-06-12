@@ -31,7 +31,7 @@ public class RelationshipManager extends DatabaseHelper {
         super(context);
     }
 
-    public boolean updatePersonLevel(Person oldPerson,int level){
+    private boolean updatePersonLevel(Person oldPerson,int level){
         if(oldPerson==null)
             return false;
         ContentValues values=new ContentValues();
@@ -41,7 +41,7 @@ public class RelationshipManager extends DatabaseHelper {
         return true;
     }
 
-    public int getLevelOfPerson(Person person){
+    private int getLevelOfPerson(Person person){
         if(person==null)
             return -1;
         int level=-1;
@@ -49,6 +49,28 @@ public class RelationshipManager extends DatabaseHelper {
         Cursor cursor=db.query("person",new String[]{"level"},"id=?",new String[]{String.valueOf(person.getId())},null,null,null);
         if(cursor.moveToFirst()){
             level=cursor.getInt(cursor.getColumnIndex("level"));
+        }
+        cursor.close();
+        return level;
+    }
+
+    public int getMaxLevel(){
+        int level=0;
+        SQLiteDatabase db=getReadableDatabase();
+        Cursor cursor=db.rawQuery("select max(level) as max_level from person where level<>?",new String[]{"-20"});
+        if(cursor.moveToFirst()){
+            level=cursor.getInt(cursor.getColumnIndex("max_level"));
+        }
+        cursor.close();
+        return level;
+    }
+
+    public int getMinLevel(){
+        int level=0;
+        SQLiteDatabase db=getReadableDatabase();
+        Cursor cursor=db.rawQuery("select min(level) as min_level from person where level<>?",new String[]{"-20"});
+        if(cursor.moveToFirst()){
+            level=cursor.getInt(cursor.getColumnIndex("min_level"));
         }
         cursor.close();
         return level;
@@ -116,6 +138,12 @@ public class RelationshipManager extends DatabaseHelper {
             Log.d("addRelationship","source==null||target==null");
             return false;
         }
+
+        int sourceLevel=getLevelOfPerson(source);
+        if(-20==sourceLevel){
+            return false;
+        }
+
         SQLiteDatabase db=getWritableDatabase();
         Cursor cursor;
         //检查唯一性
@@ -129,7 +157,6 @@ public class RelationshipManager extends DatabaseHelper {
 
         int relationshipId;
         int levelDiff;
-        int sourceLevel=getLevelOfPerson(source);
         int targetLevel=getLevelOfPerson(target);
         cursor=db.query("relationship_type",new String[]{"id","level_diff"},
                 "source_type=? and target_type=?",new String[]{sourceType,targetType},null,null,null);
