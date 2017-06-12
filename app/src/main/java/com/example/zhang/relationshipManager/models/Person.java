@@ -1,18 +1,18 @@
 package com.example.zhang.relationshipManager.models;
 
+import java.io.Serializable;
+
 /**
  * Created by zhang on 2017-06-08.
  */
 
-public class Person {
+public class Person implements Serializable{
     private int id;
     private String name;
-    int[] mRelationshipIds;
 
     public Person(int id, String name) {
         this.id = id;
         this.name = name;
-        this.mRelationshipIds = new int[0];
     }
 
     public int getId() {
