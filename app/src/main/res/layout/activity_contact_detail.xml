@@ -48,12 +48,6 @@
             android:orientation="horizontal">
 
             <android.support.v7.widget.AppCompatTextView
-                android:id="@+id/textView_contactID"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:visibility="invisible"/>
-
-            <android.support.v7.widget.AppCompatTextView
                 android:id="@+id/textView_contactName"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
