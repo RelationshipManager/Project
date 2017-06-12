@@ -2,6 +2,8 @@ package com.example.zhang.relationshipManager.fragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +13,7 @@ import android.widget.TextView;
 
 import com.example.zhang.relationshipManager.R;
 import com.example.zhang.relationshipManager.activities.RelationshipActivity;
+import com.example.zhang.relationshipManager.models.DataChangeReceiver;
 import com.example.zhang.relationshipManager.models.Person;
 import com.example.zhang.relationshipManager.models.RelationshipManager;
 
@@ -22,11 +25,19 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ShowRelationMapFragment extends Fragment {
 
-    //数据列表
-    private ArrayList<PersonList> mPersonLists;
     //二级列表
     @BindView(R.id.expandable_list_view)
     public ExpandableListView mExpandableListView;
+    //工具栏
+    @BindView(R.id.toolbar)
+    public Toolbar mToolbar;
+
+    //数据列表
+    private ArrayList<PersonList> mPersonLists;
+    //适配器
+    private PersonExpandableListAdapter mAdapter;
+    //数据变化广播接收器
+    private DataChangeReceiver mDataChangeReceiver;
 
     public static ShowRelationMapFragment newInstance() {
         return new ShowRelationMapFragment();
@@ -52,9 +63,19 @@ public class ShowRelationMapFragment extends Fragment {
     }
 
     private void init(){
+        mDataChangeReceiver=new DataChangeReceiver(getActivity(),new DataChangeReceiver.Refreshable() {
+            @Override
+            public void refresh() {
+                refreshList();
+            }
+        });
+
+        ((AppCompatActivity)getActivity()).setSupportActionBar(mToolbar);
+        mToolbar.setTitle("关系图谱");
+
         mPersonLists=new ArrayList<>();
         refreshList();
-        mExpandableListView.setAdapter(new PersonExpandableListAdapter(mPersonLists));
+        mExpandableListView.setAdapter(mAdapter);
         mExpandableListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
             @Override
             public boolean onChildClick(ExpandableListView expandableListView, View view, int i, int i1, long l) {
@@ -66,11 +87,17 @@ public class ShowRelationMapFragment extends Fragment {
 
     private void refreshList(){
         RelationshipManager relationshipManager=RelationshipManager.getInstance(getActivity());
+        mPersonLists.clear();
         int maxLevel= relationshipManager.getMaxLevel();
         int minLevel= relationshipManager.getMinLevel();
         for(int i=maxLevel;i>=minLevel;i--){
             mPersonLists.add(new PersonList(i,relationshipManager.getPersonsByLevel(i)));
         }
+        if(mAdapter==null)
+            mAdapter=new PersonExpandableListAdapter(mPersonLists);
+        else
+            mAdapter.updateList(mPersonLists);
+
     }
 
     public class PersonList{
@@ -110,7 +137,7 @@ public class ShowRelationMapFragment extends Fragment {
         }
     }
 
-    public class PersonExpandableListAdapter extends BaseExpandableListAdapter {
+    private class PersonExpandableListAdapter extends BaseExpandableListAdapter {
 
 
         ArrayList<PersonList> mPersonLists;
@@ -119,6 +146,11 @@ public class ShowRelationMapFragment extends Fragment {
         public PersonExpandableListAdapter(ArrayList<PersonList> personLists) {
             mInflater=LayoutInflater.from(getActivity());
             mPersonLists=personLists;
+        }
+
+        public void updateList(ArrayList<PersonList> personLists) {
+            mPersonLists=personLists;
+            notifyDataSetChanged();
         }
 
         @Override

@@ -72,7 +72,7 @@ public class ContactListAdapter extends RecyclerView.Adapter<ContactListAdapter.
                 builder.setTitle("确认删除联系人？").setPositiveButton("删除", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        boolean isSucceed = BaseActivity.getPersonManager().removePerson(holder.contactID.getText().toString());
+                        boolean isSucceed = PersonManager.getInstance(mContext).removePerson(holder.contactID.getText().toString());
                         String to_show = isSucceed ? "删除成功" : "操作失败";
                         Snackbar.make(mView, to_show, Snackbar.LENGTH_SHORT).show();
                         mContext.sendBroadcast(new Intent("DataChanged"));

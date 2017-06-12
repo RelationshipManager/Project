@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <TextView
+    android:layout_marginBottom="5dp"
     android:id="@+id/level_name"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center"
     android:textSize="20sp"
-    android:text="TextView"
+    android:background="#E0EEEE"
     xmlns:android="http://schemas.android.com/apk/res/android"/>

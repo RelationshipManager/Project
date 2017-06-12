@@ -45,9 +45,18 @@ public class RelationshipManager extends DatabaseHelper {
         SQLiteDatabase db = getWritableDatabase();
         String id1=String.valueOf(relationshipToDelete.getSourcePerson().getId());
         String id2=String.valueOf(relationshipToDelete.getTargetPerson().getId());
-        return db.delete("relationship",
+        boolean result=db.delete("relationship",
                 "(source_person_id = ? and target_person_id=?) or (source_person_id = ? and target_person_id=?)",
                 new String[]{id1,id2,id2,id1}) > 0;
+        if(result){
+            if(getRelationshipsOfPerson(relationshipToDelete.getSourcePerson()).isEmpty()){
+                updatePersonLevel(relationshipToDelete.getSourcePerson(),-20);
+            }
+            if(getRelationshipsOfPerson(relationshipToDelete.getTargetPerson()).isEmpty()){
+                updatePersonLevel(relationshipToDelete.getTargetPerson(),-20);
+            }
+        }
+        return result;
     }
 
     public int getLevelOfPerson(Person person) {
@@ -171,8 +180,10 @@ public class RelationshipManager extends DatabaseHelper {
         SQLiteDatabase db = getWritableDatabase();
         Cursor cursor;
         //检查唯一性
-        cursor = db.query("relationship", null, "source_person_id=? and target_person_id=?",
-                new String[]{String.valueOf(source.getId()), String.valueOf(target.getId())}, null, null, null);
+        String sourceId=String.valueOf(source.getId());
+        String targetId=String.valueOf(target.getId());
+        cursor = db.query("relationship", null, "(source_person_id=? and target_person_id=?)or(source_person_id=? and target_person_id=?)",
+                new String[]{sourceId,targetId,targetId,sourceId}, null, null, null);
         if (cursor.moveToFirst()) {
             cursor.close();
             return false;
@@ -199,7 +210,7 @@ public class RelationshipManager extends DatabaseHelper {
         } else {
             cursor.close();
             cursor = db.query("relationship_type", new String[]{"id", "level_diff"},
-                    "source_type=? and target_type=?", new String[]{sourceType, targetType}, null, null, null);
+                    "source_type=? and target_type=?", new String[]{targetType,sourceType }, null, null, null);
             if (cursor.moveToFirst()) {
                 relationshipId = cursor.getInt(cursor.getColumnIndex("id"));
                 levelDiff = -cursor.getInt(cursor.getColumnIndex("level_diff"));
@@ -238,7 +249,7 @@ public class RelationshipManager extends DatabaseHelper {
         String source_id = String.valueOf(source.getId());
         String target_id = String.valueOf(target.getId());
         SQLiteDatabase db = getWritableDatabase();
-        Cursor cursor = db.query("relationship_type", new String[]{"id"},
+        Cursor cursor = db.query("relationship_type", new String[]{"id","level_diff"},
                 "source_type=? and target_type=?", new String[]{source_type, target_type}, null, null, null);
         if (cursor.moveToFirst()) {
             relationshipId = cursor.getInt(cursor.getColumnIndex("id"));
@@ -252,7 +263,7 @@ public class RelationshipManager extends DatabaseHelper {
             db.update("relationship", values, "source_person_id=? and target_person_id=?", new String[]{source_id, target_id});
         } else {
             cursor.close();
-            cursor = db.query("relationship_type", new String[]{"id"},
+            cursor = db.query("relationship_type", new String[]{"id","level_diff"},
                     "source_type=? and target_type=?", new String[]{target_type, source_type}, null, null, null);
             if (cursor.moveToFirst()) {
                 relationshipId = cursor.getInt(cursor.getColumnIndex("id"));

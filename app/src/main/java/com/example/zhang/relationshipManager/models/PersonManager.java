@@ -65,7 +65,13 @@ public class PersonManager extends DatabaseHelper {
 
     public boolean removePerson(String id){
         SQLiteDatabase db = getWritableDatabase();
-        return db.delete("person","id = ?",new String[]{id}) > 0;
+        db.beginTransaction();
+        boolean result= db.delete("person","id = ?",new String[]{id}) > 0;
+        if(result){
+            result=db.delete("relationship","source_person_id=? or target_person_id=?",new String[]{id,id})>0;
+        }
+        db.endTransaction();
+        return result;
     }
 
     public Person getPersonById(int id) {
