@@ -31,6 +31,7 @@
             android:layout_height="wrap_content">
 
             <android.support.design.widget.TextInputEditText
+                android:id="@+id/new_contact_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="联系人姓名" />
@@ -47,21 +48,21 @@
             android:id="@+id/add_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="50dp"
-            android:layout_marginEnd="30dp"
-            android:text="添加"
-            android:textSize="20sp"
-            android:layout_weight="1"/>
+            android:layout_marginStart="80dp"
+            android:layout_marginEnd="10dp"
+            android:background="@drawable/add_btn"
+            android:backgroundTint="@color/colorPrimary" />
 
         <Button
             android:id="@+id/cancel_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="30dp"
-            android:layout_marginEnd="50dp"
-            android:layout_weight="1"
-            android:text="取消"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="80dp"
+            android:background="@drawable/cancel_btn"
+            android:backgroundTint="@color/colorAccent"
             android:textSize="20sp" />
     </LinearLayout>
+
 
 </LinearLayout>

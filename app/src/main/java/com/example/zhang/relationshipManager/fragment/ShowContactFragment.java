@@ -1,26 +1,19 @@
 package com.example.zhang.relationshipManager.fragment;
 
-import android.app.Dialog;
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.widget.Button;
-import android.widget.Toast;
 
 import com.example.zhang.relationshipManager.R;
 import com.example.zhang.relationshipManager.models.ContactListAdapter;
 import com.example.zhang.relationshipManager.models.Person;
+import com.example.zhang.relationshipManager.models.PersonManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,24 +30,9 @@ public class ShowContactFragment extends Fragment {
     private static final String ARG_COLUMN_COUNT = "column-count";
     // TODO: Customize parameters
     private int mColumnCount = 1;
-    private OnListFragmentInteractionListener mListener;
+    //    private OnListFragmentInteractionListener mListener;
     private List<Person> contactLIst = new ArrayList<>();
     private RecyclerView recyclerView;
-
-    /**
-     * Mandatory empty constructor for the fragment manager to instantiate the
-     * fragment (e.g. upon screen orientation changes).
-     */
-
-    private void Initial() {
-        char name = 'A';
-        Person example;
-        for (int i = 0; i < 20; i++) {
-            example = new Person(i, String.valueOf(name));
-            contactLIst.add(example);
-            name++;
-        }
-    }
 
     public ShowContactFragment() {
     }
@@ -78,6 +56,15 @@ public class ShowContactFragment extends Fragment {
         args.putInt(ARG_COLUMN_COUNT, columnCount);
         fragment.setArguments(args);
         return fragment;
+    }
+
+    /**
+     * Mandatory empty constructor for the fragment manager to instantiate the
+     * fragment (e.g. upon screen orientation changes).
+     */
+
+    private void Initial() {
+        contactLIst = PersonManager.getInstance(getContext()).getAllPerson();
     }
 
     @Override
@@ -106,7 +93,7 @@ public class ShowContactFragment extends Fragment {
 //            }
 //        }
         recyclerView = (RecyclerView) view.findViewById(R.id.list);
-        ContactListAdapter contactListAdapter = new ContactListAdapter(contactLIst, mListener);
+        ContactListAdapter contactListAdapter = new ContactListAdapter(contactLIst, view, getActivity());
         recyclerView.setAdapter(contactListAdapter);
         return view;
     }
@@ -148,6 +135,13 @@ public class ShowContactFragment extends Fragment {
 //        super.onDetach();
 //        mListener = null;
 //    }
+
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Log.w("Fragment show contact", "Destroy");
+    }
 
     public interface OnListFragmentInteractionListener {
         // TODO: Update argument type and name
