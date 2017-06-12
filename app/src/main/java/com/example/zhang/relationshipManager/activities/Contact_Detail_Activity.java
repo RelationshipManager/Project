@@ -2,6 +2,7 @@ package com.example.zhang.relationshipManager.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatEditText;
 import android.support.v7.widget.AppCompatTextView;
@@ -10,7 +11,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.example.zhang.relationshipManager.R;
-import com.example.zhang.relationshipManager.models.PersonManager;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -57,12 +57,16 @@ public class Contact_Detail_Activity extends AppCompatActivity {
                     item.setIcon(R.drawable.ic_edit_white_24dp);
                     int id = Integer.parseInt(textViewContactID.getText().toString());
                     String name = newContactName.getText().toString();
-                    PersonManager.getInstance(this).updatePerson(id, name);
+                    BaseActivity.getPersonManager().updatePerson(id, name);
+                    sendBroadcast(new Intent("DataChanged"));
                 } else{
                     isEditing = true;
                     newContactName.setEnabled(true);
                     item.setIcon(R.drawable.ic_done_white_36dp);
                 }
+                break;
+            case android.R.id.home:
+                finish();
                 break;
             default:
                 break;

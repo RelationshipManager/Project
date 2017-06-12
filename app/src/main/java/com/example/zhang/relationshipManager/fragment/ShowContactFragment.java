@@ -1,5 +1,10 @@
 package com.example.zhang.relationshipManager.fragment;
 
+import android.app.Activity;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -11,9 +16,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.zhang.relationshipManager.R;
+import com.example.zhang.relationshipManager.activities.BaseActivity;
 import com.example.zhang.relationshipManager.models.ContactListAdapter;
 import com.example.zhang.relationshipManager.models.Person;
-import com.example.zhang.relationshipManager.models.PersonManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,6 +38,21 @@ public class ShowContactFragment extends Fragment {
     //    private OnListFragmentInteractionListener mListener;
     private List<Person> contactLIst = new ArrayList<>();
     private RecyclerView recyclerView;
+    private ContactListAdapter contactListAdapter;
+    private View view;
+    private Activity mActivity;
+    private Context mContext;
+    public class DataChanged_BroadcastReceiver extends BroadcastReceiver{
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Log.w("Receive Broadcast","onReceive");
+            Initial();
+            recyclerView.setAdapter(contactListAdapter);
+        }
+    }
+
+    public DataChanged_BroadcastReceiver dataChanged_broadcastReceiver;
 
     public ShowContactFragment() {
     }
@@ -40,8 +60,8 @@ public class ShowContactFragment extends Fragment {
     /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
+     * to the mActivity and potentially other fragments contained in that
+     * mActivity.
      * <p/>
      * See the Android Training lesson <a href=
      * "http://developer.android.com/training/basics/fragments/communicating.html"
@@ -64,7 +84,9 @@ public class ShowContactFragment extends Fragment {
      */
 
     private void Initial() {
-        contactLIst = PersonManager.getInstance(getContext()).getAllPerson();
+        contactLIst = BaseActivity.getPersonManager().getAllPerson();
+        contactListAdapter = new ContactListAdapter(contactLIst);
+        contactListAdapter.setContext(mContext).setView(view).setActivity(mActivity);
     }
 
     @Override
@@ -79,23 +101,30 @@ public class ShowContactFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_contact_list, container, false);
+        view = inflater.inflate(R.layout.fragment_contact_list, container, false);
+        mActivity = getActivity();
+        mContext = getContext();
 
         Initial();
         // Set the adapter
-//        if (view instanceof RecyclerView) {
-//            Context context = view.getContext();
-//            RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.list);
-//            if (mColumnCount <= 1) {
-//                recyclerView.setLayoutManager(new LinearLayoutManager(context));
-//            } else {
-//                recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
-//            }
-//        }
+
         recyclerView = (RecyclerView) view.findViewById(R.id.list);
-        ContactListAdapter contactListAdapter = new ContactListAdapter(contactLIst, view, getActivity());
         recyclerView.setAdapter(contactListAdapter);
         return view;
+    }
+
+    /**
+     * Called when a fragment is first attached to its mContext.
+     * {@link #onCreate(Bundle)} will be called after this.
+     *
+     * @param context
+     */
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        IntentFilter intentFilter = new IntentFilter("DataChanged");
+        dataChanged_broadcastReceiver = new DataChanged_BroadcastReceiver();
+        context.registerReceiver(dataChanged_broadcastReceiver,intentFilter);
     }
 
     @Override
@@ -108,6 +137,8 @@ public class ShowContactFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 AddContactFragment addContactFragment = new AddContactFragment();
+                addContactFragment.setmView(view);
+                addContactFragment.setmContext(getContext());
                 addContactFragment.show(getFragmentManager(), "添加新的联系人");
             }
         });
@@ -116,31 +147,6 @@ public class ShowContactFragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-    }
-
-
-//    @Override
-//    public void onAttach(Context context) {
-//        super.onAttach(context);
-//        if (context instanceof OnListFragmentInteractionListener) {
-//            mListener = (OnListFragmentInteractionListener) context;
-//        } else {
-//            throw new RuntimeException(context.toString()
-//                    + " must implement OnListFragmentInteractionListener");
-//        }
-//    }
-
-//    @Override
-//    public void onDetach() {
-//        super.onDetach();
-//        mListener = null;
-//    }
-
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        Log.w("Fragment show contact", "Destroy");
     }
 
     public interface OnListFragmentInteractionListener {

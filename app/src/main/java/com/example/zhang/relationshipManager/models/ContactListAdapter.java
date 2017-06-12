@@ -1,6 +1,7 @@
 package com.example.zhang.relationshipManager.models;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.design.widget.Snackbar;
@@ -12,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.zhang.relationshipManager.R;
+import com.example.zhang.relationshipManager.activities.BaseActivity;
 import com.example.zhang.relationshipManager.fragment.ShowContactFragment.OnListFragmentInteractionListener;
 
 import java.util.List;
@@ -25,14 +27,29 @@ public class ContactListAdapter extends RecyclerView.Adapter<ContactListAdapter.
 
     private final List<Person> mValues;
     //    private final OnListFragmentInteractionListener mListener;
-    private final View mView;
-    private final Activity mActivity;
+    private View mView;
+    private Activity mActivity;
+    private Context mContext;
 
-    public ContactListAdapter(List<Person> items, View view, Activity activity) {
-        mValues = items;
-        mView = view;
-        mActivity = activity;
+    public ContactListAdapter setView(View mView) {
+        this.mView = mView;
+        return this;
     }
+
+    public ContactListAdapter setActivity(Activity mActivity) {
+        this.mActivity = mActivity;
+        return this;
+    }
+
+    public ContactListAdapter setContext(Context context){
+        mContext = context;
+        return this;
+    }
+
+    public ContactListAdapter(List<Person> items) {
+        mValues = items;
+    }
+
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -51,14 +68,14 @@ public class ContactListAdapter extends RecyclerView.Adapter<ContactListAdapter.
         holder.mView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                final View myView = v;
                 AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
                 builder.setTitle("确认删除联系人？").setPositiveButton("删除", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        boolean isSucceed = PersonManager.getInstance(myView.getContext()).removePerson(holder.contactID.getText().toString());
+                        boolean isSucceed = BaseActivity.getPersonManager().removePerson(holder.contactID.getText().toString());
                         String to_show = isSucceed ? "删除成功" : "操作失败";
-                        Snackbar.make(mView, to_show, Snackbar.LENGTH_LONG).show();
+                        Snackbar.make(mView, to_show, Snackbar.LENGTH_SHORT).show();
+                        mContext.sendBroadcast(new Intent("DataChanged"));
                     }
                 }).setNegativeButton("取消", null);
                 builder.show();

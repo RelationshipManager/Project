@@ -3,6 +3,8 @@ package com.example.zhang.relationshipManager.fragment;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
@@ -13,13 +15,23 @@ import android.view.View;
 import android.widget.Button;
 
 import com.example.zhang.relationshipManager.R;
-import com.example.zhang.relationshipManager.models.PersonManager;
+import com.example.zhang.relationshipManager.activities.BaseActivity;
 
 /**
  * Created by zhang on 2017-06-10.
  */
 
 public class AddContactFragment extends DialogFragment {
+    View mView;
+    Context mContext;
+
+    public void setmView(View view){
+        mView = view;
+    }
+
+    public void setmContext(Context mContext) {
+        this.mContext = mContext;
+    }
 
     @NonNull
     @Override
@@ -33,14 +45,14 @@ public class AddContactFragment extends DialogFragment {
 
         Button add_button = (Button) view.findViewById(R.id.add_button), cancel_button = (Button) view.findViewById(R.id.cancel_button);
 
-
         add_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 TextInputEditText textInputEditText = (TextInputEditText) view.findViewById(R.id.new_contact_name);
-                boolean isSucceed = PersonManager.getInstance(getContext()).addPerson(String.valueOf(textInputEditText.getText()).toString());
+                boolean isSucceed = BaseActivity.getPersonManager().addPerson(String.valueOf(textInputEditText.getText()).toString());
                 String to_show = isSucceed ? "联系人已成功添加" : "操作失败";
-                Snackbar.make(getActivity().getCurrentFocus(), to_show, Snackbar.LENGTH_SHORT).show();
+                Snackbar.make(mView, to_show, Snackbar.LENGTH_SHORT).show();
+                mContext.sendBroadcast(new Intent("DataChanged"));
                 if (isSucceed) {
                     dismiss();
                 }
