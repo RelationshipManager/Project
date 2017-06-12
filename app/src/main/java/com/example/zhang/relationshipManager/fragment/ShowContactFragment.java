@@ -177,6 +177,7 @@ public class ShowContactFragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        getActivity().unregisterReceiver(dataChanged_broadcastReceiver);
     }
 
     public interface OnListFragmentInteractionListener {
