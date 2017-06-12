@@ -129,21 +129,25 @@ public class RelationshipManager extends DatabaseHelper {
     public ArrayList<Relationship> getRelationshipsOfPerson(Person person) {
         ArrayList<Relationship> relationshipsList = new ArrayList<>();
         Person target_person;
-        String type_name;
+        String sourceRole;
+        String targetRole;
         SQLiteDatabase db = getReadableDatabase();
         String id = String.valueOf(person.getId());
         Cursor cursor = db.query("relationship", new String[]{"target_person_id", "relationship_id"}, "source_person_id=?", new String[]{id}, null, null, null);
         if (cursor.moveToFirst()) {
             do {
                 target_person = sPersonManager.getPersonById(cursor.getInt(cursor.getColumnIndex("target_person_id")));
-                String type_id = String.valueOf(cursor.getInt(cursor.getColumnIndex("relationship_id")));
-                Cursor cursor1 = db.query("relationship_type", new String[]{"target_type"}, "id=?", new String[]{type_id}, null, null, null);
+                String typeId = String.valueOf(cursor.getInt(cursor.getColumnIndex("relationship_id")));
+                Cursor cursor1 = db.query("relationship_type", new String[]{"target_type","source_type"}, "id=?", new String[]{typeId}, null, null, null);
                 if (cursor1.moveToFirst()) {
-                    type_name = cursor1.getString(cursor1.getColumnIndex("target_type"));
-                } else
-                    type_name = "无";
+                    sourceRole = cursor1.getString(cursor1.getColumnIndex("source_type"));
+                    targetRole = cursor1.getString(cursor1.getColumnIndex("target_type"));
+                } else {
+                    sourceRole="无";
+                    targetRole = "无";
+                }
                 cursor1.close();
-                relationshipsList.add(new Relationship(person, target_person, type_name));
+                relationshipsList.add(new Relationship(person, target_person,sourceRole,targetRole));
             } while (cursor.moveToNext());
         }
         cursor.close();
@@ -152,14 +156,17 @@ public class RelationshipManager extends DatabaseHelper {
         if (cursor.moveToFirst()) {
             do {
                 target_person = sPersonManager.getPersonById(cursor.getInt(cursor.getColumnIndex("source_person_id")));
-                String type_id = String.valueOf(cursor.getInt(cursor.getColumnIndex("relationship_id")));
-                Cursor cursor1 = db.query("relationship_type", new String[]{"source_type"}, "id=?", new String[]{type_id}, null, null, null);
+                String typeId = String.valueOf(cursor.getInt(cursor.getColumnIndex("relationship_id")));
+                Cursor cursor1 = db.query("relationship_type", new String[]{"source_type","target_type"}, "id=?", new String[]{typeId}, null, null, null);
                 if (cursor1.moveToFirst()) {
-                    type_name = cursor1.getString(cursor1.getColumnIndex("source_type"));
-                } else
-                    type_name = "无";
+                    sourceRole = cursor1.getString(cursor1.getColumnIndex("target_type"));
+                    targetRole = cursor1.getString(cursor1.getColumnIndex("source_type"));
+                } else {
+                    sourceRole="无";
+                    targetRole = "无";
+                }
                 cursor1.close();
-                relationshipsList.add(new Relationship(person, target_person, type_name));
+                relationshipsList.add(new Relationship(person, target_person,sourceRole, targetRole));
             } while (cursor.moveToNext());
         }
         cursor.close();

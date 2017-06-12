@@ -13,10 +13,12 @@ import com.example.zhang.relationshipManager.R;
 
 public class DataChangeReceiver extends BroadcastReceiver {
     private Refreshable mRefresher;
+    private Context mContext;
 
     public DataChangeReceiver(Context context,Refreshable refresher){
         mRefresher=refresher;
         IntentFilter intentFilter=new IntentFilter("DataChanged");
+        mContext=context;
         context.registerReceiver(this,intentFilter);
     }
     @Override
@@ -27,5 +29,9 @@ public class DataChangeReceiver extends BroadcastReceiver {
 
     public interface Refreshable{
         void refresh();
+    }
+
+    public void unRegister(){
+        mContext.unregisterReceiver(this);
     }
 }

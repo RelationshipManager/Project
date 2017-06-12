@@ -15,7 +15,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,7 +22,6 @@ import com.example.zhang.relationshipManager.R;
 import com.example.zhang.relationshipManager.fragment.ChangeRelationshipFragment;
 import com.example.zhang.relationshipManager.models.DataChangeReceiver;
 import com.example.zhang.relationshipManager.models.Person;
-import com.example.zhang.relationshipManager.models.PersonManager;
 import com.example.zhang.relationshipManager.models.Relationship;
 import com.example.zhang.relationshipManager.models.RelationshipManager;
 
@@ -38,8 +36,6 @@ public class RelationshipActivity extends BaseActivity {
     AppCompatTextView mContactName;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
-    @BindView(R.id.textView_contactID)
-    AppCompatTextView mTextViewContactID;
     @BindView(R.id.relationship_list)
     RecyclerView mRelationshipList;
 
@@ -67,10 +63,16 @@ public class RelationshipActivity extends BaseActivity {
         init();
     }
 
+    @Override
+    protected void onDestroy(){
+        super.onDestroy();
+        //卸载广播
+        mDataChangeReceiver.unRegister();
+    }
+
     private void init(){
         mPerson=(Person)getIntent().getSerializableExtra("person");
         mContactName.setText(mPerson.getName());
-        mTextViewContactID.setText(String.valueOf(mPerson.getId()));
 
         //构造广播接收器
         mDataChangeReceiver=new DataChangeReceiver(this,new DataChangeReceiver.Refreshable() {
@@ -179,7 +181,7 @@ public class RelationshipActivity extends BaseActivity {
         public void onBindViewHolder(final ViewHolder viewHolder,int i) {
             Relationship relationship=mRelationships.get(i);
             viewHolder.mContactName.setText(relationship.getTargetPerson().getName());
-            viewHolder.mRelationshipType.setText(relationship.getRelationshipType());
+            viewHolder.mRelationshipType.setText(relationship.getTargetRole());
             if (mOnItemClickListener != null) {
                 viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -249,6 +251,8 @@ public class RelationshipActivity extends BaseActivity {
         @Override
         public void init() {
             mBtConfirm.setText("修改");
+            mSourcePersonRole.setSelection(mRoles.indexOf(mRelationship.getSourceRole()));
+            mTargetPersonRole.setSelection(mRoles.indexOf(mRelationship.getTargetRole()));
             mTargetPersonName.setText(mRelationship.getTargetPerson().getName());
             mBtConfirm.setOnClickListener(new View.OnClickListener() {
                 @Override

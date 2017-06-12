@@ -48,17 +48,10 @@
             android:orientation="horizontal">
 
             <android.support.v7.widget.AppCompatTextView
-                android:id="@+id/textView_contactID"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:visibility="invisible"/>
-
-            <android.support.v7.widget.AppCompatTextView
-                android:id="@+id/textView_contactName"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:gravity="center_vertical"
+                android:gravity="center_vertical|end"
                 android:textAlignment="textEnd"
                 android:text="姓名"
                 android:textSize="20sp" />
@@ -72,6 +65,14 @@
                 android:textSize="20sp"/>
         </LinearLayout>
     </LinearLayout>
+
+    <TextView
+        android:layout_marginTop="20dp"
+        android:textSize="20sp"
+        android:text="相关联系人"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/relationship_list"

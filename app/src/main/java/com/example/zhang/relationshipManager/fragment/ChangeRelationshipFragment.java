@@ -44,10 +44,11 @@ public abstract class ChangeRelationshipFragment extends DialogFragment {
     public Spinner mTargetPersonRole;
     @BindView(R.id.bt_confirm)
     public Button mBtConfirm;
-;
+
 
     protected Activity mActivity;
     protected Person mPerson;
+    protected ArrayList<String> mRoles;
 
     public ChangeRelationshipFragment setAttri(Activity activity, Person person){
         mActivity=activity;
@@ -78,8 +79,8 @@ public abstract class ChangeRelationshipFragment extends DialogFragment {
         ButterKnife.bind(this,view);
 
         mSourcePersonName.setText(mPerson.getName());
-        ArrayList<String> roles= RelationshipManager.getInstance(getActivity()).getAllRelationshipRole();
-        ArrayAdapter<String> adapter=new ArrayAdapter<>(getActivity(),R.layout.support_simple_spinner_dropdown_item,roles);
+        mRoles= RelationshipManager.getInstance(getActivity()).getAllRelationshipRole();
+        ArrayAdapter<String> adapter=new ArrayAdapter<>(getActivity(),R.layout.support_simple_spinner_dropdown_item,mRoles);
         adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
         mSourcePersonRole.setAdapter(adapter);
         mTargetPersonRole.setAdapter(adapter);

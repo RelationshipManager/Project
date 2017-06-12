@@ -62,6 +62,13 @@ public class ShowRelationMapFragment extends Fragment {
         return view;
     }
 
+    @Override
+    public void onDestroy(){
+        super.onDestroy();
+        //卸载广播
+        mDataChangeReceiver.unRegister();
+    }
+
     private void init(){
         mDataChangeReceiver=new DataChangeReceiver(getActivity(),new DataChangeReceiver.Refreshable() {
             @Override
