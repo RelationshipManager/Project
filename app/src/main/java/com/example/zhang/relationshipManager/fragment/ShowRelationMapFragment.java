@@ -10,6 +10,7 @@ import android.widget.ExpandableListView;
 import android.widget.TextView;
 
 import com.example.zhang.relationshipManager.R;
+import com.example.zhang.relationshipManager.activities.RelationshipActivity;
 import com.example.zhang.relationshipManager.models.Person;
 import com.example.zhang.relationshipManager.models.RelationshipManager;
 
@@ -57,6 +58,7 @@ public class ShowRelationMapFragment extends Fragment {
         mExpandableListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
             @Override
             public boolean onChildClick(ExpandableListView expandableListView, View view, int i, int i1, long l) {
+                RelationshipActivity.startActivity(getActivity(),mPersonLists.get(i).get(i1));
                 return false;
             }
         });
@@ -156,11 +158,16 @@ public class ShowRelationMapFragment extends Fragment {
 
         @Override
         public View getGroupView(int i, boolean b, View view, ViewGroup viewGroup) {
-            if(view==null){
-                TextView textView=new TextView(getActivity());
-                textView.setText(mPersonLists.get(i).getLevelName());
-                view=textView;
+            ViewHolder holder;
+            if(view!=null){
+                holder=(ViewHolder)view.getTag();
+            }else{
+                view= mInflater.inflate(R.layout.level_list_item,viewGroup,false);
+                holder=new ViewHolder();
+                holder.mTextView=(TextView)view.findViewById(R.id.level_name);
+                view.setTag(holder);
             }
+            holder.mTextView.setText(mPersonLists.get(i).getLevelName());
             return view;
         }
 

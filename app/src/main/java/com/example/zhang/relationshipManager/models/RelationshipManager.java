@@ -41,6 +41,15 @@ public class RelationshipManager extends DatabaseHelper {
         return true;
     }
 
+    public boolean removeRelationship(Relationship relationshipToDelete){
+        SQLiteDatabase db = getWritableDatabase();
+        String id1=String.valueOf(relationshipToDelete.getSourcePerson().getId());
+        String id2=String.valueOf(relationshipToDelete.getTargetPerson().getId());
+        return db.delete("relationship",
+                "(source_person_id = ? and target_person_id=?) or (source_person_id = ? and target_person_id=?)",
+                new String[]{id1,id2,id2,id1}) > 0;
+    }
+
     public int getLevelOfPerson(Person person) {
         if (person == null)
             return -1;
@@ -91,6 +100,21 @@ public class RelationshipManager extends DatabaseHelper {
         }
         cursor.close();
         return personList;
+    }
+
+    public ArrayList<String> getAllRelationshipRole(){
+        ArrayList<String> relationshipRoles=new ArrayList<>();
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor cursor = db.rawQuery("select source_type type from relationship_type " +
+                "union select target_type type from relationship_type", null);
+        if(cursor.moveToFirst()){
+            do{
+                String role=cursor.getString(cursor.getColumnIndex("type"));
+                relationshipRoles.add(role);
+            }while (cursor.moveToNext());
+        }
+        cursor.close();
+        return relationshipRoles;
     }
 
     public ArrayList<Relationship> getRelationshipsOfPerson(Person person) {
@@ -199,11 +223,13 @@ public class RelationshipManager extends DatabaseHelper {
         return true;
     }
 
-    public boolean updateRelationship(Person source, Person target, String source_type, String target_type) {
-        if (source == null || target == null) {
-            Log.d("updateRelationship", "source==null||target==null");
+    public boolean updateRelationship(Relationship oldRelationship, String source_type, String target_type) {
+        if (oldRelationship == null) {
+            Log.d("updateRelationship", "oldRelationship==null");
             return false;
         }
+        Person source=oldRelationship.getSourcePerson();
+        Person target=oldRelationship.getTargetPerson();
 
         int relationshipId;
         int levelDiff;

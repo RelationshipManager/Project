@@ -15,5 +15,6 @@ public class BeginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         TestMainActivity.startActivity(this);
+        finish();
     }
 }
