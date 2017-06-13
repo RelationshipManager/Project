@@ -25,7 +25,7 @@ import java.util.List;
  */
 public class ContactListAdapter extends RecyclerView.Adapter<ContactListAdapter.ViewHolder> {
 
-    private final List<Person> mValues;
+    private List<Person> mValues;
     //    private final OnListFragmentInteractionListener mListener;
     private View mView;
     private Activity mActivity;
@@ -44,6 +44,11 @@ public class ContactListAdapter extends RecyclerView.Adapter<ContactListAdapter.
     public ContactListAdapter setContext(Context context){
         mContext = context;
         return this;
+    }
+
+    public void updateList(List<Person> newList){
+        mValues = newList;
+        notifyDataSetChanged();
     }
 
     public ContactListAdapter(List<Person> items) {
@@ -75,7 +80,8 @@ public class ContactListAdapter extends RecyclerView.Adapter<ContactListAdapter.
                         boolean isSucceed = PersonManager.getInstance(mContext).removePerson(holder.contactID.getText().toString());
                         String to_show = isSucceed ? "删除成功" : "操作失败";
                         Snackbar.make(mView, to_show, Snackbar.LENGTH_SHORT).show();
-                        mContext.sendBroadcast(new Intent("DataChanged"));
+                        if (isSucceed)
+                            mContext.sendBroadcast(new Intent("DataChanged"));
                     }
                 }).setNegativeButton("取消", null);
                 builder.show();

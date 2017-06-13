@@ -41,7 +41,6 @@ public class Contact_Detail_Activity extends AppCompatActivity {
         manageRelationship.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // @todo 等待跳转页面
                 RelationshipActivity.startActivity(v.getContext(),new Person(Integer.parseInt(personID),personName));
             }
         });

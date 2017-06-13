@@ -219,7 +219,6 @@ public class RelationshipActivity extends BaseActivity {
     static public class AddRelationshipFragment extends ChangeRelationshipFragment{
         @Override
         public void init() {
-            mBtConfirm.setText("添加");
             mBtConfirm.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -250,7 +249,6 @@ public class RelationshipActivity extends BaseActivity {
 
         @Override
         public void init() {
-            mBtConfirm.setText("修改");
             mSourcePersonRole.setSelection(mRoles.indexOf(mRelationship.getSourceRole()));
             mTargetPersonRole.setSelection(mRoles.indexOf(mRelationship.getTargetRole()));
             mTargetPersonName.setText(mRelationship.getTargetPerson().getName());

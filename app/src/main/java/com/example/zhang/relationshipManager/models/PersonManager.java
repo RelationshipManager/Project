@@ -4,6 +4,8 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteTransactionListener;
+import android.util.Log;
 
 import java.util.ArrayList;
 
@@ -66,9 +68,10 @@ public class PersonManager extends DatabaseHelper {
     public boolean removePerson(String id){
         SQLiteDatabase db = getWritableDatabase();
         db.beginTransaction();
+        db.delete("relationship","source_person_id=? or target_person_id=?",new String[]{id,id});
         boolean result= db.delete("person","id = ?",new String[]{id}) > 0;
         if(result){
-            result=db.delete("relationship","source_person_id=? or target_person_id=?",new String[]{id,id})>0;
+            db.setTransactionSuccessful();
         }
         db.endTransaction();
         return result;
