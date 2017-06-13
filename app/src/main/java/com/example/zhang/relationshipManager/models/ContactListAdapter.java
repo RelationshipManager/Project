@@ -74,7 +74,8 @@ public class ContactListAdapter extends RecyclerView.Adapter<ContactListAdapter.
             @Override
             public boolean onLongClick(View v) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
-                builder.setTitle("确认删除联系人？").setPositiveButton("删除", new DialogInterface.OnClickListener() {
+                String contact_name = ((TextView)v.findViewById(R.id.contactName)).getText().toString();
+                builder.setTitle("确认删除联系人 " + contact_name + " ？").setPositiveButton("删除", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         boolean isSucceed = PersonManager.getInstance(mContext).removePerson(holder.contactID.getText().toString());

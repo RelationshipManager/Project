@@ -18,7 +18,7 @@
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:textSize="25sp"/>
+            android:textSize="20sp"/>
 
         <TextView
             android:text="角色"
@@ -26,7 +26,7 @@
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:textSize="25sp"/>
+            android:textSize="20sp"/>
     </LinearLayout>
 
     <LinearLayout
@@ -40,7 +40,7 @@
             android:layout_gravity="center_vertical"
             android:layout_width="0dp"
             android:layout_weight="1"
-            android:textSize="25sp"
+            android:textSize="20sp"
             android:layout_height="wrap_content"/>
 
         <Spinner
