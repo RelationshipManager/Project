@@ -261,13 +261,18 @@ public class RelationshipManager extends DatabaseHelper {
         if (cursor.moveToFirst()) {
             relationshipId = cursor.getInt(cursor.getColumnIndex("id"));
             levelDiff = cursor.getInt(cursor.getColumnIndex("level_diff"));
-            if (-20 != targetLevel && targetLevel != sourceLevel - levelDiff) {
+            if (-20 != targetLevel && targetLevel != sourceLevel - levelDiff && getRelationshipsOfPerson(target).size()>1) {
                 cursor.close();
                 return false;
             }
             ContentValues values = new ContentValues();
             values.put("relationship_id", relationshipId);
             db.update("relationship", values, "source_person_id=? and target_person_id=?", new String[]{source_id, target_id});
+            if(db.update("relationship", values, "source_person_id=? and target_person_id=?", new String[]{source_id, target_id})==0){
+                values.put("source_person_id",source_id);
+                values.put("target_person_id",target_id);
+                db.update("relationship", values, "source_person_id=? and target_person_id=?", new String[]{target_id,source_id});
+            }
         } else {
             cursor.close();
             cursor = db.query("relationship_type", new String[]{"id","level_diff"},
@@ -275,13 +280,17 @@ public class RelationshipManager extends DatabaseHelper {
             if (cursor.moveToFirst()) {
                 relationshipId = cursor.getInt(cursor.getColumnIndex("id"));
                 levelDiff = -cursor.getInt(cursor.getColumnIndex("level_diff"));
-                if (-20 != targetLevel && targetLevel != sourceLevel - levelDiff) {
+                if (-20 != targetLevel && targetLevel != sourceLevel - levelDiff && getRelationshipsOfPerson(target).size()>1) {
                     cursor.close();
                     return false;
                 }
                 ContentValues values = new ContentValues();
                 values.put("relationship_id", relationshipId);
-                db.update("relationship", values, "source_person_id=? and target_person_id=?", new String[]{target_id, source_id});
+                if(db.update("relationship", values, "source_person_id=? and target_person_id=?", new String[]{target_id, source_id})==0){
+                    values.put("source_person_id",target_id);
+                    values.put("target_person_id",source_id);
+                    db.update("relationship", values, "source_person_id=? and target_person_id=?", new String[]{source_id,target_id});
+                }
             } else {
                 cursor.close();
                 return false;
