@@ -5,7 +5,6 @@ import android.app.DialogFragment;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -16,12 +15,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.zhang.relationshipManager.R;
-import com.example.zhang.relationshipManager.models.Person;
-import com.example.zhang.relationshipManager.models.PersonManager;
-import com.example.zhang.relationshipManager.models.RelationshipManager;
 
 import java.util.ArrayList;
 

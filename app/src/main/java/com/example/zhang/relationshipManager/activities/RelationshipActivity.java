@@ -21,9 +21,6 @@ import android.widget.Toast;
 import com.example.zhang.relationshipManager.R;
 import com.example.zhang.relationshipManager.fragment.ChangeRelationshipFragment;
 import com.example.zhang.relationshipManager.models.DataChangeReceiver;
-import com.example.zhang.relationshipManager.models.Person;
-import com.example.zhang.relationshipManager.models.Relationship;
-import com.example.zhang.relationshipManager.models.RelationshipManager;
 
 import java.util.ArrayList;
 

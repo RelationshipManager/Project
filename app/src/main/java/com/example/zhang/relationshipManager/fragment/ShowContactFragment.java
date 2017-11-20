@@ -21,8 +21,6 @@ import android.view.ViewGroup;
 
 import com.example.zhang.relationshipManager.R;
 import com.example.zhang.relationshipManager.activities.BaseActivity;
-import com.example.zhang.relationshipManager.models.ContactListAdapter;
-import com.example.zhang.relationshipManager.models.Person;
 
 import java.util.ArrayList;
 import java.util.List;
