@@ -8,24 +8,10 @@ import android.support.v7.app.AppCompatActivity;
  */
 
 public class BaseActivity extends AppCompatActivity {
-    private static PersonManager sPersonManager;
-    private static RelationshipManager sRelationshipManager;
-
-    public static PersonManager getPersonManager() {
-        return sPersonManager;
-    }
-
-    public static RelationshipManager getRelationshipManager() {
-        return sRelationshipManager;
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (sPersonManager == null || sRelationshipManager == null) {
-            sPersonManager = PersonManager.getInstance(this);
-            sRelationshipManager = RelationshipManager.getInstance(this);
-        }
         //getSupportActionBar().hide();
     }
 }

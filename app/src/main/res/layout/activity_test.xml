@@ -4,9 +4,11 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent">
 
-    <TextView
-        android:text="这是个测试页面"
-        android:id="@+id/tv_test"
+    <fragment
+        android:id="@+id/test"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="match_parent"
+        android:name="com.example.zhang.relationshipManager.fragment.RsSearchFragment">
+
+    </fragment>
 </LinearLayout>
