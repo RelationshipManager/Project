@@ -44,7 +44,7 @@ public class RsSearchFragment extends Fragment {
         fragmentList.add(new SearchTypeFragment());
         viewPager.setAdapter(new MyFragmentStatePagerAdapter(getFragmentManager(),fragmentList));
         tabLayout = (TabLayout)view.findViewById(R.id.search_tabLayout);
-        // Use setupWithViewPager make the origin Tablayout reset tab with ViewPager pageTitle
+        // Use setupWithViewPager make the origin TabLayout reset tab with ViewPager pageTitle
         // So set the pageTitle in PagerAdapter
         tabLayout.setupWithViewPager(viewPager);
         return view;
