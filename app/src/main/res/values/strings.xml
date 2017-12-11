@@ -1,4 +1,4 @@
-<resources>
+﻿<resources>
     <string name="app_name">RelationshipManager</string>
     <string name="contact_activity">联系人</string>
     <string name="map_activity">关系图谱</string>
@@ -103,4 +103,8 @@
     <string name="rs_type">关系类型</string>
     <string name="contact_1">联系人 1</string>
     <string name="contact_2">联系人 2</string>
+    <string name="friend_rs">朋友关系</string>
+    <string name="colleague_rs">工作关系</string>
+    <string name="search_rs">查找关系</string>
+    <string name="my_rs">我的关系</string>
 </resources>
