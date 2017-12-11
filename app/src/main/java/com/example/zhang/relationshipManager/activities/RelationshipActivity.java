@@ -19,7 +19,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.zhang.relationshipManager.R;
-import com.example.zhang.relationshipManager.fragment.ChangeRelationshipFragment;
 import com.example.zhang.relationshipManager.models.DataChangeReceiver;
 
 import java.util.ArrayList;
@@ -116,7 +115,7 @@ public class RelationshipActivity extends BaseActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.relationship_app_bar, menu);
+        getMenuInflater().inflate(R.menu.app_bar, menu);
         return true;
     }
 

@@ -97,4 +97,8 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="friend_rs">朋友关系</string>
+    <string name="colleague_rs">工作关系</string>
+    <string name="search_rs">查找关系</string>
+    <string name="my_rs">我的关系</string>
 </resources>

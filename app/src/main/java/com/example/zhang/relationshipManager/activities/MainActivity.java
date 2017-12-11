@@ -10,7 +10,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.MenuItem;
-import android.widget.Toast;
+import android.support.v7.widget.Toolbar;
 
 import com.example.zhang.relationshipManager.R;
 import com.example.zhang.relationshipManager.fragment.*;
@@ -22,16 +22,21 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class MainActivity extends BaseActivity {
+    @BindView(R.id.toolbar)
+    Toolbar mToolbar;
     @BindView(R.id.navigation)
-    BottomNavigationView bottomNavigationView;
+    BottomNavigationView mBottomNavigationView;
     @BindView(R.id.main_pager)
-    ViewPager viewPager;
+    ViewPager mViewPager;
     private List<Fragment> fragmentList;
+    //当前页编号
+    private int mNowFragmentPosition;
 
     public static void startActivity(Context context) {
         Intent intent = new Intent(context, MainActivity.class);
         context.startActivity(intent);
     }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,8 +48,20 @@ public class MainActivity extends BaseActivity {
         fragmentList.add(new ShowRelationMapFragment());
         fragmentList.add(new ShowSettingsFragment());
 
-        viewPager.setAdapter(new MyFragmentAdapter(getSupportFragmentManager(), fragmentList));
-        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+        //初始化toolbar
+        setSupportActionBar(mToolbar);
+        mToolbar.inflateMenu(R.menu.app_bar);
+        mToolbar.setOnMenuItemClickListener(item -> {
+            switch (item.getItemId()){
+                case R.id.add:
+                    break;
+            }
+            return true;
+        });
+        mNowFragmentPosition = 0;
+
+        mViewPager.setAdapter(new MyFragmentAdapter(getSupportFragmentManager(), fragmentList));
+        mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
@@ -66,7 +83,8 @@ public class MainActivity extends BaseActivity {
                     default:
                         break;
                 }
-                bottomNavigationView.setSelectedItemId(itemID);
+                mBottomNavigationView.setSelectedItemId(itemID);
+                mNowFragmentPosition = position;
             }
 
             @Override
@@ -75,7 +93,7 @@ public class MainActivity extends BaseActivity {
             }
         });
 
-        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+        mBottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 int itemID = 0;
@@ -93,11 +111,11 @@ public class MainActivity extends BaseActivity {
                         break;
                 }
                 // @todo 设置成 false 可以取消滑动效果
-                viewPager.setCurrentItem(itemID, true);
+                mViewPager.setCurrentItem(itemID, true);
+                mNowFragmentPosition = itemID;
                 return true;
             }
         });
-
     }
 
     public static class MyFragmentAdapter extends FragmentStatePagerAdapter {
