@@ -21,6 +21,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".activities.MainActivity">
+
+        </activity>
         <activity android:name=".TestActivities.TestMainActivity" />
     </application>
 
