@@ -44,9 +44,9 @@ public class MainActivity extends BaseActivity {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         fragmentList = new ArrayList<>();
+        fragmentList.add(new ContactsListFragment());
         fragmentList.add(new RsSearchFragment());
-//        fragmentList.add(new ShowRelationMapFragment());
-//        fragmentList.add(new ShowSettingsFragment());
+        fragmentList.add(new MyRsByTypeFragment());
 
         //初始化toolbar
         setSupportActionBar(mToolbar);
@@ -54,6 +54,14 @@ public class MainActivity extends BaseActivity {
         mToolbar.setOnMenuItemClickListener(item -> {
             switch (item.getItemId()){
                 case R.id.add:
+                    switch (mNowFragmentPosition){
+                        case 0:
+                            break;
+                        case 1:
+                            break;
+                        case 2:
+                            break;
+                    }
                     break;
             }
             return true;
