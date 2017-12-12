@@ -47,6 +47,7 @@ public class RsSearchFragment extends Fragment {
         // Use setupWithViewPager make the origin TabLayout reset tab with ViewPager pageTitle
         // So set the pageTitle in PagerAdapter
         tabLayout.setupWithViewPager(viewPager);
+        tabLayout.setSelectedTabIndicatorColor(R.color.colorPrimaryDark);
         return view;
     }
 

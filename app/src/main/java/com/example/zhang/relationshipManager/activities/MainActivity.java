@@ -44,9 +44,9 @@ public class MainActivity extends BaseActivity {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         fragmentList = new ArrayList<>();
-        fragmentList.add(new ShowContactFragment());
-        fragmentList.add(new ShowRelationMapFragment());
-        fragmentList.add(new ShowSettingsFragment());
+        fragmentList.add(new RsSearchFragment());
+//        fragmentList.add(new ShowRelationMapFragment());
+//        fragmentList.add(new ShowSettingsFragment());
 
         //初始化toolbar
         setSupportActionBar(mToolbar);

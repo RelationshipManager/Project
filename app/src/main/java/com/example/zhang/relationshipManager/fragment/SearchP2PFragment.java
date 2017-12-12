@@ -42,6 +42,12 @@ public class SearchP2PFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.search_fragment_p2p, container, false);
         unbinder = ButterKnife.bind(this, view);
+        ArrayAdapter<String> contactToAdapter = new ArrayAdapter<String>(this.getContext(), R.layout.spinner_contact_item, R.id.spinner_contact_item);
+        contactToAdapter.addAll(new String[]{"a", "b"});
+        spinnerContactTo.setAdapter(contactToAdapter);
+        ArrayAdapter<String> contactFromAdapter = new ArrayAdapter<String>(this.getContext(), R.layout.spinner_contact_item, R.id.spinner_contact_item);
+        contactFromAdapter.addAll(new String[]{"a", "b"});
+        spinnerContactFrom.setAdapter(contactFromAdapter);
         return view;
     }
 
@@ -49,12 +55,5 @@ public class SearchP2PFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
-    }
-
-    class ContactArrayAdapter extends ArrayAdapter<String>{
-
-        public ContactArrayAdapter(@NonNull Context context, int resource) {
-            super(context, resource);
-        }
     }
 }
