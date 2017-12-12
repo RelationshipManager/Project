@@ -7,11 +7,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.zhang.relationshipManager.R;
+
 /**
  * Created by 29110 on 2017/12/7.
  */
 
-public class ConFragment extends Fragment {
+public class ContactListFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {

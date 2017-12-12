@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.example.zhang.relationshipManager.R;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import model.Contact;
@@ -19,7 +20,11 @@ import model.Contact;
 
 public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHolder> {
 
-    private List<Contact> mContactList;
+    private ArrayList<Contact> mContactList;
+
+    public ContactAdapter(ArrayList<Contact> contactlist){
+        mContactList=contactlist;
+    }
 
     static class ViewHolder extends RecyclerView.ViewHolder{
         ImageView contactimage;
@@ -30,10 +35,6 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHold
             contactimage=(ImageView)view.findViewById(R.id.contact_image);
             contactName=(TextView)view.findViewById(R.id.contact_name);
         }
-    }
-
-    public ContactAdapter(List<Contact> contactlist){
-        mContactList=contactlist;
     }
 
     @Override

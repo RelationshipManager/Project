@@ -107,4 +107,6 @@
     <string name="colleague_rs">工作关系</string>
     <string name="search_rs">查找关系</string>
     <string name="my_rs">我的关系</string>
+    <string name="contact_info">联系人信息</string>
+    <string name="relationship">关系</string>
 </resources>
