@@ -5,6 +5,8 @@ import android.support.annotation.Nullable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.zhang.relationshipManager.R;
+
 import butterknife.BindView;
 
 /**
