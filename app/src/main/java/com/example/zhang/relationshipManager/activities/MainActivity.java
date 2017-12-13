@@ -44,7 +44,8 @@ public class MainActivity extends BaseActivity {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         fragmentList = new ArrayList<>();
-        fragmentList.add(new ContactsListFragment());
+        // @todo For develop
+        fragmentList.add(new ContactListFragment());
         fragmentList.add(new RsSearchFragment());
         fragmentList.add(new MyRsByTypeFragment());
 
