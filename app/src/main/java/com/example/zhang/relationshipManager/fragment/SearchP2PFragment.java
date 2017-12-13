@@ -37,17 +37,28 @@ public class SearchP2PFragment extends Fragment {
         super.onCreate(savedInstanceState);
     }
 
+    private void setAdapter(){
+        // spinnerCantactTo's adapter
+        ArrayAdapter<String> contactToAdapter = new ArrayAdapter<String>(this.getContext(), R.layout.spinner_contact_item, R.id.spinner_contact_item);
+        contactToAdapter.addAll(new String[]{"a", "b"});
+        contactToAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item_contact);
+        spinnerContactTo.setAdapter(contactToAdapter);
+
+        // spinnerCantactFrom's adapter
+        ArrayAdapter<String> contactFromAdapter = new ArrayAdapter<String>(this.getContext(), R.layout.spinner_contact_item, R.id.spinner_contact_item);
+        contactFromAdapter.addAll(new String[]{"a", "b"});
+        contactFromAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item_contact);
+        spinnerContactFrom.setAdapter(contactFromAdapter);
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.search_fragment_p2p, container, false);
         unbinder = ButterKnife.bind(this, view);
-        ArrayAdapter<String> contactToAdapter = new ArrayAdapter<String>(this.getContext(), R.layout.spinner_contact_item, R.id.spinner_contact_item);
-        contactToAdapter.addAll(new String[]{"a", "b"});
-        spinnerContactTo.setAdapter(contactToAdapter);
-        ArrayAdapter<String> contactFromAdapter = new ArrayAdapter<String>(this.getContext(), R.layout.spinner_contact_item, R.id.spinner_contact_item);
-        contactFromAdapter.addAll(new String[]{"a", "b"});
-        spinnerContactFrom.setAdapter(contactFromAdapter);
+
+        setAdapter();
+
         return view;
     }
 

@@ -12,7 +12,7 @@ import com.example.zhang.relationshipManager.R;
 import java.util.ArrayList;
 import java.util.List;
 
-import model.Contact;
+import com.example.zhang.relationshipManager.models.Contact;
 
 /**
  * Created by 29110 on 2017/12/11.

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingStart="@dimen/text_margin"
+    android:paddingEnd="@dimen/text_margin">
+
+    <TextView
+        android:id="@+id/spinner_contact_item"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/spinner_contact_item_margin"
+        android:textSize="@dimen/common_textSize"/>
+
+</LinearLayout>

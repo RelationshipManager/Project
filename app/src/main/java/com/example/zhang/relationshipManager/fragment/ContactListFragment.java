@@ -14,9 +14,8 @@ import com.example.zhang.relationshipManager.R;
  */
 
 public class ContactListFragment extends Fragment {
-    @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState){
         View view=inflater.inflate(R.layout.contact_fragment,container,false);
         return view;
     }

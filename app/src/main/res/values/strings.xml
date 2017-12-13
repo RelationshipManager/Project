@@ -110,4 +110,7 @@
     <string name="contact_info">联系人信息</string>
     <string name="relationship">关系</string>
     <string name="search">查询</string>
+    <string name="contact_name">联系人姓名</string>
+    <string name="contact_sex">联系人性别</string>
+    <string name="contact_age">联系人年龄</string>
 </resources>
