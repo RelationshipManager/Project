@@ -1,5 +1,7 @@
 package com.example.zhang.relationshipManager.models;
 
+import android.content.Context;
+
 import java.util.Map;
 
 /**
@@ -8,9 +10,16 @@ import java.util.Map;
 
 public class ContactManager {
     private Map<Contact,Integer> contacts;
+    static private ContactManager sContactManager;
 
-    public Contact addContact(Contact contact){
-        return contact;
+    static public ContactManager getInstance(){
+        if (sContactManager == null)
+            sContactManager = new ContactManager();
+        return sContactManager;
+    }
+
+    public void addContact(Contact contact){
+
     }
 
     public Contact getContact(Contact contact){
