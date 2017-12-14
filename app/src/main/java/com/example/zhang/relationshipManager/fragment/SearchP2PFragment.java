@@ -1,8 +1,6 @@
 package com.example.zhang.relationshipManager.fragment;
 
-import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -37,7 +35,7 @@ public class SearchP2PFragment extends Fragment {
         super.onCreate(savedInstanceState);
     }
 
-    private void setAdapter(){
+    private void setAdapter() {
         // spinnerCantactTo's adapter
         ArrayAdapter<String> contactToAdapter = new ArrayAdapter<String>(this.getContext(), R.layout.spinner_contact_item, R.id.spinner_contact_item);
         contactToAdapter.addAll(new String[]{"a", "b"});

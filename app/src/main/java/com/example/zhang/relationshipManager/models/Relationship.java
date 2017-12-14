@@ -10,7 +10,7 @@ public class Relationship {
     private String mEndRole;
     private int mRelationshipType;
 
-    public Relationship(){
+    public Relationship() {
         mStartContact = new Contact();
         mEndContact = new Contact();
         mStartRole = "";

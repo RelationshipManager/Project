@@ -117,4 +117,5 @@
     <string name="contact_note">备注</string>
     <string name="spinner_prompt_choose_contact">选择联系人</string>
     <string name="spinner_prompt_choose_rs_type">选择关系类型</string>
+    <string name="app_bar_add">添加</string>
 </resources>

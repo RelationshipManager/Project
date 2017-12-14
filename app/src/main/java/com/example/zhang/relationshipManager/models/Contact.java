@@ -17,7 +17,7 @@ public class Contact {
     private String[] other_contact;
     private ArrayList<Relationship> relationships;
 
-    public Contact(){
+    public Contact() {
 
     }
 

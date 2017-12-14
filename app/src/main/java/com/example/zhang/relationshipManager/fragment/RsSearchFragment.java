@@ -37,13 +37,13 @@ public class RsSearchFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view=inflater.inflate(R.layout.fragment_search, container, false);
-        viewPager = (ViewPager)view.findViewById(R.id.search_viewPager);
+        View view = inflater.inflate(R.layout.fragment_search, container, false);
+        viewPager = (ViewPager) view.findViewById(R.id.search_viewPager);
         List<Fragment> fragmentList = new ArrayList<>();
         fragmentList.add(new SearchP2PFragment());
         fragmentList.add(new SearchTypeFragment());
-        viewPager.setAdapter(new MyFragmentStatePagerAdapter(getFragmentManager(),fragmentList));
-        tabLayout = (TabLayout)view.findViewById(R.id.search_tabLayout);
+        viewPager.setAdapter(new MyFragmentStatePagerAdapter(getFragmentManager(), fragmentList));
+        tabLayout = (TabLayout) view.findViewById(R.id.search_tabLayout);
         // Use setupWithViewPager make the origin TabLayout reset tab with ViewPager pageTitle
         // So set the pageTitle in PagerAdapter
         tabLayout.setupWithViewPager(viewPager);
@@ -51,7 +51,7 @@ public class RsSearchFragment extends Fragment {
         return view;
     }
 
-    public class MyFragmentStatePagerAdapter extends FragmentStatePagerAdapter{
+    public class MyFragmentStatePagerAdapter extends FragmentStatePagerAdapter {
         private List<Fragment> fragmentList;
 
         public MyFragmentStatePagerAdapter(FragmentManager fm, List<Fragment> fragmentList) {
@@ -72,7 +72,7 @@ public class RsSearchFragment extends Fragment {
         @Override
         public CharSequence getPageTitle(int position) {
             CharSequence title = "";
-            switch (position){
+            switch (position) {
                 case 0:
                     title = getText(R.string.RsSearch_p2p);
                     break;
