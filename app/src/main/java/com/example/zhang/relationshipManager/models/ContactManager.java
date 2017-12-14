@@ -2,6 +2,9 @@ package com.example.zhang.relationshipManager.models;
 
 import android.content.Context;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -9,13 +12,17 @@ import java.util.Map;
  */
 
 public class ContactManager {
-    private Map<Contact,Integer> contacts;
+    private Map<Integer, Contact> contacts;
     static private ContactManager sContactManager;
 
     static public ContactManager getInstance(){
         if (sContactManager == null)
             sContactManager = new ContactManager();
         return sContactManager;
+    }
+
+    private ContactManager(){
+        contacts = new HashMap<>();
     }
 
     public void addContact(Contact contact){
@@ -28,6 +35,16 @@ public class ContactManager {
 
     public Contact modifyContact(Contact conA,Contact conB){
         return conA;
+    }
+
+    // @todo Interface needed    Used by ContactAdapter
+    public ArrayList<Contact> getContactList(){
+        // @todo test UI for ContactListFragment
+        contacts.put(1,new Contact().setName("A"));
+        contacts.put(2,new Contact().setName("B"));
+        contacts.put(3,new Contact().setName("C"));
+
+        return new ArrayList<Contact>(contacts.values());
     }
 
 }

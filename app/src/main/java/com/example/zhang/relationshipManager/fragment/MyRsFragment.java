@@ -43,7 +43,7 @@ public class MyRsFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_my_rs,container);
+        View view = inflater.inflate(R.layout.fragment_my_rs,container, false);
         ButterKnife.bind(this,view);
         mViewPager.setAdapter(new FragmentsAdapter(getFragmentManager(),mFragments));
         mTabLayout.setupWithViewPager(mViewPager);
@@ -70,6 +70,20 @@ public class MyRsFragment extends Fragment {
         @Override
         public int getCount() {
             return mFragments.size();
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            CharSequence title = "";
+            switch (position){
+                case 0:
+                    title = getText(R.string.friend_rs);
+                    break;
+                case 1:
+                    title = getText(R.string.colleague_rs);
+                    break;
+            }
+            return title;
         }
     }
 }

@@ -21,75 +21,84 @@ public class Contact {
 
     }
 
-    public int getImageId() {
-        return imageId;
+    public Contact setAge(int age) {
+        this.age = age;
+        return this;
     }
 
-    public void setImageId(int imageId) {
+    public Contact setId(int id) {
+        this.id = id;
+        return this;
+    }
+
+    public Contact setImageId(int imageId) {
         this.imageId = imageId;
+        return this;
+    }
+
+    public Contact setName(String name) {
+        this.name = name;
+        return this;
+    }
+
+    public Contact setSex(String sex) {
+        this.sex = sex;
+        return this;
+    }
+
+    public Contact setNotes(String notes) {
+        this.notes = notes;
+        return this;
+    }
+
+    public Contact setPhone_number(String phone_number) {
+        this.phone_number = phone_number;
+        return this;
+    }
+
+    public Contact setOther_contact(String[] other_contact) {
+        this.other_contact = other_contact;
+        return this;
+    }
+
+    public Contact setRelationships(ArrayList<Relationship> relationships) {
+        this.relationships = relationships;
+        return this;
+    }
+
+    public int getImageId() {
+        return imageId;
     }
 
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public int getAge() {
         return age;
-    }
-
-    public void setAge(int age) {
-        this.age = age;
     }
 
     public int getId() {
         return id;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
     public String getSex() {
         return sex;
-    }
-
-    public void setSex(String sex) {
-        this.sex = sex;
     }
 
     public String getNotes() {
         return notes;
     }
 
-    public void setNotes(String notes) {
-        this.notes = notes;
-    }
-
     public String getPhone_number() {
         return phone_number;
-    }
-
-    public void setPhone_number(String phone_number) {
-        this.phone_number = phone_number;
     }
 
     public String[] getOther_contact() {
         return other_contact;
     }
 
-    public void setOther_contact(String[] other_contact) {
-        this.other_contact = other_contact;
-    }
-
     public ArrayList<Relationship> getRelationships() {
         return relationships;
-    }
-
-    public void setRelationships(ArrayList<Relationship> relationships) {
-        this.relationships = relationships;
     }
 }

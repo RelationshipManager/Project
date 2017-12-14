@@ -47,7 +47,7 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHold
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         Contact contact=mContactList.get(position);
-        holder.contactimage.setImageResource(contact.getImageId());
+//        holder.contactimage.setImageResource(contact.getImageId());
         holder.contactName.setText(contact.getName());
     }
 

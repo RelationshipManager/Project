@@ -7,20 +7,20 @@
     android:orientation="vertical">
 
     <android.support.design.widget.TabLayout
-        style="@style/TabLayout"
         android:id="@+id/tabLayout"
+        style="@style/TabLayout"
         android:layout_width="match_parent"
         android:layout_height="48dp">
 
         <android.support.design.widget.TabItem
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/friend_rs"/>
+            android:text="@string/friend_rs" />
 
         <android.support.design.widget.TabItem
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/colleague_rs"/>
+            android:text="@string/colleague_rs" />
 
     </android.support.design.widget.TabLayout>
 
