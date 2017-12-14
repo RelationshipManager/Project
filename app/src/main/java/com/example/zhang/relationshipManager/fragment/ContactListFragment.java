@@ -3,6 +3,7 @@ package com.example.zhang.relationshipManager.fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,7 +22,7 @@ import butterknife.Unbinder;
  */
 
 public class ContactListFragment extends Fragment {
-    @BindView(R.id.contact)
+    @BindView(R.id.contactRecyclerView)
     RecyclerView contactRecyclerView;
     Unbinder unbinder;
 
@@ -29,7 +30,8 @@ public class ContactListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.contact_fragment, container, false);
         unbinder = ButterKnife.bind(this, view);
-        // @todo Add recyclerView bind to fragment and setAdapter  Not done
+        // @todo Show recyclerView and setAdapter
+        contactRecyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
         contactRecyclerView.setAdapter(new ContactAdapter(ContactManager.getInstance().getContactList()));
         return view;
     }

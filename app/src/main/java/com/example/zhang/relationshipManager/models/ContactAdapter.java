@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.zhang.relationshipManager.R;
 
@@ -29,9 +30,11 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHold
     static class ViewHolder extends RecyclerView.ViewHolder{
         ImageView contactimage;
         TextView contactName;
+        View contactView;
 
         public ViewHolder(View view){
             super(view);
+            contactView = view;
             contactimage=(ImageView)view.findViewById(R.id.contact_image);
             contactName=(TextView)view.findViewById(R.id.contact_name);
         }
@@ -47,6 +50,7 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHold
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         Contact contact=mContactList.get(position);
+        // @todo comment for test
 //        holder.contactimage.setImageResource(contact.getImageId());
         holder.contactName.setText(contact.getName());
     }
