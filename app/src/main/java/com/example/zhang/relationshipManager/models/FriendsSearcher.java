@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 public class FriendsSearcher extends RsSearcher {
     @Override
-    public ArrayList<Relationship> search(Contact contact){
+    public ArrayList<Relationship> search(Contact contact) {
         return null;
     }
 }

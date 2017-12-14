@@ -22,7 +22,7 @@ public class ContactInfoFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view=inflater.inflate(R.layout.fragment_contactinfo,container);
+        View view = inflater.inflate(R.layout.fragment_contactinfo, container, false);
         return view;
     }
 }

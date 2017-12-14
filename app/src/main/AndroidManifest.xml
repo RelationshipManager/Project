@@ -24,6 +24,9 @@
         <activity android:name=".activities.MainActivity">
 
         </activity>
+        <activity android:name=".activities.ContactInfoActivity">
+
+        </activity>
         <activity android:name=".TestActivities.TestMainActivity" />
     </application>
 

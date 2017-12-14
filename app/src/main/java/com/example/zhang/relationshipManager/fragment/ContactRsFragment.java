@@ -16,7 +16,7 @@ import com.example.zhang.relationshipManager.R;
 public class ContactRsFragment extends Fragment {
 
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view=inflater.inflate(R.layout.fragment_contactrs,container);
+        View view = inflater.inflate(R.layout.fragment_contactrs, container, false);
         return view;
     }
 }

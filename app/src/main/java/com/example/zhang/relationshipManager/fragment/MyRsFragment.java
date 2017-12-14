@@ -1,9 +1,9 @@
 package com.example.zhang.relationshipManager.fragment;
 
-import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -43,20 +43,20 @@ public class MyRsFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_my_rs,container, false);
-        ButterKnife.bind(this,view);
-        mViewPager.setAdapter(new FragmentsAdapter(getFragmentManager(),mFragments));
+        View view = inflater.inflate(R.layout.fragment_my_rs, container, false);
+        ButterKnife.bind(this, view);
+        mViewPager.setAdapter(new FragmentsAdapter(getFragmentManager(), mFragments));
         mTabLayout.setupWithViewPager(mViewPager);
 
         return view;
 
     }
 
-    private class FragmentsAdapter extends FragmentPagerAdapter{
+    private class FragmentsAdapter extends FragmentPagerAdapter {
 
         List<Fragment> mFragments;
 
-        FragmentsAdapter(FragmentManager fm, List<Fragment> fragments){
+        FragmentsAdapter(FragmentManager fm, List<Fragment> fragments) {
             super(fm);
             mFragments = fragments;
 
@@ -75,7 +75,7 @@ public class MyRsFragment extends Fragment {
         @Override
         public CharSequence getPageTitle(int position) {
             CharSequence title = "";
-            switch (position){
+            switch (position) {
                 case 0:
                     title = getText(R.string.friend_rs);
                     break;

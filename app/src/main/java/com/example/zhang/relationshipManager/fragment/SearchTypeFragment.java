@@ -34,7 +34,7 @@ public class SearchTypeFragment extends Fragment {
         super.onCreate(savedInstanceState);
     }
 
-    private void setAdapter(){
+    private void setAdapter() {
         // spinnerContact's adapter
         ArrayAdapter<String> contactAdapter = new ArrayAdapter<String>(this.getContext(), R.layout.spinner_contact_item, R.id.spinner_contact_item);
         contactAdapter.addAll(new String[]{"a", "b"});

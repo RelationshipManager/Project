@@ -32,38 +32,38 @@ public class AddContactDialog extends DialogFragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        setStyle(DialogFragment.STYLE_NO_FRAME,android.R.style.Theme_Holo_Light_Dialog);
-        View view = inflater.inflate(R.layout.dialog_add_contact,container);
-        ButterKnife.bind(this,view);
+        setStyle(DialogFragment.STYLE_NO_FRAME, android.R.style.Theme_Holo_Light_Dialog);
+        View view = inflater.inflate(R.layout.dialog_add_contact, container);
+        ButterKnife.bind(this, view);
         initButtons();
 
         return view;
     }
 
-    private void initButtons(){
+    private void initButtons() {
         mBtCancel.setOnClickListener(view -> dismiss());
         mBtConfirm.setOnClickListener(view -> {
             String name = mEtName.getText().toString();
             String resultMsg;
-            if ("".equals(name)){
+            if ("".equals(name)) {
                 resultMsg = "请输入联系人姓名";
-            }else {
+            } else {
                 Contact contactToAdd = new Contact();
                 contactToAdd.setName(name);
                 ContactManager.getInstance().addContact(contactToAdd);
                 resultMsg = "添加成功";
             }
-            Toast.makeText(getActivity(),name,Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), name, Toast.LENGTH_SHORT).show();
         });
     }
 
-    public void show(){
+    public void show() {
         FragmentTransaction ft = getFragmentManager().beginTransaction();
         Fragment prev = getFragmentManager().findFragmentByTag("add_contact_dialog");
         if (prev != null) {
             ft.remove(prev);
         }
         ft.addToBackStack(null);
-        super.show(getFragmentManager(),"add_contact_dialog");
+        super.show(getFragmentManager(), "add_contact_dialog");
     }
 }

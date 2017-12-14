@@ -4,7 +4,7 @@
     <item
         android:id="@+id/add"
         android:icon="@drawable/ic_add_white_18dp"
-        android:title="添加"
+        android:title="@string/app_bar_add"
         app:showAsAction="always"/>
 
 </menu>

@@ -1,52 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical">
 
-    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme" />
 
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
-            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-            app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
-    </FrameLayout>
-
-    <FrameLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        
-        <android.support.v4.widget.CircleImageView
+
+        <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/contact_image"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_centerInParent="true" />
 
-    </FrameLayout>
-
-    <android.support.design.widget.TabLayout
-        style="@style/TabLayout"
-        android:id="@+id/contact_tabLayout"
-        android:layout_width="match_parent"
-        android:layout_height="48dp">
-
-        <android.support.design.widget.TabItem
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/contact_info"/>
-
-        <android.support.design.widget.TabItem
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/relationship"/>
-
-    </android.support.design.widget.TabLayout>
+    </RelativeLayout>
 
     <android.support.v4.view.ViewPager
         android:id="@+id/contact_viewpager"
@@ -54,6 +31,14 @@
         android:layout_height="match_parent"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        tools:layout_editor_absoluteY="232dp"/>
+        tools:layout_editor_absoluteY="232dp" >
+
+        <android.support.design.widget.TabLayout
+            android:id="@+id/contact_tabLayout"
+            style="@style/TabLayout"
+            android:layout_width="match_parent"
+            android:layout_height="48dp" />
+
+    </android.support.v4.view.ViewPager>
 
 </LinearLayout>

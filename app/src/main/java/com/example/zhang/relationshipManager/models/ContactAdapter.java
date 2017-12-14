@@ -6,14 +6,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.zhang.relationshipManager.R;
+import com.example.zhang.relationshipManager.activities.ContactInfoActivity;
 
 import java.util.ArrayList;
-import java.util.List;
-
-import com.example.zhang.relationshipManager.models.Contact;
 
 /**
  * Created by 29110 on 2017/12/11.
@@ -23,36 +20,42 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHold
 
     private ArrayList<Contact> mContactList;
 
-    public ContactAdapter(ArrayList<Contact> contactlist){
-        mContactList=contactlist;
+    public ContactAdapter(ArrayList<Contact> contactList) {
+        mContactList = contactList;
     }
 
-    static class ViewHolder extends RecyclerView.ViewHolder{
-        ImageView contactimage;
+    static class ViewHolder extends RecyclerView.ViewHolder {
+        ImageView contactImage;
         TextView contactName;
         View contactView;
 
-        public ViewHolder(View view){
+        public ViewHolder(View view) {
             super(view);
             contactView = view;
-            contactimage=(ImageView)view.findViewById(R.id.contact_image);
-            contactName=(TextView)view.findViewById(R.id.contact_name);
+            contactImage = (ImageView) view.findViewById(R.id.contact_image);
+            contactName = (TextView) view.findViewById(R.id.contact_name);
         }
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.contact_item,parent,false);
-        ViewHolder holder=new ViewHolder(view);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.contact_item, parent, false);
+        ViewHolder holder = new ViewHolder(view);
         return holder;
     }
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        Contact contact=mContactList.get(position);
+        Contact contact = mContactList.get(position);
         // @todo comment for test
-//        holder.contactimage.setImageResource(contact.getImageId());
+//        holder.contactImage.setImageResource(contact.getImageId());
         holder.contactName.setText(contact.getName());
+        holder.contactView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ContactInfoActivity.startActivity(v.getContext(), mContactList.get(position).getId());
+            }
+        });
     }
 
     @Override

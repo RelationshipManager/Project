@@ -7,14 +7,15 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.view.MenuItem;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 
 import com.example.zhang.relationshipManager.R;
-import com.example.zhang.relationshipManager.fragment.*;
+import com.example.zhang.relationshipManager.fragment.ContactListFragment;
+import com.example.zhang.relationshipManager.fragment.MyRsFragment;
+import com.example.zhang.relationshipManager.fragment.RsSearchFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,9 +54,9 @@ public class MainActivity extends BaseActivity {
         setSupportActionBar(mToolbar);
         mToolbar.inflateMenu(R.menu.app_bar);
         mToolbar.setOnMenuItemClickListener(item -> {
-            switch (item.getItemId()){
+            switch (item.getItemId()) {
                 case R.id.add:
-                    switch (mNowFragmentPosition){
+                    switch (mNowFragmentPosition) {
                         case 0:
                             break;
                         case 1:
@@ -127,7 +128,7 @@ public class MainActivity extends BaseActivity {
         });
     }
 
-    public static class MyFragmentAdapter extends FragmentPagerAdapter {
+    public static class MyFragmentAdapter extends FragmentStatePagerAdapter {
         private List<Fragment> mFragmentList;
 
         public MyFragmentAdapter(FragmentManager fm, List<Fragment> fragmentList) {
