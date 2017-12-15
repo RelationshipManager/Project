@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 
 /**
  * Created by 29110 on 2017/12/12.
@@ -34,8 +35,11 @@ public class ContactInfoActivity extends BaseActivity {
     Toolbar toolbar;
     @BindView(R.id.contact_image)
     ImageView mImageView;
-    private ViewPager viewPager;
-    private TabLayout tabLayout;
+    @BindView(R.id.contact_viewpager)
+    ViewPager viewPager;
+
+    @BindView(R.id.contact_tabLayout)
+    TabLayout tabLayout;
     private Contact mContact;
 
     public static void startActivity(Context context, int contactId) {
@@ -48,13 +52,12 @@ public class ContactInfoActivity extends BaseActivity {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_contact_infomation);
+        ButterKnife.bind(this);
         setSupportActionBar(toolbar);
-        viewPager = (ViewPager) findViewById(R.id.contact_viewpager);
         List<Fragment> fragmentList = new ArrayList<>();
         fragmentList.add(new ContactInfoFragment());
         fragmentList.add(new ContactRsFragment());
         viewPager.setAdapter(new ContactInfoActivity.MyFragmentStatePagerAdapter(getSupportFragmentManager(), fragmentList));
-        tabLayout = (TabLayout) findViewById(R.id.contact_tabLayout);
         tabLayout.setupWithViewPager(viewPager);
         mContact = ContactManager.getInstance().getContactById(getIntent().getIntExtra("contact", -1));
     }
@@ -83,7 +86,7 @@ public class ContactInfoActivity extends BaseActivity {
             case R.id.edit:
 
                 break;
-            case R.id.delte:
+            case R.id.delete:
 
                 break;
             default:
