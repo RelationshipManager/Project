@@ -9,8 +9,8 @@ import java.util.Map;
  */
 
 public class ContactManager {
-    private Map<Integer, Contact> contactMap;
     static private ContactManager sContactManager;
+    private Map<Integer, Contact> mContactMap;
 
     static public ContactManager getInstance() {
         if (sContactManager == null)
@@ -19,7 +19,7 @@ public class ContactManager {
     }
 
     private ContactManager() {
-        contactMap = new HashMap<>();
+        mContactMap = new HashMap<>();
     }
 
     public void addContact(Contact contact) {
@@ -28,7 +28,7 @@ public class ContactManager {
 
     // @todo Interface needed    Used by ContactAdapter
     public Contact getContactById(int id) {
-        return contactMap.get(id);
+        return mContactMap.get(id);
     }
 
     public Contact getContact(Contact contact) {
@@ -42,11 +42,11 @@ public class ContactManager {
     // @todo Interface needed    Used by ContactInfoActivity
     public ArrayList<Contact> getContactList() {
         // @todo test UI for ContactListFragment
-        contactMap.put(1, new Contact().setName("A"));
-        contactMap.put(2, new Contact().setName("B"));
-        contactMap.put(3, new Contact().setName("C"));
+        mContactMap.put(1, new Contact().setName("A"));
+        mContactMap.put(2, new Contact().setName("B"));
+        mContactMap.put(3, new Contact().setName("C"));
 
-        return new ArrayList<Contact>(contactMap.values());
+        return new ArrayList<Contact>(mContactMap.values());
     }
 
 }
