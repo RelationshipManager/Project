@@ -6,11 +6,11 @@
         android:id="@+id/edit"
         android:icon="@drawable/edit_btn"
         android:title="Edit"
-        app:showAsAction="never" />
+        app:showAsAction="always" />
 
     <item
-        android:id="@+id/delte"
+        android:id="@+id/delete"
         android:icon="@drawable/ic_clear_white_36dp"
         android:title="Delete"
-        app:showAsAction="never" />
+        app:showAsAction="always" />
 </menu>
