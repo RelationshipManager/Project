@@ -2,15 +2,12 @@ package com.example.zhang.relationshipManager.activities;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
-import android.view.MenuItem;
 
 import com.example.zhang.relationshipManager.R;
 import com.example.zhang.relationshipManager.fragment.ContactListFragment;
@@ -21,7 +18,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 
 public class MainActivity extends BaseActivity {
     @BindView(R.id.toolbar)
@@ -30,7 +26,7 @@ public class MainActivity extends BaseActivity {
     BottomNavigationView mBottomNavigationView;
     @BindView(R.id.main_pager)
     ViewPager mViewPager;
-    private List<Fragment> fragmentList;
+    private List<Fragment> mFragmentList;
     //当前页编号
     private int mNowFragmentPosition;
 
@@ -41,14 +37,16 @@ public class MainActivity extends BaseActivity {
 
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        ButterKnife.bind(this);
-        fragmentList = new ArrayList<>();
-        fragmentList.add(new ContactListFragment());
-        fragmentList.add(new RsSearchFragment());
-        fragmentList.add(new MyRsFragment());
+    protected int getResourceId() {
+        return R.layout.activity_main;
+    }
+
+    @Override
+    protected void initViews() {
+        mFragmentList = new ArrayList<>();
+        mFragmentList.add(new ContactListFragment());
+        mFragmentList.add(new RsSearchFragment());
+        mFragmentList.add(new MyRsFragment());
 
         //初始化toolbar
         setSupportActionBar(mToolbar);
@@ -70,7 +68,7 @@ public class MainActivity extends BaseActivity {
         });
         mNowFragmentPosition = 0;
 
-        mViewPager.setAdapter(new MyFragmentAdapter(getSupportFragmentManager(), fragmentList));
+        mViewPager.setAdapter(new MyFragmentAdapter(getSupportFragmentManager(), mFragmentList));
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -103,35 +101,32 @@ public class MainActivity extends BaseActivity {
             }
         });
 
-        mBottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                int itemID = 0;
-                switch (item.getItemId()) {
-                    case R.id.contact_list:
-                        itemID = 0;
-                        break;
-                    case R.id.relationship_map:
-                        itemID = 1;
-                        break;
-                    case R.id.settings:
-                        itemID = 2;
-                        break;
-                    default:
-                        break;
-                }
-                // @todo 设置成 false 可以取消滑动效果
-                mViewPager.setCurrentItem(itemID, true);
-                mNowFragmentPosition = itemID;
-                return true;
+        mBottomNavigationView.setOnNavigationItemSelectedListener(item -> {
+            int itemID = 0;
+            switch (item.getItemId()) {
+                case R.id.contact_list:
+                    itemID = 0;
+                    break;
+                case R.id.relationship_map:
+                    itemID = 1;
+                    break;
+                case R.id.settings:
+                    itemID = 2;
+                    break;
+                default:
+                    break;
             }
+            // @todo 设置成 false 可以取消滑动效果
+            mViewPager.setCurrentItem(itemID, true);
+            mNowFragmentPosition = itemID;
+            return true;
         });
     }
 
-    public static class MyFragmentAdapter extends FragmentStatePagerAdapter {
+    private static class MyFragmentAdapter extends FragmentStatePagerAdapter {
         private List<Fragment> mFragmentList;
 
-        public MyFragmentAdapter(FragmentManager fm, List<Fragment> fragmentList) {
+        MyFragmentAdapter(FragmentManager fm, List<Fragment> fragmentList) {
             super(fm);
             mFragmentList = fragmentList;
         }
