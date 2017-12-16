@@ -1,6 +1,6 @@
 package com.example.zhang.relationshipManager.models;
 
-public class RelationshipManager {
+public class RelationshipManager extends DatabaseHelper{
     private static RelationshipManager sRelationshipManager;
 
     public static RelationshipManager getInstance() {

@@ -32,7 +32,7 @@ public class ContactListFragment extends Fragment {
         unbinder = ButterKnife.bind(this, view);
         // @todo Show recyclerView and setAdapter
         contactRecyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
-        contactRecyclerView.setAdapter(new ContactAdapter(ContactManager.getInstance().getContactList()));
+        contactRecyclerView.setAdapter(new ContactAdapter(ContactManager.getInstance(getContext()).getAllContacts()));
         return view;
     }
 

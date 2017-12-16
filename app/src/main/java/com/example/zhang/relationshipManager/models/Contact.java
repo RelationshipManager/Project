@@ -1,104 +1,142 @@
 package com.example.zhang.relationshipManager.models;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by 29110 on 2017/12/11.
  */
 
 public class Contact {
-    private int age;
-    private int id;
-    private int imageId;
-    private String name;
-    private String sex;
-    private String notes;
-    private String phone_number;
-    private String[] other_contact;
-    private ArrayList<Relationship> relationships;
+    //性别
+    public static final int SEX_MALE = 0; //男
+    public static final int SEX_FEMALE = 1; //女
+    public static final int SEX_SECRET = 2; //保密
+    //默认值
+    public static final int DEFAULT_ID = -1;
+    public static final int DEFAULT_AGE = -1;
+    public static final int DEFAULT_SEX = SEX_SECRET;
+    public static final String DEFAULT_NAME = "";
+    public static final String DEFAULT_NOTES = "";
+    public static final String DEFAULT_PHONE_NUM = "";
+    private int mId;
+    private int mAge;
+    private int mSex;
+    private String mName;
+    private String mNotes;
+    private String mPhoneNumber;
+    private Map<String, String> mOtherContacts;
+    private ArrayList<Relationship> mRelationships;
 
     public Contact() {
-
+        //初始化
+        mId = DEFAULT_ID;
+        mAge = DEFAULT_AGE;
+        mSex = DEFAULT_SEX;
+        mName = DEFAULT_NAME;
+        mNotes = DEFAULT_NOTES;
+        mPhoneNumber = DEFAULT_PHONE_NUM;
     }
 
-    public Contact setAge(int age) {
-        this.age = age;
-        return this;
+    public boolean isMatch(Contact contact){
+        boolean result = true;
+        if (contact.mId != DEFAULT_ID && contact.mId != mId)
+            result = false;
+        if (contact.mAge != DEFAULT_AGE && contact.mAge != mAge)
+            result = false;
+        if (contact.mSex != DEFAULT_SEX && contact.mSex != mSex)
+            result = false;
+        if (!contact.mName.equals(DEFAULT_NAME) && !contact.mName.equals(mName))
+            result = false;
+        return result;
     }
 
-    public Contact setId(int id) {
-        this.id = id;
-        return this;
+    public Contact copy(){
+        Contact contact = new Contact();
+        contact.copyFromContact(this);
+        return contact;
     }
 
-    public Contact setImageId(int imageId) {
-        this.imageId = imageId;
-        return this;
+    public void copyFromContact(Contact contact){
+        mId = contact.mId;
+        mName = contact.mName;
+        mSex = contact.mSex;
+        mAge = contact.mAge;
+        mPhoneNumber = contact.mPhoneNumber;
+        mNotes = contact.mNotes;
+        if (contact.mOtherContacts != null){
+            mOtherContacts = new HashMap<>(contact.mOtherContacts);
+        }
     }
 
-    public Contact setName(String name) {
-        this.name = name;
-        return this;
+    public void setId(int id) {
+        this.mId = id;
     }
 
-    public Contact setSex(String sex) {
-        this.sex = sex;
-        return this;
+    public void setAge(int age) {
+        this.mAge = age;
     }
 
-    public Contact setNotes(String notes) {
-        this.notes = notes;
-        return this;
+    public void setName(String name) {
+        this.mName = name;
     }
 
-    public Contact setPhone_number(String phone_number) {
-        this.phone_number = phone_number;
-        return this;
+    public void setSex(int sex) {
+        if (sex != SEX_FEMALE && sex != SEX_MALE)
+            sex = SEX_SECRET;
+        this.mSex = sex;
     }
 
-    public Contact setOther_contact(String[] other_contact) {
-        this.other_contact = other_contact;
-        return this;
+    public void setNotes(String notes) {
+        this.mNotes = notes;
     }
 
-    public Contact setRelationships(ArrayList<Relationship> relationships) {
-        this.relationships = relationships;
-        return this;
+    public void setPhoneNumber(String phoneNumber) {
+        this.mPhoneNumber = phoneNumber;
     }
 
-    public int getImageId() {
-        return imageId;
+    public void setOther_contact(Map<String, String> other_contact) {
+        this.mOtherContacts = other_contact;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public int getAge() {
-        return age;
+    public void setRelationships(ArrayList<Relationship> relationships) {
+        this.mRelationships = relationships;
     }
 
     public int getId() {
-        return id;
+        return mId;
     }
 
-    public String getSex() {
-        return sex;
+    public String getName() {
+        return mName;
+    }
+
+    public int getAge() {
+        return mAge;
+    }
+
+    public int getSex() {
+        return mSex;
     }
 
     public String getNotes() {
-        return notes;
+        return mNotes;
     }
 
-    public String getPhone_number() {
-        return phone_number;
+    public String getPhoneNumber() {
+        return mPhoneNumber;
     }
 
-    public String[] getOther_contact() {
-        return other_contact;
+    public Map<String, String> getOtherContacts() {
+        if (mOtherContacts == null)
+            mOtherContacts = new HashMap<>();
+        return mOtherContacts;
     }
 
     public ArrayList<Relationship> getRelationships() {
-        return relationships;
+        if (mRelationships == null)
+            mRelationships = new ArrayList<>();
+        return mRelationships;
     }
 }
