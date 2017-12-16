@@ -1,44 +1,78 @@
 package com.example.zhang.relationshipManager.fragment;
 
-import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.example.zhang.relationshipManager.R;
-import com.example.zhang.relationshipManager.models.ContactAdapter;
+import com.example.zhang.relationshipManager.activities.ContactInfoActivity;
+import com.example.zhang.relationshipManager.models.Contact;
 import com.example.zhang.relationshipManager.models.ContactManager;
 
+import java.util.ArrayList;
+
 import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
 
-/**
- * Created by 29110 on 2017/12/7.
- */
-
-public class ContactListFragment extends Fragment {
+public class ContactListFragment extends BaseFragment {
     @BindView(R.id.contactRecyclerView)
     RecyclerView contactRecyclerView;
-    Unbinder unbinder;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.contact_fragment, container, false);
-        unbinder = ButterKnife.bind(this, view);
-        // @todo Show recyclerView and setAdapter
-        contactRecyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
-        contactRecyclerView.setAdapter(new ContactAdapter(ContactManager.getInstance(getContext()).getAllContacts()));
-        return view;
+    protected int getResourceId() {
+        return R.layout.contact_fragment;
     }
 
     @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        unbinder.unbind();
+    protected void initViews() {
+        contactRecyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
+        contactRecyclerView.setAdapter(new ContactAdapter(ContactManager.getInstance(getContext()).getAllContacts()));
+    }
+
+    private class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHolder> {
+
+        private ArrayList<Contact> mContactList;
+
+        ContactAdapter(ArrayList<Contact> contactList) {
+            mContactList = contactList;
+        }
+
+        class ViewHolder extends RecyclerView.ViewHolder {
+            ImageView contactImage;
+            TextView contactName;
+            View contactView;
+
+            ViewHolder(View view) {
+                super(view);
+                contactView = view;
+                contactImage = (ImageView) view.findViewById(R.id.contact_image);
+                contactName = (TextView) view.findViewById(R.id.contact_name);
+            }
+        }
+
+        @Override
+        public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.contact_item, parent, false);
+            ViewHolder holder = new ViewHolder(view);
+            return holder;
+        }
+
+        @Override
+        public void onBindViewHolder(ViewHolder holder, int position) {
+            Contact contact = mContactList.get(position);
+            // @todo comment for test
+//        holder.contactImage.setImageResource(contact.getImageId());
+            holder.contactName.setText(contact.getName());
+            holder.contactView.setOnClickListener(v ->
+                    ContactInfoActivity.startActivity(v.getContext(), mContactList.get(holder.getAdapterPosition()).getId()));
+        }
+
+        @Override
+        public int getItemCount() {
+            return mContactList.size();
+        }
     }
 }
