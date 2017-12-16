@@ -27,7 +27,6 @@ public class Contact {
     private String mNotes;
     private String mPhoneNumber;
     private Map<String, String> mOtherContacts;
-    private ArrayList<Relationship> mRelationships;
 
     public Contact() {
         //初始化
@@ -39,6 +38,7 @@ public class Contact {
         mPhoneNumber = DEFAULT_PHONE_NUM;
     }
 
+    //判断传入的联系人是否和本实例匹配，这里传入的联系人中设置为非默认值的属性会被当成需要匹配的对象。
     public boolean isMatch(Contact contact){
         boolean result = true;
         if (contact.mId != DEFAULT_ID && contact.mId != mId)
@@ -52,12 +52,14 @@ public class Contact {
         return result;
     }
 
+    //获取一个副本，副本复制了所有属性，除了关系的数组
     public Contact copy(){
         Contact contact = new Contact();
         contact.copyFromContact(this);
         return contact;
     }
 
+    //根据传入的contact设置本实例的属性
     public void copyFromContact(Contact contact){
         mId = contact.mId;
         mName = contact.mName;
@@ -70,6 +72,12 @@ public class Contact {
         }
     }
 
+    //更新联系人信息到数据库
+    public void update(){
+        ContactManager.getInstance(null).updateContact(this);
+    }
+
+    //一堆的setter和getter
     public void setId(int id) {
         this.mId = id;
     }
@@ -83,6 +91,7 @@ public class Contact {
     }
 
     public void setSex(int sex) {
+        //保证性别是特定的几种
         if (sex != SEX_FEMALE && sex != SEX_MALE)
             sex = SEX_SECRET;
         this.mSex = sex;
@@ -98,10 +107,6 @@ public class Contact {
 
     public void setOther_contact(Map<String, String> other_contact) {
         this.mOtherContacts = other_contact;
-    }
-
-    public void setRelationships(ArrayList<Relationship> relationships) {
-        this.mRelationships = relationships;
     }
 
     public int getId() {
@@ -129,14 +134,10 @@ public class Contact {
     }
 
     public Map<String, String> getOtherContacts() {
+        //需要时再初始化
         if (mOtherContacts == null)
             mOtherContacts = new HashMap<>();
         return mOtherContacts;
     }
 
-    public ArrayList<Relationship> getRelationships() {
-        if (mRelationships == null)
-            mRelationships = new ArrayList<>();
-        return mRelationships;
-    }
 }

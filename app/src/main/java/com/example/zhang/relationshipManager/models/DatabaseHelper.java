@@ -38,9 +38,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     static private final String INSERT_TYPES =
             "insert into relationship_type(start_role,end_role,class_type) values(?,?,?)";
     private final String[][] mTypeData = new String[][]{
-            {"朋友", "朋友", String.valueOf(Relationship.FRIENDS)},
-            {"上级", "下级", String.valueOf(Relationship.COLLEAGUES)},
-            {"同事", "同事", String.valueOf(Relationship.COLLEAGUES)}};
+            {"朋友", "朋友", String.valueOf(RsType.FRIENDS)},
+            {"上级", "下级", String.valueOf(RsType.COLLEAGUES)},
+            {"同事", "同事", String.valueOf(RsType.COLLEAGUES)}};
 
     DatabaseHelper(Context context) {
         super(context.getApplicationContext(), DB_NAME, null, DB_VERSION);

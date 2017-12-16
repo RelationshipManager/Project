@@ -14,13 +14,17 @@ import java.util.Map;
 public class ContactManager extends DatabaseHelper{
     //保存的单例
     static private ContactManager sContactManager;
+    //保存的RelationshipManager实例
+    static private RelationshipManager sRelationshipManager;
     //联系人数组
     private SparseArray<Contact> mContactMap;
 
     //获取单例
     static public ContactManager getInstance(Context context) {
-        if (sContactManager == null)
+        if (sContactManager == null){
             sContactManager = new ContactManager(context);
+            sRelationshipManager = RelationshipManager.getInstance(context);
+        }
         return sContactManager;
     }
 
@@ -107,6 +111,14 @@ public class ContactManager extends DatabaseHelper{
         return contacts;
     }
 
+    //把联系人的信息写入数据库
+    public void updateContact(Contact contact){
+        SQLiteDatabase db = getWritableDatabase();
+        //构造联系人的值
+        ContentValues values = getContentValues(contact);
+        db.update("contact", values, "contact_id=?", new String[]{String.valueOf(contact.getId())});
+    }
+
     public boolean removeContact(Contact contactToRemove){
         SQLiteDatabase db = getWritableDatabase();
         db.beginTransaction();
@@ -130,15 +142,15 @@ public class ContactManager extends DatabaseHelper{
     //从数据库中读取所有联系人
     private void readAllContacts(){
         SQLiteDatabase db = getReadableDatabase();
-        Cursor cursor = db.query("person", null, null, null, null, null, null);
+        Cursor cursor = db.query("contact", null, null, null, null, null, null);
         if (cursor.moveToFirst()) {
             do {
                 Contact contact = new Contact();
                 setContact(contact,cursor);
                 mContactMap.put(contact.getId(), contact);
             } while (cursor.moveToNext());
-            cursor.close();
         }
+        cursor.close();
     }
 
     //从数据库中读取联系人

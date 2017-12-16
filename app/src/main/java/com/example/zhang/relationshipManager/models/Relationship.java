@@ -2,20 +2,30 @@ package com.example.zhang.relationshipManager.models;
 
 
 public class Relationship {
-    public static final int FRIENDS = 0;//朋友关系
-    public static final int COLLEAGUES = 1;//同事关系
     private Contact mStartContact;
     private Contact mEndContact;
-    private String mStartRole;
-    private String mEndRole;
-    private int mRelationshipType;
+    private RsType mRsType;
 
     public Relationship() {
         mStartContact = new Contact();
         mEndContact = new Contact();
-        mStartRole = "";
-        mEndRole = "";
-        mRelationshipType = 0;
+        mRsType = new RsType();
+    }
+
+    public Relationship(Contact startContact, Contact endContact, RsType rsType) {
+        mStartContact = startContact;
+        mEndContact = endContact;
+        mRsType = rsType;
+    }
+
+    //获取联系人在关系中的角色
+    public String getRole(Contact contact) {
+        if (contact == mStartContact)
+            return mRsType.getStartRole();
+        else if (contact == mEndContact)
+            return mRsType.getEndRole();
+        else
+            return "";
     }
 
     public Contact getStartContact() {
@@ -34,20 +44,11 @@ public class Relationship {
         mEndContact = endContact;
     }
 
-    public String getRole(Contact contact) {
-        if (contact == mStartContact)
-            return mStartRole;
-        else if (contact == mEndContact)
-            return mEndRole;
-        else
-            return "";
+    public RsType getRsType() {
+        return mRsType;
     }
 
-    public int getRelationshipType() {
-        return mRelationshipType;
-    }
-
-    public void setRelationshipType(int relationshipType) {
-        mRelationshipType = relationshipType;
+    public void setRsType(RsType rsType) {
+        mRsType = rsType;
     }
 }
