@@ -50,10 +50,10 @@ public class AddContactDialog extends DialogFragment {
             } else {
                 Contact contactToAdd = new Contact();
                 contactToAdd.setName(name);
-                ContactManager.getInstance().addContact(contactToAdd);
+                ContactManager.getInstance(getActivity()).addContact(contactToAdd);
                 resultMsg = "添加成功";
             }
-            Toast.makeText(getActivity(), name, Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), resultMsg, Toast.LENGTH_SHORT).show();
         });
     }
 

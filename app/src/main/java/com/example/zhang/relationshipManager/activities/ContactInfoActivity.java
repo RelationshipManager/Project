@@ -2,8 +2,6 @@ package com.example.zhang.relationshipManager.activities;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -24,11 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 
-/**
- * Created by 29110 on 2017/12/12.
- */
 
 public class ContactInfoActivity extends BaseActivity {
     @BindView(R.id.toolbar)
@@ -49,17 +43,19 @@ public class ContactInfoActivity extends BaseActivity {
     }
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_contact_infomation);
-        ButterKnife.bind(this);
+    protected int getResourceId() {
+        return R.layout.activity_contact_infomation;
+    }
+
+    @Override
+    protected void initViews() {
         setSupportActionBar(toolbar);
         List<Fragment> fragmentList = new ArrayList<>();
         fragmentList.add(new ContactInfoFragment());
         fragmentList.add(new ContactRsFragment());
         viewPager.setAdapter(new ContactInfoActivity.MyFragmentStatePagerAdapter(getSupportFragmentManager(), fragmentList));
         tabLayout.setupWithViewPager(viewPager);
-        mContact = ContactManager.getInstance().getContactById(getIntent().getIntExtra("contact", -1));
+        mContact = ContactManager.getInstance(this).getContactById(getIntent().getIntExtra("contact", -1));
     }
 
 //    public View onCreateView(LayoutInflater inflater, ViewGroup container,

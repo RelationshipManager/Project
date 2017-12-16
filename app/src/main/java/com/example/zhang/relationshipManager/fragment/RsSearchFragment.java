@@ -1,24 +1,24 @@
 package com.example.zhang.relationshipManager.fragment;
 
-import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 
 import com.example.zhang.relationshipManager.R;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class RsSearchFragment extends Fragment {
+import butterknife.BindView;
 
-    private ViewPager viewPager;
-    private TabLayout tabLayout;
+public class RsSearchFragment extends BaseFragment {
+
+    @BindView(R.id.search_viewPager)
+    private ViewPager mViewPager;
+    @BindView(R.id.search_tabLayout)
+    private TabLayout mTabLayout;
 
     public static RsSearchFragment newInstance() {
         return new RsSearchFragment();
@@ -29,26 +29,19 @@ public class RsSearchFragment extends Fragment {
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    protected int getResourceId() {
+        return R.layout.fragment_search;
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_search, container, false);
-        viewPager = (ViewPager) view.findViewById(R.id.search_viewPager);
+    protected void initViews() {
         List<Fragment> fragmentList = new ArrayList<>();
         fragmentList.add(new SearchP2PFragment());
         fragmentList.add(new SearchTypeFragment());
-        viewPager.setAdapter(new MyFragmentStatePagerAdapter(getFragmentManager(), fragmentList));
-        tabLayout = (TabLayout) view.findViewById(R.id.search_tabLayout);
+        mViewPager.setAdapter(new MyFragmentStatePagerAdapter(getFragmentManager(), fragmentList));
         // Use setupWithViewPager make the origin TabLayout reset tab with ViewPager pageTitle
         // So set the pageTitle in PagerAdapter
-        tabLayout.setupWithViewPager(viewPager);
-//        tabLayout.setSelectedTabIndicatorColor(R.color.colorPrimaryDark);
-        return view;
+        mTabLayout.setupWithViewPager(mViewPager);
     }
 
     public class MyFragmentStatePagerAdapter extends FragmentStatePagerAdapter {

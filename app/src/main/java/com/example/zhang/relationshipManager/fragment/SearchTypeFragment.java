@@ -1,37 +1,20 @@
 package com.example.zhang.relationshipManager.fragment;
 
-import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
 import com.example.zhang.relationshipManager.R;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
 
-/**
- * Created by zhang on 2017-12-04.
- */
 
-public class SearchTypeFragment extends Fragment {
+public class SearchTypeFragment extends BaseFragment {
     @BindView(R.id.spinner_contact)
     Spinner spinnerContact;
     @BindView(R.id.spinner_rsType)
     Spinner spinnerRsType;
-    Unbinder unbinder;
 
     public SearchTypeFragment() {
-    }
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
     }
 
     private void setAdapter() {
@@ -48,20 +31,13 @@ public class SearchTypeFragment extends Fragment {
         spinnerRsType.setAdapter(rsTypeAdapter);
     }
 
-    @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.search_fragment_type, container, false);
-        unbinder = ButterKnife.bind(this, view);
-
-        setAdapter();
-
-        return view;
+    protected int getResourceId() {
+        return R.layout.search_fragment_type;
     }
 
     @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        unbinder.unbind();
+    protected void initViews() {
+        setAdapter();
     }
 }

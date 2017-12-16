@@ -7,9 +7,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 
 import com.example.zhang.relationshipManager.R;
 
@@ -17,10 +14,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 
 
-public class MyRsFragment extends Fragment {
+public class MyRsFragment extends BaseFragment {
 
     //Fragment列表
     private ArrayList<Fragment> mFragments;
@@ -40,16 +36,15 @@ public class MyRsFragment extends Fragment {
 
     }
 
-    @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_my_rs, container, false);
-        ButterKnife.bind(this, view);
+    protected int getResourceId() {
+        return R.layout.fragment_my_rs;
+    }
+
+    @Override
+    protected void initViews() {
         mViewPager.setAdapter(new FragmentsAdapter(getFragmentManager(), mFragments));
         mTabLayout.setupWithViewPager(mViewPager);
-
-        return view;
-
     }
 
     private class FragmentsAdapter extends FragmentPagerAdapter {
