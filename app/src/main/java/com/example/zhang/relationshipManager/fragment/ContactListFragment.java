@@ -28,7 +28,7 @@ public class ContactListFragment extends BaseFragment {
 
     @Override
     protected void initViews() {
-        contactRecyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
+        //contactRecyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
         contactRecyclerView.setAdapter(new ContactAdapter(ContactManager.getInstance(getContext()).getAllContacts()));
     }
 
