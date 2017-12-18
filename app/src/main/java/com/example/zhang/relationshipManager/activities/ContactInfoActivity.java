@@ -57,7 +57,7 @@ public class ContactInfoActivity extends BaseActivity {
         mContactId = getIntent().getIntExtra("contact", -1);
         fragmentList = new ArrayList<>();
         fragmentList.add(new ContactInfoFragment().setmContact(mContactId));
-        fragmentList.add(new ContactRsFragment().setContact(ContactManager.getInstance(getApplicationContext()).getContactById(mContactId)));
+        fragmentList.add(new ContactRsFragment().setContact(ContactManager.getInstance(this).getContactById(mContactId)));
         viewPager.setAdapter(new ContactInfoActivity.MyFragmentStatePagerAdapter(getSupportFragmentManager(), fragmentList));
         tabLayout.setupWithViewPager(viewPager);
     }

@@ -64,7 +64,7 @@ public class MainActivity extends BaseActivity {
                 case R.id.add:
                     switch (mNowFragmentPosition) {
                         case 0:
-                            new AddContactDialog().show();
+                            AddContactDialog.startDialog(MainActivity.this);
                             break;
                         case 1:
                             break;

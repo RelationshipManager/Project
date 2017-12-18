@@ -29,12 +29,11 @@ public class ContactRsFragment extends BaseFragment {
 
     @Override
     protected void initViews() {
-
+        contactRsRecyclerView.setAdapter(new ContactRsAdapter(RelationshipManager.getInstance(null).getRelationships(mContact)));
     }
 
     public ContactRsFragment setContact(Contact contact){
         mContact=contact;
-        contactRsRecyclerView.setAdapter(new ContactRsAdapter(RelationshipManager.getInstance(null).getRelationships(contact)));
         return this;
     }
 

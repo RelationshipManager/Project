@@ -45,7 +45,6 @@ public class ContactInfoFragment extends BaseFragment {
     EditText contactNote;
     @BindView(R.id.contactInfo_viewSwitcher)
     ViewSwitcher viewSwitcher;
-    Unbinder unbinder;
 
     public ContactInfoFragment setmContact(int mContactId) {
         mContact = ContactManager.getInstance(getContext()).getContactById(mContactId);
@@ -89,19 +88,5 @@ public class ContactInfoFragment extends BaseFragment {
         mContact.setNotes(contactNote.getText().toString());
         ContactManager.getInstance(getContext()).updateContact(mContact);
         viewSwitcher.showPrevious();
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // TODO: inflate a fragment view
-        View rootView = super.onCreateView(inflater, container, savedInstanceState);
-        unbinder = ButterKnife.bind(this, rootView);
-        return rootView;
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        unbinder.unbind();
     }
 }

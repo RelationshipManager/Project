@@ -28,7 +28,7 @@ public class ContactListFragment extends BaseFragment {
 
     @Override
     protected void initViews() {
-        //contactRecyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
+        contactRecyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
         contactRecyclerView.setAdapter(new ContactAdapter(ContactManager.getInstance(getContext()).getAllContacts()));
     }
 
@@ -64,7 +64,7 @@ public class ContactListFragment extends BaseFragment {
         public void onBindViewHolder(ViewHolder holder, int position) {
             Contact contact = mContactList.get(position);
             // @todo comment for test
-//        holder.contactImage.setImageResource(contact.getImageId());
+//          holder.contactImage.setImageResource(contact.getImageId());
             holder.contactName.setText(contact.getName());
             holder.contactView.setOnClickListener(v ->
                     ContactInfoActivity.startActivity(v.getContext(), mContactList.get(holder.getAdapterPosition()).getId()));

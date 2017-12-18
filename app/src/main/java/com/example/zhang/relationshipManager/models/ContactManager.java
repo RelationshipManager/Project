@@ -169,12 +169,12 @@ public class ContactManager extends DatabaseHelper{
 
     //从游标中读取联系人
     private void setContact(Contact contact, Cursor cursor){
-        contact.setId(cursor.getInt(cursor.getColumnIndex("id")));
+        contact.setId(cursor.getInt(cursor.getColumnIndex("contact_id")));
         contact.setName(cursor.getString(cursor.getColumnIndex("name")));
         contact.setPhoneNumber(cursor.getString(cursor.getColumnIndex("phone_num")));
         contact.setAge(cursor.getInt(cursor.getColumnIndex("age")));
         contact.setSex(cursor.getInt(cursor.getColumnIndex("sex")));
-        contact.setName(cursor.getString(cursor.getColumnIndex("other_contact")));
+        //contact.setOther_contact(cursor.getString(cursor.getColumnIndex("other_contacts")));
         contact.setNotes(cursor.getString(cursor.getColumnIndex("note")));
     }
     
