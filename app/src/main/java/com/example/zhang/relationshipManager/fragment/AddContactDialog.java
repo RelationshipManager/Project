@@ -65,5 +65,6 @@ public class AddContactDialog extends DialogFragment {
         }
         ft.addToBackStack(null);
         super.show(getFragmentManager(), "add_contact_dialog");
+        ft.commit();
     }
 }

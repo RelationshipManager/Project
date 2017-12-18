@@ -16,9 +16,9 @@ import butterknife.BindView;
 public class RsSearchFragment extends BaseFragment {
 
     @BindView(R.id.search_viewPager)
-    private ViewPager mViewPager;
+    ViewPager mViewPager;
     @BindView(R.id.search_tabLayout)
-    private TabLayout mTabLayout;
+    TabLayout mTabLayout;
 
     public static RsSearchFragment newInstance() {
         return new RsSearchFragment();

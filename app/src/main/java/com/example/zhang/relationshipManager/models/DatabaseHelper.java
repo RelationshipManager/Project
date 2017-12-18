@@ -12,7 +12,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     //数据库版本
     static private final int DB_VERSION = 1;
     //数据库名
-    static private final String DB_NAME = "uml_project2";
+    static private final String DB_NAME = "relationship_manager";
     //建表语句(person,relationship_type,relationship）
     static private final String CREATE_TABLE =
             "create table contact(" +
