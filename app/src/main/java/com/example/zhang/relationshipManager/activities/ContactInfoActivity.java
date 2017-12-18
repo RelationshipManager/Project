@@ -58,7 +58,22 @@ public class ContactInfoActivity extends BaseActivity {
         fragmentList = new ArrayList<>();
         fragmentList.add(new ContactInfoFragment().setmContact(mContactId));
         fragmentList.add(new ContactRsFragment().setContact(ContactManager.getInstance(this).getContactById(mContactId)));
-        viewPager.setAdapter(new ContactInfoActivity.MyFragmentStatePagerAdapter(getSupportFragmentManager(), fragmentList));
+        viewPager.setAdapter(new MyFragmentStatePagerAdapter(getSupportFragmentManager(), fragmentList));
+//        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+//            @Override
+//            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+//                if (fragmentList.get(position).is)
+//            }
+//
+//            @Override
+//            public void onPageSelected(int position) {
+//            }
+//
+//            @Override
+//            public void onPageScrollStateChanged(int state) {
+//
+//            }
+//        });
         tabLayout.setupWithViewPager(viewPager);
     }
 

@@ -2,11 +2,8 @@ package com.example.zhang.relationshipManager.fragment;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.os.Bundle;
 import android.support.design.widget.Snackbar;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -17,8 +14,6 @@ import com.example.zhang.relationshipManager.models.Contact;
 import com.example.zhang.relationshipManager.models.ContactManager;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
 
 
 public class ContactInfoFragment extends BaseFragment {
@@ -46,6 +41,8 @@ public class ContactInfoFragment extends BaseFragment {
     @BindView(R.id.contactInfo_viewSwitcher)
     ViewSwitcher viewSwitcher;
 
+    private boolean isEditing = false;
+
     public ContactInfoFragment setmContact(int mContactId) {
         mContact = ContactManager.getInstance(getContext()).getContactById(mContactId);
         return this;
@@ -58,11 +55,40 @@ public class ContactInfoFragment extends BaseFragment {
         return R.layout.fragment_contactinfo;
     }
 
+//    @Override
+//    public void setUserVisibleHint(boolean isVisibleToUser) {
+//        if (!isVisibleToUser && isEditing){
+//            AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+//            builder.setTitle("当前修改的联系人信息还未保存，是否需要保存？").setPositiveButton("保存", new DialogInterface.OnClickListener() {
+//                @Override
+//                public void onClick(DialogInterface dialog, int which) {
+//                    ContactManager.getInstance(getContext()).updateContact(mContact);
+//                }
+//            }).setNegativeButton("取消", null);
+//            builder.show();
+//        }
+//    }
+
     @Override
     protected void initViews() {
+        contactAgeTextView.setText(String.valueOf(mContact.getAge()));
+        contactMobilenumberTextView.setText(mContact.getPhoneNumber());
+        contactNameTextView.setText(mContact.getName());
+        contactSexTextView.setText(mContact.getSex() == Contact.SEX_MALE ? "男" : "女");
+        contactNoteTextView.setText(mContact.getNotes());
+
+        ArrayAdapter<String> genderTypeAdapter = new ArrayAdapter<String>(this.getContext(), R.layout.spinner_contact_item, R.id.spinner_contact_item);
+        genderTypeAdapter.addAll("男", "女");
+        genderTypeAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item_contact);
+        contactSexSpinner.setAdapter(genderTypeAdapter);
+        contactAge.setText(String.valueOf(mContact.getAge()));
+        contactMobilenumber.setText(mContact.getPhoneNumber());
+        contactName.setText(mContact.getName());
+        contactNote.setText(mContact.getNotes());
     }
 
     public void startEditContact() {
+        isEditing = true;
         viewSwitcher.showNext();
     }
 
@@ -81,6 +107,7 @@ public class ContactInfoFragment extends BaseFragment {
     }
 
     public void endEditContact() {
+        isEditing = false;
         mContact.setAge(Integer.valueOf(contactAge.getText().toString()));
         mContact.setName(contactName.getText().toString());
         mContact.setPhoneNumber(contactMobilenumber.getText().toString());

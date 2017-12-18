@@ -86,8 +86,9 @@ public class Contact {
         this.mAge = age;
     }
 
-    public void setName(String name) {
+    public Contact setName(String name) {
         this.mName = name;
+        return this;
     }
 
     public void setSex(int sex) {
