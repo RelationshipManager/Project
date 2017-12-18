@@ -32,9 +32,10 @@ public class ContactRsFragment extends BaseFragment {
 
     }
 
-    public void setContact(Contact contact){
+    public ContactRsFragment setContact(Contact contact){
         mContact=contact;
         contactRsRecyclerView.setAdapter(new ContactRsAdapter(RelationshipManager.getInstance(null).getRelationships(contact)));
+        return this;
     }
 
     private class ContactRsAdapter extends RecyclerView.Adapter<ContactRsFragment.ContactRsAdapter.ViewHolder> {

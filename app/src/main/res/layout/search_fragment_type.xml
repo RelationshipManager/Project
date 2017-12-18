@@ -1,18 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="30dp">
 
     <LinearLayout
+        android:id="@+id/type_linearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
         android:gravity="center_vertical"
-        android:orientation="vertical"
-        android:id="@+id/type_linearLayout">
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -34,8 +33,8 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="3"
-                android:spinnerMode="dialog"
-                android:prompt="@string/spinner_prompt_choose_contact" />
+                android:prompt="@string/spinner_prompt_choose_contact"
+                android:spinnerMode="dialog" />
 
         </LinearLayout>
 
@@ -59,21 +58,24 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="3"
-                android:spinnerMode="dialog"
-                android:prompt="@string/spinner_prompt_choose_rs_type" />
+                android:prompt="@string/spinner_prompt_choose_rs_type"
+                android:spinnerMode="dialog" />
 
         </LinearLayout>
 
-    </LinearLayout>
 
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/type_linearLayout"
-        android:layout_marginStart="70dp"
-        android:layout_marginEnd="70dp"
-        android:layout_marginTop="30dp"
-        android:text="@string/search"
-        android:textSize="@dimen/common_textSize" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/text_margin">
+
+            <Button
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="@string/search"
+                android:textSize="@dimen/common_textSize" />
+        </RelativeLayout>
+
+    </LinearLayout>
 </RelativeLayout>

@@ -16,18 +16,19 @@ public abstract class BaseFragment extends Fragment {
     Unbinder mUnbinder;
     //获取资源id
     protected abstract int getResourceId();
-
     //初始化控件
     protected abstract void initViews();
+
+    View mView;
 
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(getResourceId(),container, false);
-        mUnbinder = ButterKnife.bind(this, view);
+        View mView = inflater.inflate(getResourceId(),container, false);
+        mUnbinder = ButterKnife.bind(this, mView);
         initViews();
-        return view;
+        return mView;
     }
 
     @Override

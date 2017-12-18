@@ -1,106 +1,213 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ViewSwitcher xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/contactInfo_viewSwitcher"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
 
-    <TableRow
+    <TableLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <TextView
-            android:gravity="center"
-            android:labelFor="@id/contact_name"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/contact_name"/>
-        <EditText
-            android:inputType="text"
-            android:hint="@string/contact_name"
-            android:id="@+id/contact_name"
-            android:gravity="center"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="2"/>
-    </TableRow>
 
-    <TableRow
+        <TableRow>
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="45dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:labelFor="@id/contact_name_textView"
+                android:text="@string/contact_name" />
+
+            <TextView
+                android:id="@+id/contact_name_textView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:gravity="center"
+                android:hint="@string/contact_name" />
+        </TableRow>
+
+        <TableRow>
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="45dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:labelFor="@id/contact_sex_textView"
+                android:text="@string/contact_sex" />
+
+            <TextView
+                android:id="@+id/contact_sex_textView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:gravity="center"
+                android:hint="@string/contact_sex" />
+        </TableRow>
+
+        <TableRow>
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="45dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:labelFor="@id/contact_age_textView"
+                android:text="@string/contact_age" />
+
+            <TextView
+                android:id="@+id/contact_age_textView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:gravity="center"
+                android:hint="@string/contact_age" />
+        </TableRow>
+
+        <TableRow>
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="45dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:labelFor="@id/contact_mobilenumber_textView"
+                android:text="@string/contact_mobilenumber" />
+
+            <TextView
+                android:id="@+id/contact_mobilenumber_textView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:gravity="center"
+                android:hint="@string/contact_mobilenumber" />
+        </TableRow>
+
+        <TableRow>
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="45dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:labelFor="@id/contact_note_textView"
+                android:text="@string/contact_note" />
+
+            <TextView
+                android:id="@+id/contact_note_textView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:gravity="center"
+                android:hint="@string/contact_note" />
+        </TableRow>
+
+    </TableLayout>
+
+    <TableLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <TextView
-            android:gravity="center"
-            android:labelFor="@id/contact_sex"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/contact_sex"/>
-        <EditText
-            android:inputType="text"
-            android:hint="@string/contact_sex"
-            android:id="@+id/contact_sex"
-            android:gravity="center"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="2"/>
-    </TableRow>
 
-    <TableRow
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <TextView
-            android:gravity="center"
-            android:labelFor="@id/contact_age"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/contact_age"/>
-        <EditText
-            android:inputType="text"
-            android:hint="@string/contact_age"
-            android:id="@+id/contact_age"
-            android:gravity="center"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="2"/>
-    </TableRow>
+        <TableRow>
 
-    <TableRow
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <TextView
-            android:gravity="center"
-            android:labelFor="@id/contact_mobilenumber"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/contact_mobilenumber"/>
-        <EditText
-            android:inputType="text"
-            android:hint="@string/contact_mobilenumber"
-            android:id="@+id/contact_mobilenumber"
-            android:gravity="center"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="2"/>
-    </TableRow>
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="45dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:labelFor="@id/contact_name"
+                android:text="@string/contact_name" />
 
-    <TableRow
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <TextView
-            android:gravity="center"
-            android:labelFor="@id/contact_note"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/contact_note"/>
-        <EditText
-            android:inputType="text"
-            android:hint="@string/contact_note"
-            android:id="@+id/contact_note"
-            android:gravity="center"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="2"/>
-    </TableRow>
+            <EditText
+                android:id="@+id/contact_name"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:gravity="center"
+                android:hint="@string/contact_name"
+                android:inputType="text" />
+        </TableRow>
 
-</TableLayout>
+        <TableRow>
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="45dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:labelFor="@id/contact_sex_spinner"
+                android:text="@string/contact_sex" />
+
+            <Spinner
+                android:id="@+id/contact_sex_spinner"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:hint="@string/contact_sex" />
+        </TableRow>
+
+        <TableRow>
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="45dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:labelFor="@id/contact_age"
+                android:text="@string/contact_age" />
+
+            <EditText
+                android:id="@+id/contact_age"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:gravity="center"
+                android:hint="@string/contact_age"
+                android:inputType="text" />
+        </TableRow>
+
+        <TableRow>
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="45dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:labelFor="@id/contact_mobilenumber"
+                android:text="@string/contact_mobilenumber" />
+
+            <EditText
+                android:id="@+id/contact_mobilenumber"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:gravity="center"
+                android:hint="@string/contact_mobilenumber"
+                android:inputType="phone" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="45dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:labelFor="@id/contact_note"
+                android:text="@string/contact_note" />
+
+            <EditText
+                android:id="@+id/contact_note"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:gravity="center"
+                android:hint="@string/contact_note"
+                android:inputType="text" />
+        </TableRow>
+
+    </TableLayout>
+</ViewSwitcher>

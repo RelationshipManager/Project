@@ -8,8 +8,10 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 
 import com.example.zhang.relationshipManager.R;
+import com.example.zhang.relationshipManager.fragment.AddContactDialog;
 import com.example.zhang.relationshipManager.fragment.ContactListFragment;
 import com.example.zhang.relationshipManager.fragment.MyRsFragment;
 import com.example.zhang.relationshipManager.fragment.RsSearchFragment;
@@ -42,6 +44,12 @@ public class MainActivity extends BaseActivity {
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.app_bar, menu);
+        return true;
+    }
+
+    @Override
     protected void initViews() {
         mFragmentList = new ArrayList<>();
         mFragmentList.add(new ContactListFragment());
@@ -50,12 +58,13 @@ public class MainActivity extends BaseActivity {
 
         //初始化toolbar
         setSupportActionBar(mToolbar);
-        mToolbar.inflateMenu(R.menu.app_bar);
+//        mToolbar.inflateMenu(R.menu.app_bar);
         mToolbar.setOnMenuItemClickListener(item -> {
             switch (item.getItemId()) {
                 case R.id.add:
                     switch (mNowFragmentPosition) {
                         case 0:
+                            new AddContactDialog().show();
                             break;
                         case 1:
                             break;

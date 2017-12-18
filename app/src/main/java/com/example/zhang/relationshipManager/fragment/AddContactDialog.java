@@ -58,7 +58,7 @@ public class AddContactDialog extends DialogFragment {
     }
 
     public void show() {
-        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        FragmentTransaction ft = getChildFragmentManager().beginTransaction();
         Fragment prev = getFragmentManager().findFragmentByTag("add_contact_dialog");
         if (prev != null) {
             ft.remove(prev);

@@ -1,5 +1,7 @@
 package com.example.zhang.relationshipManager.activities;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.support.design.widget.TabLayout;
@@ -34,7 +36,9 @@ public class ContactInfoActivity extends BaseActivity {
 
     @BindView(R.id.contact_tabLayout)
     TabLayout tabLayout;
-    private Contact mContact;
+
+    private int mContactId;
+    private List<Fragment> fragmentList;
 
     public static void startActivity(Context context, int contactId) {
         Intent intent = new Intent(context, ContactInfoActivity.class);
@@ -50,26 +54,13 @@ public class ContactInfoActivity extends BaseActivity {
     @Override
     protected void initViews() {
         setSupportActionBar(toolbar);
-        List<Fragment> fragmentList = new ArrayList<>();
-        fragmentList.add(new ContactInfoFragment());
-        fragmentList.add(new ContactRsFragment());
+        mContactId = getIntent().getIntExtra("contact", -1);
+        fragmentList = new ArrayList<>();
+        fragmentList.add(new ContactInfoFragment().setmContact(mContactId));
+        fragmentList.add(new ContactRsFragment().setContact(ContactManager.getInstance(getApplicationContext()).getContactById(mContactId)));
         viewPager.setAdapter(new ContactInfoActivity.MyFragmentStatePagerAdapter(getSupportFragmentManager(), fragmentList));
         tabLayout.setupWithViewPager(viewPager);
-        mContact = ContactManager.getInstance(this).getContactById(getIntent().getIntExtra("contact", -1));
     }
-
-//    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-//                             Bundle savedInstanceState) {
-//        View view=inflater.inflate(R.layout.activity_contact_infomation, container, false);
-//        viewPager=(ViewPager)view.findViewById(R.id.contact_viewpager);
-//        List<Fragment> fragmentList = new ArrayList<>();
-//        fragmentList.add(new ContactInfoFragment());
-//        fragmentList.add(new ContactRsFragment());
-//        viewPager.setAdapter(new ContactInfoActivity.MyFragmentStatePagerAdapter(getSupportFragmentManager(),fragmentList));
-//        tabLayout=(TabLayout)view.findViewById(R.id.contact_tabLayout);
-//        tabLayout.setupWithViewPager(viewPager);
-//        return view;
-//    }
 
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.contactinfo_toolbar, menu);
@@ -80,10 +71,11 @@ public class ContactInfoActivity extends BaseActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.edit:
-
+                ((ContactInfoFragment)fragmentList.get(0)).startEditContact();
                 break;
             case R.id.delete:
-
+                ((ContactInfoFragment)fragmentList.get(0)).deleteContact();
+                finish();
                 break;
             default:
         }
