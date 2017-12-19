@@ -90,7 +90,6 @@ public class ContactManager extends DatabaseHelper{
     }
 
     //根据传入的联系人来更新联系人，根据oldContact匹配符合条件的联系人，然后更新为newContact，返回更新的联系人列表。
-    //暂时只支持更新内存中有的联系人
     public ArrayList<Contact> modifyContact(Contact oldContact, Contact newContact) {
         SQLiteDatabase db = getWritableDatabase();
         //构造联系人的值
@@ -113,12 +112,14 @@ public class ContactManager extends DatabaseHelper{
 
     //把联系人的信息写入数据库
     public void updateContact(Contact contact){
-        SQLiteDatabase db = getWritableDatabase();
-        //构造联系人的值
-        ContentValues values = getContentValues(contact);
-        int changedRows = db.update("contact", values, "contact_id=?", new String[]{String.valueOf(contact.getId())});
-        if (changedRows == 1){
-            mContactMap.setValueAt(contact.getId(), contact);
+        if (contact == mContactMap.get(contact.getId())){
+            SQLiteDatabase db = getWritableDatabase();
+            //构造联系人的值
+            ContentValues values = getContentValues(contact);
+            int changedRows = db.update("contact", values, "contact_id=?", new String[]{String.valueOf(contact.getId())});
+            if (changedRows == 1) {
+                mContactMap.setValueAt(contact.getId(), contact);
+            }
         }
     }
 
