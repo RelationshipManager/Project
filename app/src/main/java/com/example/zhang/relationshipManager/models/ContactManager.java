@@ -116,8 +116,8 @@ public class ContactManager extends DatabaseHelper{
             SQLiteDatabase db = getWritableDatabase();
             //构造联系人的值
             ContentValues values = getContentValues(contact);
-            int changedRows = db.update("contact", values, "contact_id=?", new String[]{String.valueOf(contact.getId())});
-            if (changedRows == 1) {
+            int modifiedRows = db.update("contact", values, "contact_id=?", new String[]{String.valueOf(contact.getId())});
+            if (modifiedRows == 1) {
                 mContactMap.setValueAt(contact.getId(), contact);
             }
         }

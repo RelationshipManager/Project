@@ -5,6 +5,7 @@ import android.widget.Spinner;
 
 import com.example.zhang.relationshipManager.R;
 import com.example.zhang.relationshipManager.models.Contact;
+import com.example.zhang.relationshipManager.models.ContactDataChangeReceiver;
 import com.example.zhang.relationshipManager.models.ContactManager;
 
 import java.util.ArrayList;
@@ -18,21 +19,16 @@ public class SearchTypeFragment extends BaseFragment {
     @BindView(R.id.spinner_rsType)
     Spinner spinnerRsType;
 
+    ContactDataChangeReceiver contactDataChangeReceiver;
+
+    ArrayAdapter<String> contactAdapter;
+
     public SearchTypeFragment() {
     }
 
-    private void setAdapter() {
-        // spinnerContact's adapter
-        ArrayAdapter<String> contactAdapter = new ArrayAdapter<String>(this.getContext(), R.layout.spinner_contact_item, R.id.spinner_contact_item);
+    private void setAdapterData() {
+        contactAdapter.clear();
         contactAdapter.addAll(parseAllContact(ContactManager.getInstance(getContext()).getAllContacts()));
-        contactAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item_contact);
-        spinnerContact.setAdapter(contactAdapter);
-
-        // spinnerRsType's adapter
-        ArrayAdapter<String> rsTypeAdapter = new ArrayAdapter<String>(this.getContext(), R.layout.spinner_contact_item, R.id.spinner_contact_item);
-        rsTypeAdapter.addAll("朋友", "同事");
-        rsTypeAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item_contact);
-        spinnerRsType.setAdapter(rsTypeAdapter);
     }
 
     @Override
@@ -42,7 +38,23 @@ public class SearchTypeFragment extends BaseFragment {
 
     @Override
     protected void initViews() {
-        setAdapter();
+        // spinnerContact's adapter
+        contactAdapter = new ArrayAdapter<String>(this.getContext(), R.layout.spinner_contact_item, R.id.spinner_contact_item);
+        contactAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item_contact);
+        spinnerContact.setAdapter(contactAdapter);
+
+        // spinnerRsType's adapter
+        ArrayAdapter<String> rsTypeAdapter = new ArrayAdapter<String>(this.getContext(), R.layout.spinner_contact_item, R.id.spinner_contact_item);
+        rsTypeAdapter.addAll("朋友", "同事");
+        rsTypeAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item_contact);
+        spinnerRsType.setAdapter(rsTypeAdapter);
+        setAdapterData();
+        contactDataChangeReceiver = new ContactDataChangeReceiver(getContext(), new ContactDataChangeReceiver.Refreshable() {
+            @Override
+            public void refresh() {
+                setAdapterData();
+            }
+        });
     }
 
     private String[] parseAllContact(ArrayList<Contact> contacts) {
