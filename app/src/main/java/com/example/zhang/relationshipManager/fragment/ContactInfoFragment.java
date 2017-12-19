@@ -2,15 +2,18 @@ package com.example.zhang.relationshipManager.fragment;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.support.design.widget.Snackbar;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ViewSwitcher;
 
 import com.example.zhang.relationshipManager.R;
 import com.example.zhang.relationshipManager.models.Contact;
+import com.example.zhang.relationshipManager.models.ContactDataChangeReceiver;
 import com.example.zhang.relationshipManager.models.ContactManager;
 
 import butterknife.BindView;
@@ -100,7 +103,11 @@ public class ContactInfoFragment extends BaseFragment {
             public void onClick(DialogInterface dialog, int which) {
                 boolean isSucceed = ContactManager.getInstance(getContext()).removeContact(mContact);
                 String to_show = isSucceed ? "删除成功" : "操作失败";
-                Snackbar.make(mView, to_show, Snackbar.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), to_show, Toast.LENGTH_SHORT).show();
+                if (isSucceed){
+                    getActivity().finish();
+                    getContext().sendBroadcast(new Intent(ContactDataChangeReceiver.INTENTFILTER));
+                }
             }
         }).setNegativeButton("取消", null);
         builder.show();

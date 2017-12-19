@@ -1,5 +1,6 @@
 package com.example.zhang.relationshipManager.fragment;
 
+import android.content.IntentFilter;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 import com.example.zhang.relationshipManager.R;
 import com.example.zhang.relationshipManager.activities.ContactInfoActivity;
 import com.example.zhang.relationshipManager.models.Contact;
+import com.example.zhang.relationshipManager.models.ContactDataChangeReceiver;
 import com.example.zhang.relationshipManager.models.ContactManager;
 
 import java.util.ArrayList;
@@ -21,6 +23,8 @@ public class ContactListFragment extends BaseFragment {
     @BindView(R.id.contactRecyclerView)
     RecyclerView contactRecyclerView;
 
+    ContactDataChangeReceiver contactDataChangeReceiver;
+
     @Override
     protected int getResourceId() {
         return R.layout.contact_fragment;
@@ -30,6 +34,13 @@ public class ContactListFragment extends BaseFragment {
     protected void initViews() {
         contactRecyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
         contactRecyclerView.setAdapter(new ContactAdapter(ContactManager.getInstance(getContext()).getAllContacts()));
+        contactDataChangeReceiver = new ContactDataChangeReceiver(getContext(), new ContactDataChangeReceiver.Refreshable() {
+            @Override
+            public void refresh() {
+                ((ContactAdapter) contactRecyclerView.getAdapter()).update();
+            }
+        });
+        getContext().registerReceiver(contactDataChangeReceiver, new IntentFilter(ContactDataChangeReceiver.INTENTFILTER));
     }
 
     private class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHolder> {
@@ -73,6 +84,11 @@ public class ContactListFragment extends BaseFragment {
         @Override
         public int getItemCount() {
             return mContactList.size();
+        }
+
+        public void update() {
+            mContactList = ContactManager.getInstance(getContext()).getAllContacts();
+            notifyDataSetChanged();
         }
     }
 }

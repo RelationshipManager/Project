@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.DialogFragment;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.app.FragmentManager;
@@ -16,6 +17,7 @@ import android.widget.Toast;
 
 import com.example.zhang.relationshipManager.R;
 import com.example.zhang.relationshipManager.models.Contact;
+import com.example.zhang.relationshipManager.models.ContactDataChangeReceiver;
 import com.example.zhang.relationshipManager.models.ContactManager;
 
 import butterknife.BindView;
@@ -51,7 +53,6 @@ public class AddContactDialog extends DialogFragment {
         View view = inflater.inflate(R.layout.dialog_add_contact, container, false);
         ButterKnife.bind(this, view);
         initButtons();
-
         return view;
     }
 
@@ -67,6 +68,8 @@ public class AddContactDialog extends DialogFragment {
                 contactToAdd.setName(name);
                 ContactManager.getInstance(getActivity()).addContact(contactToAdd);
                 resultMsg = "添加成功";
+                getContext().sendBroadcast(new Intent(ContactDataChangeReceiver.INTENTFILTER));
+                dismiss();
             }
             Toast.makeText(getActivity(), resultMsg, Toast.LENGTH_SHORT).show();
         });

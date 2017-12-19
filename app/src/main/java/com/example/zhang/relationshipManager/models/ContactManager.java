@@ -116,7 +116,10 @@ public class ContactManager extends DatabaseHelper{
         SQLiteDatabase db = getWritableDatabase();
         //构造联系人的值
         ContentValues values = getContentValues(contact);
-        db.update("contact", values, "contact_id=?", new String[]{String.valueOf(contact.getId())});
+        int changedRows = db.update("contact", values, "contact_id=?", new String[]{String.valueOf(contact.getId())});
+        if (changedRows == 1){
+            mContactMap.setValueAt(contact.getId(), contact);
+        }
     }
 
     public boolean removeContact(Contact contactToRemove){
@@ -126,6 +129,8 @@ public class ContactManager extends DatabaseHelper{
         db.delete("relationship","start_contact_id=? or end_contact_id=?",new String[]{id,id});
         boolean result= db.delete("contact","contact_id=?",new String[]{id}) > 0;
         if(result){
+            // 更新内存中数据
+            mContactMap.delete(Integer.valueOf(id));
             db.setTransactionSuccessful();
         }
         db.endTransaction();

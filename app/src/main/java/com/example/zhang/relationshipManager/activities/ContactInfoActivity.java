@@ -1,7 +1,5 @@
 package com.example.zhang.relationshipManager.activities;
 
-import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.support.design.widget.TabLayout;
@@ -17,7 +15,6 @@ import android.widget.ImageView;
 import com.example.zhang.relationshipManager.R;
 import com.example.zhang.relationshipManager.fragment.ContactInfoFragment;
 import com.example.zhang.relationshipManager.fragment.ContactRsFragment;
-import com.example.zhang.relationshipManager.models.Contact;
 import com.example.zhang.relationshipManager.models.ContactManager;
 
 import java.util.ArrayList;
@@ -86,11 +83,10 @@ public class ContactInfoActivity extends BaseActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.edit:
-                ((ContactInfoFragment)fragmentList.get(0)).startEditContact();
+                ((ContactInfoFragment) fragmentList.get(0)).startEditContact();
                 break;
             case R.id.delete:
-                ((ContactInfoFragment)fragmentList.get(0)).deleteContact();
-                finish();
+                ((ContactInfoFragment) fragmentList.get(0)).deleteContact();
                 break;
             default:
         }

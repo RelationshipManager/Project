@@ -7,6 +7,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.zhang.relationshipManager.models.ContactDataChangeReceiver;
+
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
@@ -19,13 +21,13 @@ public abstract class BaseFragment extends Fragment {
     //初始化控件
     protected abstract void initViews();
 
-    View mView;
+    protected View mView;
 
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View mView = inflater.inflate(getResourceId(),container, false);
+        mView = inflater.inflate(getResourceId(),container, false);
         mUnbinder = ButterKnife.bind(this, mView);
         initViews();
         return mView;
