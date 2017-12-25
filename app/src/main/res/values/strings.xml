@@ -118,4 +118,5 @@
     <string name="spinner_prompt_choose_contact">选择联系人</string>
     <string name="spinner_prompt_choose_rs_type">选择关系类型</string>
     <string name="app_bar_add">添加</string>
+    <string name="spinner_prompt_chose_rs_role">选择联系人角色</string>
 </resources>

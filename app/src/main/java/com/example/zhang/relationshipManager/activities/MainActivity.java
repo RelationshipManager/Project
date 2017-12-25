@@ -12,6 +12,7 @@ import android.view.Menu;
 
 import com.example.zhang.relationshipManager.R;
 import com.example.zhang.relationshipManager.fragment.AddContactDialog;
+import com.example.zhang.relationshipManager.fragment.AddRsDialog;
 import com.example.zhang.relationshipManager.fragment.ContactListFragment;
 import com.example.zhang.relationshipManager.fragment.MyRsFragment;
 import com.example.zhang.relationshipManager.fragment.RsSearchFragment;
@@ -63,12 +64,14 @@ public class MainActivity extends BaseActivity {
             switch (item.getItemId()) {
                 case R.id.add:
                     switch (mNowFragmentPosition) {
-                        case 0:
+                        case 0://联系人列表
                             AddContactDialog.startDialog(MainActivity.this);
                             break;
-                        case 1:
+                        case 1://查找关系
+                            AddRsDialog.startDialog(MainActivity.this);
                             break;
-                        case 2:
+                        case 2://我的关系
+                            AddRsDialog.startDialog(MainActivity.this);
                             break;
                     }
                     break;

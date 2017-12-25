@@ -5,6 +5,8 @@ package com.example.zhang.relationshipManager.models;
  */
 
 public class RsType {
+    public static final int DEFAULT_ID = -1;
+    public static final int DEFAULT_TYPE = -1;
     public static final int FRIENDS = 0;//朋友关系
     public static final int COLLEAGUES = 1;//同事关系
     private int mId;
@@ -13,10 +15,10 @@ public class RsType {
     private int mRelationshipType;
 
     public RsType() {
-        mId = 1;
-        mStartRole = "朋友";
-        mEndRole = "朋友";
-        mRelationshipType = FRIENDS;
+        mId = DEFAULT_ID;
+        mStartRole = "";
+        mEndRole = "";
+        mRelationshipType = DEFAULT_TYPE;
     }
 
     public RsType(int id, String startRole, String endRole, int relationshipType) {

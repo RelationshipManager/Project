@@ -4,9 +4,12 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Pair;
 import android.util.SparseArray;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class RelationshipManager extends DatabaseHelper{
     //保存的单例
@@ -30,6 +33,18 @@ public class RelationshipManager extends DatabaseHelper{
         readAllRsType();
     }
 
+    public ArrayList<String> getAllRoles(){
+        ArrayList<String> allRoles = new ArrayList<>();
+        for (int i = 0; i < mRsTypeMap.size(); i++) {
+            RsType rt = mRsTypeMap.valueAt(i);
+            if (!allRoles.contains(rt.getStartRole()))
+                allRoles.add(rt.getStartRole());
+            if (!allRoles.contains(rt.getEndRole()))
+                allRoles.add(rt.getEndRole());
+        }
+        return allRoles;
+    }
+
     public ArrayList<Relationship> getRelationships(Contact contact) {
         ArrayList<Relationship> relationships = new ArrayList<>();
         SQLiteDatabase db = getReadableDatabase();
@@ -49,7 +64,8 @@ public class RelationshipManager extends DatabaseHelper{
         return relationships;
     }
 
-    public void addRelationship(Relationship relationship){
+    //如果关系类型符合，则添加关系并返回true；如果找不到对应关系类型，则返回false
+    public boolean addRelationship(Relationship relationship){
         SQLiteDatabase db = getWritableDatabase();
         RsType rsType = relationship.getRsType();
         //遍历找到对应的关系类型
@@ -58,13 +74,14 @@ public class RelationshipManager extends DatabaseHelper{
             if (rsType.getEndRole().equals(rsType2.getEndRole()) && rsType.getStartRole().equals(rsType2.getStartRole())){
                 ContentValues values = getContentValues(relationship.getStartContact().getId(),relationship.getEndContact().getId(),rsType.getId());
                 db.insert("relationship", null, values);
-                break;
+                return true;
             }else if (rsType.getEndRole().equals(rsType2.getStartRole()) && rsType.getStartRole().equals(rsType2.getEndRole())){
                 ContentValues values = getContentValues(relationship.getEndContact().getId(),relationship.getStartContact().getId(),rsType.getId());
                 db.insert("relationship", null, values);
-                break;
+                return true;
             }
         }
+        return false;
     }
 
     private ContentValues getContentValues(int startContactId, int endContactId, int rsTypeId){
