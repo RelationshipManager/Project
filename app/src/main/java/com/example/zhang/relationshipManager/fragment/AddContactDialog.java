@@ -68,7 +68,7 @@ public class AddContactDialog extends DialogFragment {
                 contactToAdd.setName(name);
                 ContactManager.getInstance(getActivity()).addContact(contactToAdd);
                 resultMsg = "添加成功";
-                getContext().sendBroadcast(new Intent(ContactDataChangeReceiver.INTENTFILTER));
+                getActivity().sendBroadcast(new Intent(ContactDataChangeReceiver.INTENTFILTER));
                 dismiss();
             }
             Toast.makeText(getActivity(), resultMsg, Toast.LENGTH_SHORT).show();

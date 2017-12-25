@@ -1,6 +1,7 @@
 package com.example.zhang.relationshipManager.fragment;
 
 
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,6 +30,7 @@ public class ContactRsFragment extends BaseFragment {
 
     @Override
     protected void initViews() {
+        contactRsRecyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
         contactRsRecyclerView.setAdapter(new ContactRsAdapter(RelationshipManager.getInstance(null).getRelationships(mContact)));
     }
 
