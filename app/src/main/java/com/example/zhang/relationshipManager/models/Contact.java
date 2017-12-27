@@ -122,8 +122,19 @@ public class Contact {
         return mAge;
     }
 
-    public int getSex() {
-        return mSex;
+    public String getSex() {
+        String gender = "";
+        switch (this.mSex) {
+            case SEX_FEMALE:
+                gender = "女";
+                break;
+            case SEX_MALE:
+                gender = "男";
+                break;
+            default:
+                gender = "未填写";
+        }
+        return gender;
     }
 
     public String getNotes() {

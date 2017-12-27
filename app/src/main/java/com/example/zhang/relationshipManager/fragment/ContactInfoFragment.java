@@ -3,7 +3,6 @@ package com.example.zhang.relationshipManager.fragment;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.support.design.widget.Snackbar;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -74,17 +73,17 @@ public class ContactInfoFragment extends BaseFragment {
 
     @Override
     protected void initViews() {
-        contactAgeTextView.setText(String.valueOf(mContact.getAge()));
+        contactAgeTextView.setText(mContact.getAge() == -1 ? "未填写" : String.valueOf(mContact.getAge()));
         contactMobilenumberTextView.setText(mContact.getPhoneNumber());
         contactNameTextView.setText(mContact.getName());
-        contactSexTextView.setText(mContact.getSex() == Contact.SEX_MALE ? "男" : "女");
+        contactSexTextView.setText(mContact.getSex());
         contactNoteTextView.setText(mContact.getNotes());
 
         ArrayAdapter<String> genderTypeAdapter = new ArrayAdapter<String>(this.getContext(), R.layout.spinner_contact_item, R.id.spinner_contact_item);
         genderTypeAdapter.addAll("男", "女");
         genderTypeAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item_contact);
         contactSexSpinner.setAdapter(genderTypeAdapter);
-        contactAge.setText(String.valueOf(mContact.getAge()));
+        contactAge.setText(mContact.getAge() == -1 ? "" : String.valueOf(mContact.getAge()));
         contactMobilenumber.setText(mContact.getPhoneNumber());
         contactName.setText(mContact.getName());
         contactNote.setText(mContact.getNotes());
@@ -104,7 +103,7 @@ public class ContactInfoFragment extends BaseFragment {
                 boolean isSucceed = ContactManager.getInstance(getContext()).removeContact(mContact);
                 String to_show = isSucceed ? "删除成功" : "操作失败";
                 Toast.makeText(getContext(), to_show, Toast.LENGTH_SHORT).show();
-                if (isSucceed){
+                if (isSucceed) {
                     getActivity().finish();
                     getContext().sendBroadcast(new Intent(ContactDataChangeReceiver.INTENTFILTER));
                 }
