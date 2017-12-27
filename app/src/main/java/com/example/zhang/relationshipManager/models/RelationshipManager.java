@@ -4,33 +4,23 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Pair;
 import android.util.SparseArray;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 public class RelationshipManager extends DatabaseHelper{
     //保存的单例
     private static RelationshipManager sRelationshipManager;
     //保存的ContactManager实例
-    private static ContactManager sContactManager;
+    private Neo4jManager mNeo4jManager;
     //关系类型
     private SparseArray<RsType> mRsTypeMap;
 
     public static RelationshipManager getInstance(Context context) {
         if (sRelationshipManager == null){
             sRelationshipManager = new RelationshipManager(context);
-            sContactManager = ContactManager.getInstance(context);
         }
         return sRelationshipManager;
-    }
-
-    private RelationshipManager(Context context) {
-        super(context);
-        mRsTypeMap = new SparseArray<>();
-        readAllRsType();
     }
 
     public ArrayList<String> getAllRoles(){
@@ -45,18 +35,20 @@ public class RelationshipManager extends DatabaseHelper{
         return allRoles;
     }
 
+    //获取联系人的所有关系
     public ArrayList<Relationship> getRelationships(Contact contact) {
         ArrayList<Relationship> relationships = new ArrayList<>();
         SQLiteDatabase db = getReadableDatabase();
         String contactId = String.valueOf(contact.getId());
-        Cursor cursor = db.query("relationship", null,
-                "(start_contact_id=? or end_contact_id=?)",
+        Cursor cursor = db.query(RS, null,
+                "("+RS_START_CONTACT_ID+"=? or "+RS_END_CONTACT_ID+"=?)",
                 new String[]{contactId,contactId},null,null,null);
         if (cursor.moveToFirst()){
             do {
-                Contact startContact = sContactManager.getContactById(cursor.getInt(cursor.getColumnIndex("start_contact_id")));
-                Contact endContact = sContactManager.getContactById(cursor.getInt(cursor.getColumnIndex("end_contact_id")));
-                RsType rsType = mRsTypeMap.get(cursor.getInt(cursor.getColumnIndex("relationship_type_id")));
+                ContactManager cm = ContactManager.getInstance(null);
+                Contact startContact = cm.getContactById(cursor.getInt(cursor.getColumnIndex(RS_START_CONTACT_ID)));
+                Contact endContact = cm.getContactById(cursor.getInt(cursor.getColumnIndex(RS_END_CONTACT_ID)));
+                RsType rsType = mRsTypeMap.get(cursor.getInt(cursor.getColumnIndex(RS_RT_ID)));
                 relationships.add(new Relationship(startContact, endContact, rsType));
             }while (cursor.moveToNext());
         }
@@ -73,39 +65,65 @@ public class RelationshipManager extends DatabaseHelper{
             RsType rsType2 = mRsTypeMap.valueAt(i);
             if (rsType.getEndRole().equals(rsType2.getEndRole()) && rsType.getStartRole().equals(rsType2.getStartRole())){
                 ContentValues values = getContentValues(relationship.getStartContact().getId(),relationship.getEndContact().getId(),rsType.getId());
-                db.insert("relationship", null, values);
+                db.insert(RS, null, values);
+                mNeo4jManager.addRelationship(relationship.getStartContact(),relationship.getEndContact(),rsType);
                 return true;
             }else if (rsType.getEndRole().equals(rsType2.getStartRole()) && rsType.getStartRole().equals(rsType2.getEndRole())){
                 ContentValues values = getContentValues(relationship.getEndContact().getId(),relationship.getStartContact().getId(),rsType.getId());
-                db.insert("relationship", null, values);
+                db.insert(RS, null, values);
+                mNeo4jManager.addRelationship(relationship.getEndContact(),relationship.getStartContact(),rsType);
                 return true;
             }
         }
         return false;
     }
 
+    public void removeRelationship(Relationship relationship){
+        SQLiteDatabase db = getWritableDatabase();
+        String startId = String.valueOf(relationship.getStartContact().getId());
+        String endId = String.valueOf(relationship.getStartContact().getId());
+        db.delete(RS,RS_END_CONTACT_ID+ "=? and "+RS_START_CONTACT_ID+"=?",new String[]{startId, endId});
+        mNeo4jManager.removeRelatonship(relationship);
+
+    }
+
+    public void removeRelationships(Contact contact){
+        SQLiteDatabase db = getWritableDatabase();
+        String id = String.valueOf(contact.getId());
+        db.delete(RS,RS_END_CONTACT_ID+ "=? or "+RS_START_CONTACT_ID+"=?",new String[]{id, id});
+        mNeo4jManager.removeRelationships(contact);
+    }
+
+
+    //构造函数
+    private RelationshipManager(Context context) {
+        super(context);
+        mRsTypeMap = new SparseArray<>();
+        mNeo4jManager = Neo4jManager.getInstance(context);
+        readAllRsType();
+    }
+
     private ContentValues getContentValues(int startContactId, int endContactId, int rsTypeId){
         ContentValues values = new ContentValues();
-        values.put("start_contact_id", startContactId);
-        values.put("end_contact_id", startContactId);
-        values.put("relationship_type_id", startContactId);
+        values.put(RS_START_CONTACT_ID, startContactId);
+        values.put(RS_END_CONTACT_ID, endContactId);
+        values.put(RS_RT_ID, rsTypeId);
         return values;
     }
 
     private void readAllRsType(){
         SQLiteDatabase db = getReadableDatabase();
-        Cursor cursor = db.query("relationship_type", null, null, null, null, null, null);
+        Cursor cursor = db.query(RT, null, null, null, null, null, null);
         if (cursor.moveToFirst()) {
             do {
                 RsType rsType = new RsType();
-                rsType.setId(cursor.getInt(cursor.getColumnIndex("rs_type_id")));
-                rsType.setRelationshipType(cursor.getInt(cursor.getColumnIndex("class_type")));
-                rsType.setStartRole(cursor.getString(cursor.getColumnIndex("start_role")));
-                rsType.setEndRole(cursor.getString(cursor.getColumnIndex("end_role")));
+                rsType.setId(cursor.getInt(cursor.getColumnIndex(RT_ID)));
+                rsType.setRelationshipType(cursor.getInt(cursor.getColumnIndex(RT_CLASS_TYPE)));
+                rsType.setStartRole(cursor.getString(cursor.getColumnIndex(RT_START_ROLE)));
+                rsType.setEndRole(cursor.getString(cursor.getColumnIndex(RT_END_ROLE)));
                 mRsTypeMap.put(rsType.getId(), rsType);
             } while (cursor.moveToNext());
             cursor.close();
         }
     }
-
 }
