@@ -137,4 +137,5 @@
     <string name="pwdNotMatch">两次输入密码不匹配</string>
     <string name="switchToLogin">已有账号？点击登陆！</string>
     <string name="switchToRegister">没有账号？立刻注册！</string>
+    <string name="contact_phoneNumber">电话号码</string>
 </resources>

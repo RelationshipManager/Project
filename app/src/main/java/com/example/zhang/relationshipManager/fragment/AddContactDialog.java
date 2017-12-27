@@ -3,11 +3,11 @@ package com.example.zhang.relationshipManager.fragment;
 import android.app.Activity;
 import android.app.DialogFragment;
 import android.app.Fragment;
+import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,8 +32,10 @@ public class AddContactDialog extends DialogFragment {
     Button mBtCancel;
     @BindView(R.id.contact_name)
     EditText mEtName;
+    @BindView(R.id.contact_phoneNumber)
+    EditText mEtPhoneNumber;
 
-    static public void startDialog(Activity activity){
+    static public void startDialog(Activity activity) {
         AddContactDialog dialog = new AddContactDialog();
         FragmentManager fm = activity.getFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
@@ -60,12 +62,14 @@ public class AddContactDialog extends DialogFragment {
         mBtCancel.setOnClickListener(view -> dismiss());
         mBtConfirm.setOnClickListener(view -> {
             String name = mEtName.getText().toString();
+            String phoneNumber = mEtPhoneNumber.getText().toString();
             String resultMsg;
             if ("".equals(name)) {
                 resultMsg = "请输入联系人姓名";
             } else {
                 Contact contactToAdd = new Contact();
                 contactToAdd.setName(name);
+                contactToAdd.setPhoneNumber(phoneNumber);
                 ContactManager.getInstance(getActivity()).addContact(contactToAdd);
                 resultMsg = "添加成功";
                 getActivity().sendBroadcast(new Intent(ContactDataChangeReceiver.INTENTFILTER));
