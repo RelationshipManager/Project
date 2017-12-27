@@ -74,10 +74,10 @@ public class ContactInfoFragment extends BaseFragment {
     @Override
     protected void initViews() {
         contactAgeTextView.setText(mContact.getAge() == -1 ? "未填写" : String.valueOf(mContact.getAge()));
-        contactMobilenumberTextView.setText(mContact.getPhoneNumber());
+        contactMobilenumberTextView.setText(mContact.getPhoneNumber().equals(Contact.DEFAULT_PHONE_NUM) ? "未填写" : mContact.getPhoneNumber());
         contactNameTextView.setText(mContact.getName());
         contactSexTextView.setText(mContact.getSex());
-        contactNoteTextView.setText(mContact.getNotes());
+        contactNoteTextView.setText(mContact.getNotes().equals(Contact.DEFAULT_NOTES) ? "未填写" : mContact.getNotes());
 
         ArrayAdapter<String> genderTypeAdapter = new ArrayAdapter<String>(this.getContext(), R.layout.spinner_contact_item, R.id.spinner_contact_item);
         genderTypeAdapter.addAll("男", "女");

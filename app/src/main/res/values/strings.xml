@@ -119,4 +119,22 @@
     <string name="spinner_prompt_choose_rs_type">选择关系类型</string>
     <string name="app_bar_add">添加</string>
     <string name="spinner_prompt_chose_rs_role">选择联系人角色</string>
+
+    <string name="action_unlock">登陆</string>
+
+    <string name="editText_password">密码</string>
+    <string name="editText_userName">用户名</string>
+    <string name="action_register">注册新用户</string>
+    <string name="editText_confirmPwd">请再次输入密码</string>
+
+    <!-- Strings related to LoginActivity -->
+
+    <string name="emptyUsername">用户名不能为空</string>
+
+    <string name="emptyPwd">密码不能为空</string>
+    <string name="tooShortPwd">密码至少6位</string>
+
+    <string name="pwdNotMatch">两次输入密码不匹配</string>
+    <string name="switchToLogin">已有账号？点击登陆！</string>
+    <string name="switchToRegister">没有账号？立刻注册！</string>
 </resources>

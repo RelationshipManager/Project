@@ -9,7 +9,7 @@ public class BeginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        MainActivity.startActivity(this);
+        LoginActivity.startActivity(this);
         finish();
     }
 }
