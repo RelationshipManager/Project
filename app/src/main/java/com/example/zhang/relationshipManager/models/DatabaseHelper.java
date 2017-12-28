@@ -1,14 +1,16 @@
 package com.example.zhang.relationshipManager.models;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-/**
- * Created by 10040 on 2017/12/15.
- */
 
 public class DatabaseHelper extends SQLiteOpenHelper {
+    //数据库版本
+    static private final int DB_VERSION = 3;
+    //数据库名
+    static private final String DB_NAME = "relationship_manager";
     //表名
     static final String CONTACT = "contact";
     static final String RT = "relationship_type";
@@ -31,10 +33,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     static final String RS_END_CONTACT_ID = "end_contact_id";
     static final String RS_RT_ID = "class_type";
     static final String CL_OPERATOR = "cypher_operator";
-    //数据库版本
-    static private final int DB_VERSION = 2;
-    //数据库名
-    static private final String DB_NAME = "relationship_manager";
 
     DatabaseHelper(Context context) {
         super(context.getApplicationContext(), DB_NAME, null, DB_VERSION);
@@ -81,6 +79,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         for (String[] typeData : mTypeData) {
             sqLiteDatabase.execSQL(INSERT_TYPES, typeData);
         }
+        //添加本机用户
+        ContentValues values = new ContentValues();
+        values.put(CONTACT_NAME, "我");
+        values.put(CONTACT_AGE, Contact.DEFAULT_AGE);
+        values.put(CONTACT_SEX, Contact.DEFAULT_SEX);
+        values.put(CONTACT_PHONE_NUM, Contact.DEFAULT_PHONE_NUM);
+        values.put(CONTACT_OTHER_CONTACTS, "");
+        sqLiteDatabase.insert(CONTACT,null,values);
     }
 
     //暂时用不到

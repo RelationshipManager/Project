@@ -122,7 +122,11 @@ public class Contact {
         return mAge;
     }
 
-    public String getSex() {
+    public int getSex(){
+        return mSex;
+    }
+
+    public String getSexStr() {
         String gender = "";
         switch (this.mSex) {
             case SEX_FEMALE:
