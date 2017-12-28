@@ -87,7 +87,6 @@ public class LoginActivity extends BaseActivity {
                     }
 
                     // @todo Send data for login verification
-
                 }
             }
         });

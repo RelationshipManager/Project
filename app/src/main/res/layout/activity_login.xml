@@ -102,7 +102,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="16sp"
-            android:text="@string/switchToLogin"
+            android:text="@string/switchToRegister"
             android:textAlignment="center"/>
     </LinearLayout>
 </RelativeLayout>

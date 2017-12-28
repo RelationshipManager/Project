@@ -17,6 +17,7 @@ import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.example.zhang.relationshipManager.Helper.ToastHelper;
 import com.example.zhang.relationshipManager.R;
 import com.example.zhang.relationshipManager.models.Contact;
 import com.example.zhang.relationshipManager.models.ContactManager;
@@ -150,7 +151,7 @@ public class AddRsDialog extends DialogFragment {
                 }
             }
             getActivity().sendBroadcast(new Intent(RsDataChangeReceiver.INTENTFILTER));
-            Toast.makeText(getActivity(), resultMsg, Toast.LENGTH_SHORT).show();
+            ToastHelper.show(getActivity(), resultMsg);
         });
     }
 

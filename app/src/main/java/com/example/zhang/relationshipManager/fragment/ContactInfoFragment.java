@@ -10,6 +10,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ViewSwitcher;
 
+import com.example.zhang.relationshipManager.Helper.ToastHelper;
 import com.example.zhang.relationshipManager.R;
 import com.example.zhang.relationshipManager.models.Contact;
 import com.example.zhang.relationshipManager.models.ContactDataChangeReceiver;
@@ -102,7 +103,7 @@ public class ContactInfoFragment extends BaseFragment {
             public void onClick(DialogInterface dialog, int which) {
                 boolean isSucceed = ContactManager.getInstance(getContext()).removeContact(mContact);
                 String to_show = isSucceed ? "删除成功" : "操作失败";
-                Toast.makeText(getContext(), to_show, Toast.LENGTH_SHORT).show();
+                ToastHelper.show(getContext(), to_show);
                 if (isSucceed) {
                     getActivity().finish();
                     getContext().sendBroadcast(new Intent(ContactDataChangeReceiver.INTENTFILTER));

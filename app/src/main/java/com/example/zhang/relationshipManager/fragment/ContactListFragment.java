@@ -91,4 +91,10 @@ public class ContactListFragment extends BaseFragment {
             notifyDataSetChanged();
         }
     }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        contactDataChangeReceiver.unRegister();
+    }
 }

@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.zhang.relationshipManager.Helper.ToastHelper;
 import com.example.zhang.relationshipManager.R;
 import com.example.zhang.relationshipManager.models.Contact;
 import com.example.zhang.relationshipManager.models.ContactDataChangeReceiver;
@@ -75,7 +76,7 @@ public class AddContactDialog extends DialogFragment {
                 getActivity().sendBroadcast(new Intent(ContactDataChangeReceiver.INTENTFILTER));
                 dismiss();
             }
-            Toast.makeText(getActivity(), resultMsg, Toast.LENGTH_SHORT).show();
+            ToastHelper.show(getActivity(), resultMsg);
         });
     }
 
