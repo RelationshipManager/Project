@@ -83,7 +83,7 @@ public class RelationshipManager extends DatabaseHelper{
         String startId = String.valueOf(relationship.getStartContact().getId());
         String endId = String.valueOf(relationship.getStartContact().getId());
         db.delete(RS,RS_END_CONTACT_ID+ "=? and "+RS_START_CONTACT_ID+"=?",new String[]{startId, endId});
-        mNeo4jManager.removeRelatonship(relationship);
+        mNeo4jManager.removeRelationship(relationship);
 
     }
 

@@ -19,8 +19,7 @@ public class Neo4jManager extends DatabaseHelper {
 
     void addContact(Contact contact){
         SQLiteDatabase db = getWritableDatabase();
-        // TODO: 2017/12/27 这里需要知道用户的网络节点id
-        String prop = LOCAL_USER_ID + ":"  /*这里要获取用户的网络节点id*/ + "," +
+        String prop = LOCAL_USER_ID + ":" + User.getInstance(null).getUserId() + "," +
                 CONTACT_ID + ":" + contact.getId() + "," +
                 CONTACT_PHONE_NUM + ":" + contact.getPhoneNumber() + "," +
                 CONTACT_NAME + ":" + contact.getName() + "," +
@@ -40,9 +39,8 @@ public class Neo4jManager extends DatabaseHelper {
                 CONTACT_PHONE_NUM + "=" + contact.getPhoneNumber() + "," +
                 CONTACT_SEX + "=" + contact.getSex() + "," +
                 CONTACT_NOTE + "=" + contact.getNotes();
-        // TODO: 2017/12/27 这里需要知道用户的网络节点id
         String cypher = "match(target:VirtualContact) where target." + LOCAL_USER_ID + " = " +
-                /*就是这里*/ " and target." + CONTACT_ID + "=" + contact.getId() +
+                User.getInstance(null).getUserId() + " and target." + CONTACT_ID + "=" + contact.getId() +
                 " set "+ prop;
         ContentValues values = new ContentValues();
         values.put(CL_OPERATOR, cypher);
@@ -51,9 +49,8 @@ public class Neo4jManager extends DatabaseHelper {
 
     void removeContact(Contact contact){
         SQLiteDatabase db = getWritableDatabase();
-        // TODO: 2017/12/27 这里需要知道用户的网络节点id
         String cypher = "match(target:VirtualContact) where target." + LOCAL_USER_ID + " = " +
-                /*就是这里*/ " and target." + CONTACT_ID + "=" + contact.getId() +
+                User.getInstance(null).getUserId() + " and target." + CONTACT_ID + "=" + contact.getId() +
                 "delete target";
         ContentValues values = new ContentValues();
         values.put(CL_OPERATOR, cypher);
@@ -73,12 +70,11 @@ public class Neo4jManager extends DatabaseHelper {
 
         if (!rsLabel.equals("Unknown")){
             SQLiteDatabase db = getWritableDatabase();
-            // TODO: 2017/12/27 这里需要知道用户的网络节点id
             String cypher = "match(startContact:VirtualContact),(endContact:VirtualContact)"+
-                    " where startContact." + LOCAL_USER_ID + " = "+/*就是这里*/
-                    " and endContact." + LOCAL_USER_ID + " = "+/*就是这里*/
-                    " and startContact." + CONTACT_ID + "=" + startContact.getId()+
-                    " and endContact." + CONTACT_ID + "=" + endContact.getId()+
+                    " where startContact." + LOCAL_USER_ID + " = "+ User.getInstance(null).getUserId() +
+                    " and endContact." + LOCAL_USER_ID + " = "+ User.getInstance(null).getUserId() +
+                    " and startContact." + CONTACT_ID + "=" + startContact.getId() +
+                    " and endContact." + CONTACT_ID + "=" + endContact.getId() +
                     " create(startContact)-[:" + rsLabel + "]->(endContact)";
             ContentValues values = new ContentValues();
             values.put(CL_OPERATOR, cypher);
@@ -86,7 +82,7 @@ public class Neo4jManager extends DatabaseHelper {
         }
     }
 
-    void removeRelatonship(Relationship relationship){
+    void removeRelationship(Relationship relationship){
         String rsLabel = "Unknown";
         switch (relationship.getRsType().getRelationshipType()){
             case RsType.COLLEAGUES:
@@ -99,12 +95,11 @@ public class Neo4jManager extends DatabaseHelper {
 
         if (!rsLabel.equals("Unknown")){
             SQLiteDatabase db = getWritableDatabase();
-            // TODO: 2017/12/27 这里需要知道用户的网络节点id
             String cypher = "match(startContact:VirtualContact)-[target:" + rsLabel + "]->(endContact:VirtualContact)" +
-                    " where startContact." + LOCAL_USER_ID + " = "+/*就是这里*/
-                    " and endContact." + LOCAL_USER_ID + " = "+/*就是这里*/
-                    " and startContact." + CONTACT_ID + "=" + relationship.getStartContact().getId()+
-                    " and endContact." + CONTACT_ID + "=" + relationship.getEndContact().getId()+
+                    " where startContact." + LOCAL_USER_ID + " = "+ User.getInstance(null).getUserId() +
+                    " and endContact." + LOCAL_USER_ID + " = "+ User.getInstance(null).getUserId() +
+                    " and startContact." + CONTACT_ID + "=" + relationship.getStartContact().getId() +
+                    " and endContact." + CONTACT_ID + "=" + relationship.getEndContact().getId() +
                     "delete target";
             ContentValues values = new ContentValues();
             values.put(CL_OPERATOR, cypher);
@@ -114,10 +109,9 @@ public class Neo4jManager extends DatabaseHelper {
 
     void removeRelationships(Contact contact){
         SQLiteDatabase db = getWritableDatabase();
-        // TODO: 2017/12/27 这里需要知道用户的网络节点id
         String cypher = "match(:VirtualContact)-[target:]-(contact:VirtualContact)" +
-                " and contact." + LOCAL_USER_ID + " = "+/*就是这里*/
-                " and contact." + CONTACT_ID + "=" + contact.getId()+
+                " and contact." + LOCAL_USER_ID + " = "+ User.getInstance(null).getUserId() +
+                " and contact." + CONTACT_ID + "=" + contact.getId() +
                 "delete target";
         ContentValues values = new ContentValues();
         values.put(CL_OPERATOR, cypher);

@@ -66,7 +66,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                         "relationship_type_id integer)";
         String CREATE_TABLE4 =
                 "create table cypher_log(" +
-                        "cypher_operator text autoincrement)";
+                        "cypher_operator text)";
         String INSERT_TYPES =
                 "insert into relationship_type(start_role,end_role,class_type) values(?,?,?)";
         String[][] mTypeData = new String[][]{
