@@ -3,15 +3,20 @@ package com.example.zhang.relationshipManager.activities;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.content.LocalBroadcastManager;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.example.zhang.relationshipManager.Helper.ToastHelper;
 import com.example.zhang.relationshipManager.R;
+import com.example.zhang.relationshipManager.models.Contact;
+import com.example.zhang.relationshipManager.models.Neo4jManager;
 
 import java.math.BigInteger;
+import java.net.InetAddress;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
@@ -36,6 +41,11 @@ public class LoginActivity extends BaseActivity {
     TextInputLayoutFixedErrorSpace textInputLayoutPassword;
     @BindView(R.id.textInputLayout_confirmPwd)
     TextInputLayoutFixedErrorSpace textInputLayoutConfirmPwd;
+    @BindView(R.id.textInputLayout_phoneNumber)
+    TextInputLayoutFixedErrorSpace textInputLayoutPhoneNumber;
+    @BindView(R.id.editText_phoneNumber)
+    EditText editTextPhoneNumber;
+
 
     private LocalBroadcastManager localBroadcastManager;
     @BindView(R.id.textView_switch)
@@ -64,7 +74,7 @@ public class LoginActivity extends BaseActivity {
             public void onClick(View v) {
                 // @todo Just for start Main
                 MainActivity.startActivity(getApplicationContext());
-                if (textInputLayoutConfirmPwd.getError() == null && textInputLayoutPassword.getError() == null) {
+                if (textInputLayoutUserName.getError() == null && textInputLayoutPassword.getError() == null) {
                     Map<String, String> args = new HashMap<>();
                     String userName = editTextUserName.getText().toString();
                     String pwd = editTextPassword.getText().toString();
@@ -95,13 +105,14 @@ public class LoginActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 // @todo Just for start Main
-                MainActivity.startActivity(getApplicationContext());
-                if (textInputLayoutConfirmPwd.getError() == null && textInputLayoutPassword.getError() == null && textInputLayoutUserName.getError() == null) {
+                if (textInputLayoutConfirmPwd.getError() == null && textInputLayoutPassword.getError() == null
+                        && textInputLayoutUserName.getError() == null && textInputLayoutPhoneNumber.getError() == null) {
                     Map<String, String> args = new HashMap<>();
                     String userName = editTextUserName.getText().toString();
                     String pwd = editTextPassword.getText().toString();
                     String confirm_pwd = editTextConfirmPwd.getText().toString();
-                    if (userName.length() == 0 || pwd.length() == 0)
+                    String phoneNumber = editTextPhoneNumber.getText().toString();
+                    if (userName.length() == 0 || pwd.length() == 0 || phoneNumber.length() == 0)
                         return;
                     if (!pwd.equals(confirm_pwd))
                         return;
@@ -122,7 +133,18 @@ public class LoginActivity extends BaseActivity {
                     }
 
                     // @todo Send data for register verification
-
+                    Contact c = new Contact();
+                    c.setPhoneNumber(phoneNumber);
+                    c.setNotes(userName);
+                    try{
+                        Neo4jManager.getInstance(getApplicationContext()).registerUser(c);
+                    }catch (Exception e){
+                        e.printStackTrace();
+                        if (e.getMessage() != null && e.getMessage().equals("rest error")){
+                            ToastHelper.show(getApplicationContext(),"无法连接远程数据库");
+                        }
+                        return;
+                    }
                     MainActivity.startActivity(getApplicationContext());
                 }
             }
@@ -168,15 +190,17 @@ public class LoginActivity extends BaseActivity {
             }
         });
 
-        editTextConfirmPwd.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        editTextPhoneNumber.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (!hasFocus) {
-                    textInputLayoutConfirmPwd.setError(null);
+                    textInputLayoutPhoneNumber.setError(null);
 
-                    String pwdConfirm = editTextConfirmPwd.getText().toString();
-                    if (!editTextPassword.getText().toString().equals(pwdConfirm))
-                        textInputLayoutConfirmPwd.setError(getString(R.string.pwdNotMatch));
+                    String phoneNumber = editTextPhoneNumber.getText().toString();
+                    if ("".equals(phoneNumber))
+                        textInputLayoutPhoneNumber.setError(getString(R.string.emptyPhone));
+                    else if (phoneNumber.length() != 11 )
+                        textInputLayoutPhoneNumber.setError(getString(R.string.wrongPhonePattern));
                 }
             }
         });
@@ -187,11 +211,13 @@ public class LoginActivity extends BaseActivity {
                 setOrigin();
                 if (getString(R.string.switchToLogin).equals(((TextView) v).getText().toString())) {
                     textInputLayoutConfirmPwd.setVisibility(View.GONE);
+                    textInputLayoutPhoneNumber.setVisibility(View.GONE);
                     buttonRegister.setVisibility(View.GONE);
                     buttonLogin.setVisibility(View.VISIBLE);
                     ((TextView) v).setText(R.string.switchToRegister);
                 } else {
                     textInputLayoutConfirmPwd.setVisibility(View.VISIBLE);
+                    textInputLayoutPhoneNumber.setVisibility(View.VISIBLE);
                     buttonRegister.setVisibility(View.VISIBLE);
                     buttonLogin.setVisibility(View.GONE);
                     ((TextView) v).setText(R.string.switchToLogin);
@@ -204,5 +230,6 @@ public class LoginActivity extends BaseActivity {
         textInputLayoutConfirmPwd.setError(null);
         textInputLayoutUserName.setError(null);
         textInputLayoutPassword.setError(null);
+        textInputLayoutPhoneNumber.setError(null);
     }
 }

@@ -13,6 +13,7 @@ import com.example.zhang.relationshipManager.activities.ShowRsInSVGActivity;
 import com.example.zhang.relationshipManager.models.Contact;
 import com.example.zhang.relationshipManager.models.ContactDataChangeReceiver;
 import com.example.zhang.relationshipManager.models.ContactManager;
+import com.example.zhang.relationshipManager.models.Neo4jManager;
 
 import java.util.ArrayList;
 
@@ -90,12 +91,12 @@ public class SearchP2PFragment extends BaseFragment {
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /*if (contactTo == null || contactFrom == null){
+                if (contactTo == null || contactFrom == null){
                     ToastHelper.show(getContext(),"请选择联系人！");
                     return;
-                }*/
+                }
                 // @todo Search, need data as part of url
-
+                Neo4jManager.getInstance(getContext()).searchRsP2P()
                 String url = "http://www.baidu.com";
                 ShowRsInSVGActivity.startActivity(getContext(), url);
             }
@@ -104,7 +105,7 @@ public class SearchP2PFragment extends BaseFragment {
 
     private void setAdapterData() {
         // spinnerCantactTo's adapter
-        contactFromAdapter.clear();
+        contactToAdapter.clear();
         contactToAdapter.addAll(parseAllContact(ContactManager.getInstance(getContext()).getAllContacts()));
 
         // spinnerCantactFrom's adapter

@@ -28,8 +28,8 @@ public class Neo4jManager extends DatabaseHelper {
     private static final String RS_COLLEAGUES = "Colleagues";
     private static final String NODE_CONTACT = "Contact";
     private static final String NODE_VIRTUAL_CONTACT = "VirtualContact";
-    private static final String REQUEST_URL = "http://10.0.0.2:11001/db/data/cypher";
-    private static final String POST_JSON_URL = "http://10.0.0.2:11001/db/data/transaction/commit";
+    private static final String REQUEST_URL = "http://192.168.1.118:7474/db/data/cypher";
+    private static final String POST_JSON_URL = "http://10.0.0.2:7474/db/data/transaction/commit";
     private static Neo4jManager sNeo4jManager;
 
     private ConnectivityManager mConnectivityManager;

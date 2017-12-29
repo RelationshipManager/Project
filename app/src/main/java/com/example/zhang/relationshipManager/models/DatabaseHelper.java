@@ -95,6 +95,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL("drop table contact");
         sqLiteDatabase.execSQL("drop table relationship");
         sqLiteDatabase.execSQL("drop table relationship_type");
+        sqLiteDatabase.execSQL("drop table cypher_log");
         onCreate(sqLiteDatabase);
     }
 }

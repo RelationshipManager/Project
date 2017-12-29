@@ -64,6 +64,21 @@
                 android:hint="@string/editText_confirmPwd"
                 android:inputType="textPassword" />
         </com.example.zhang.relationshipManager.activities.TextInputLayoutFixedErrorSpace>
+
+        <com.example.zhang.relationshipManager.activities.TextInputLayoutFixedErrorSpace
+            android:id="@+id/textInputLayout_phoneNumber"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/editText_margin_bottom"
+            android:visibility="gone">
+
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/editText_phoneNumber"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/editText_phoneNumber"
+                android:inputType="textPhonetic" />
+        </com.example.zhang.relationshipManager.activities.TextInputLayoutFixedErrorSpace>
     </LinearLayout>
 
     <LinearLayout
