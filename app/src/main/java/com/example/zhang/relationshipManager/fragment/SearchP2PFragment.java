@@ -1,5 +1,6 @@
 package com.example.zhang.relationshipManager.fragment;
 
+import android.content.AbstractThreadedSyncAdapter;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -15,6 +16,7 @@ import com.example.zhang.relationshipManager.models.ContactDataChangeReceiver;
 import com.example.zhang.relationshipManager.models.ContactManager;
 import com.example.zhang.relationshipManager.models.Neo4jManager;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 import butterknife.BindView;
@@ -32,13 +34,15 @@ public class SearchP2PFragment extends BaseFragment {
     ArrayAdapter<String> contactToAdapter, contactFromAdapter;
     ContactDataChangeReceiver contactDataChangeReceiver;
 
+    ArrayList<Contact> contactArrayList = ContactManager.getInstance(getContext()).getAllContacts();
+
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         contactDataChangeReceiver.unRegister();
     }
 
-    String contactFrom = null, contactTo = null;
+    Contact contactFrom = new Contact(), contactTo = new Contact();
 
     public SearchP2PFragment() {
     }
@@ -56,7 +60,7 @@ public class SearchP2PFragment extends BaseFragment {
         spinnerContactTo.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                contactTo = contactToAdapter.getItem(position);
+                contactTo = contactArrayList.get(position);
             }
 
             @Override
@@ -71,7 +75,7 @@ public class SearchP2PFragment extends BaseFragment {
         spinnerContactFrom.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                contactFrom = contactFromAdapter.getItem(position);
+                contactFrom = contactArrayList.get(position);
             }
 
             @Override
@@ -91,14 +95,25 @@ public class SearchP2PFragment extends BaseFragment {
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (contactTo == null || contactFrom == null){
+                if (contactTo.getId() == Contact.DEFAULT_ID || contactFrom.getId() == Contact.DEFAULT_ID){
                     ToastHelper.show(getContext(),"请选择联系人！");
                     return;
                 }
                 // @todo Search, need data as part of url
-                Neo4jManager.getInstance(getContext()).searchRsP2P()
-                String url = "http://www.baidu.com";
-                ShowRsInSVGActivity.startActivity(getContext(), url);
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        String result = null;
+                        try {
+                            result = Neo4jManager.getInstance(getContext()).searchRsP2P(contactTo, contactFrom);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                            ToastHelper.show(getContext(),"暂时无法查询");
+                        }
+                        String url = "http://www.baidu.com";
+                        ShowRsInSVGActivity.startActivity(getContext(), url);
+                    }
+                }).start();
             }
         });
     }
@@ -106,11 +121,11 @@ public class SearchP2PFragment extends BaseFragment {
     private void setAdapterData() {
         // spinnerCantactTo's adapter
         contactToAdapter.clear();
-        contactToAdapter.addAll(parseAllContact(ContactManager.getInstance(getContext()).getAllContacts()));
+        contactToAdapter.addAll(parseAllContact(contactArrayList));
 
         // spinnerCantactFrom's adapter
         contactFromAdapter.clear();
-        contactFromAdapter.addAll(parseAllContact(ContactManager.getInstance(getContext()).getAllContacts()));
+        contactFromAdapter.addAll(parseAllContact(contactArrayList));
     }
 
     private String[] parseAllContact(ArrayList<Contact> contacts) {

@@ -13,6 +13,9 @@ import com.example.zhang.relationshipManager.activities.ShowRsInSVGActivity;
 import com.example.zhang.relationshipManager.models.Contact;
 import com.example.zhang.relationshipManager.models.ContactDataChangeReceiver;
 import com.example.zhang.relationshipManager.models.ContactManager;
+import com.example.zhang.relationshipManager.models.Neo4jManager;
+import com.example.zhang.relationshipManager.models.Relationship;
+import com.example.zhang.relationshipManager.models.RsType;
 
 import java.util.ArrayList;
 
@@ -27,6 +30,8 @@ public class SearchTypeFragment extends BaseFragment {
     @BindView(R.id.searchType_button)
     Button searchButton;
 
+    ArrayList<Contact> contactArrayList = ContactManager.getInstance(getContext()).getAllContacts();
+
     @Override
     public void onDestroyView() {
         super.onDestroyView();
@@ -38,14 +43,15 @@ public class SearchTypeFragment extends BaseFragment {
     ArrayAdapter<String> contactAdapter, rsTypeAdapter;
 
 
-    String contact = null, rsType = null;
+    int rsType = -1;
+    Contact contact = new Contact();
 
     public SearchTypeFragment() {
     }
 
     private void setAdapterData() {
         contactAdapter.clear();
-        contactAdapter.addAll(parseAllContact(ContactManager.getInstance(getContext()).getAllContacts()));
+        contactAdapter.addAll(parseAllContact(contactArrayList));
     }
 
     @Override
@@ -62,7 +68,7 @@ public class SearchTypeFragment extends BaseFragment {
         spinnerContact.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                contact = contactAdapter.getItem(position);
+                contact = contactArrayList.get(position);
             }
 
             @Override
@@ -79,7 +85,14 @@ public class SearchTypeFragment extends BaseFragment {
         spinnerRsType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                rsType = rsTypeAdapter.getItem(position);
+                switch (rsTypeAdapter.getItem(position)){
+                    case "朋友":
+                        rsType = RsType.FRIENDS;
+                        break;
+                    case "同事":
+                        rsType = RsType.COLLEAGUES;
+                        break;
+                }
             }
 
             @Override
@@ -98,17 +111,28 @@ public class SearchTypeFragment extends BaseFragment {
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (contact == null){
+                if (contact.getId() == Contact.DEFAULT_ID){
                     ToastHelper.show(getContext(),"请选择联系人！");
                     return;
-                }else if (rsType == null){
+                }else if (rsType == -1){
                     ToastHelper.show(getContext(),"请选择关系类型！");
                     return;
                 }
                 // @todo Search, need data as part of url
-
-                String url = "www.baidu.com";
-                ShowRsInSVGActivity.startActivity(getContext(), url);
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        String result = null;
+                        try {
+                            result = Neo4jManager.getInstance(getContext()).searchRsByType(contact, rsType);
+                        }catch (Exception e){
+                            e.printStackTrace();
+                            ToastHelper.show(getContext(),"暂时无法查询");
+                        }
+                        String url = "www.baidu.com";
+                        ShowRsInSVGActivity.startActivity(getContext(), url);
+                    }
+                }).start();
             }
         });
     }
