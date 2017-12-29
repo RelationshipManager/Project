@@ -24,11 +24,12 @@ import okhttp3.Response;
 
 public class Neo4jManager extends DatabaseHelper {
     private static final String LOCAL_USER_ID = "local_user_id";
+    private static final String PASSWORD = "local_user_id";
     private static final String RS_FRIENDS = "Friends";
     private static final String RS_COLLEAGUES = "Colleagues";
     private static final String NODE_CONTACT = "Contact";
     private static final String NODE_VIRTUAL_CONTACT = "VirtualContact";
-    private static final String REQUEST_URL = "http://192.168.1.118:7474/db/data/cypher";
+    private static final String REQUEST_URL = "http://10.0.0.2:7474/db/data/cypher";
     private static final String POST_JSON_URL = "http://10.0.0.2:7474/db/data/transaction/commit";
     private static Neo4jManager sNeo4jManager;
 
@@ -66,10 +67,36 @@ public class Neo4jManager extends DatabaseHelper {
         return resultIds;
     }
 
-    //注册对应手机号的用户，会保存注册节点的id，如果失败则返回-1，需要在子线程中运行
-    public void registerUser(Contact contact)throws Exception{
+    //获取手机号对应用户的id，需要在子线程中运行
+    public int logIn(String phoneNum, String passwd) throws Exception{
+        int resultId = -1;
         OkHttpClient client = new OkHttpClient();
-        String cypherOperator = "create(user:" + NODE_CONTACT +"{" + CONTACT_PHONE_NUM + ":" + contact.getPhoneNumber() + "})" +
+        String cypherOperator = "match(user:" + NODE_CONTACT +
+                ") where user." + CONTACT_PHONE_NUM + "=" + phoneNum +
+                " and user." + PASSWORD + "=" + passwd +
+                " return ID(user)";
+        RequestBody requestBody = new FormBody.Builder()
+                .add("query", cypherOperator)
+                .build();
+        Request request = new Request.Builder()
+                .url(REQUEST_URL)
+                .post(requestBody)
+                .build();
+        Response response = client.newCall(request).execute();
+        if (response.code() != 200)
+            throw new Exception("rest error");
+        JSONObject body = new JSONObject(response.body().string());
+        JSONArray data = body.getJSONArray("data");
+        if (data.length() > 1)
+            resultId = data.getInt(0);
+        return resultId;
+    }
+
+    //注册对应手机号的用户，会保存注册节点的id，如果失败则返回-1，需要在子线程中运行
+    public void registerUser(Contact contact, String passwd)throws Exception{
+        OkHttpClient client = new OkHttpClient();
+        String cypherOperator = "create(user:" + NODE_CONTACT +"{" + CONTACT_PHONE_NUM + ":" + contact.getPhoneNumber() + "," +
+                PASSWORD + ":" + passwd + "})" +
                 "return ID(user)";
         int userId = -1;
         RequestBody requestBody = new FormBody.Builder()
