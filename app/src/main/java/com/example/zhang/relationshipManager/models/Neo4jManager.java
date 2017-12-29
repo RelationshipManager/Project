@@ -9,7 +9,6 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
@@ -29,8 +28,8 @@ public class Neo4jManager extends DatabaseHelper {
     private static final String RS_COLLEAGUES = "Colleagues";
     private static final String NODE_CONTACT = "Contact";
     private static final String NODE_VIRTUAL_CONTACT = "VirtualContact";
-    private static final String REQUEST_URL = "http://10.0.0.2:7474/db/data/cypher";
-    private static final String POST_JSON_URL = "http://10.0.0.2:7474/db/data/transaction/commit";
+    private static final String REQUEST_URL = "http://10.0.0.2:11001/db/data/cypher";
+    private static final String POST_JSON_URL = "http://10.0.0.2:11001/db/data/transaction/commit";
     private static Neo4jManager sNeo4jManager;
 
     private ConnectivityManager mConnectivityManager;
@@ -63,7 +62,7 @@ public class Neo4jManager extends DatabaseHelper {
         JSONObject body = new JSONObject(response.body().string());
         JSONArray data = body.getJSONArray("data");
         for(int i=0; i<data.length(); i++)
-            resultIds.add(data.getInt(i));
+            resultIds.add(data.getJSONArray(i).getInt(0));
         return resultIds;
     }
 
@@ -88,7 +87,7 @@ public class Neo4jManager extends DatabaseHelper {
         JSONObject body = new JSONObject(response.body().string());
         JSONArray data = body.getJSONArray("data");
         if (data.length() > 1)
-            resultId = data.getInt(0);
+            resultId = data.getJSONArray(0).getInt(0);
         return resultId;
     }
 
@@ -111,7 +110,7 @@ public class Neo4jManager extends DatabaseHelper {
             throw new Exception("rest error");
         JSONObject body = new JSONObject(response.body().string());
         JSONArray data = body.getJSONArray("data");
-        userId = data.getInt(0);
+        userId = data.getJSONArray(0).getInt(0);
         User.getInstance(null).setUserId(userId);
 
         //更新联系人本地手机号
