@@ -1,7 +1,9 @@
 package com.example.zhang.relationshipManager.activities;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.support.v4.content.LocalBroadcastManager;
 import android.view.KeyEvent;
 import android.view.View;
@@ -48,7 +50,7 @@ public class LoginActivity extends BaseActivity {
 
     private String action = "URLCallback_Login_Activity";
 
-    Neo4jManager n = Neo4jManager.getInstance(getApplicationContext());
+    Neo4jManager n;
 
     public static void startActivity(Context context) {
         Intent intent = new Intent(context, LoginActivity.class);
@@ -63,6 +65,7 @@ public class LoginActivity extends BaseActivity {
     @Override
     protected void initViews() {
         SetListener();
+        n = Neo4jManager.getInstance(getApplicationContext());
     }
 
     private void SetListener() {
@@ -142,25 +145,40 @@ public class LoginActivity extends BaseActivity {
                     Contact c = new Contact();
                     c.setPhoneNumber(phoneNumber);
                     String finalPassword = password;
-                    new Thread(new Runnable() {
+                    @SuppressLint("StaticFieldLeak") AsyncTask task = new AsyncTask() {
                         @Override
-                        public void run() {
+                        protected Object doInBackground(Object[] objects) {
                             try {
-                                if (n.getUserId(phoneNumber).size() == 0) {
-                                    ToastHelper.show(getApplicationContext(), "该手机已被注册！");
-                                    return;
+                                if (n.getUserId(phoneNumber).size() != 0) {
+                                    return 0;
                                 }
                                 Neo4jManager.getInstance(getApplicationContext()).registerUser(c, finalPassword);
                             } catch (Exception e) {
                                 e.printStackTrace();
                                 if (e.getMessage() != null && e.getMessage().equals("rest error")) {
-                                    ToastHelper.show(getApplicationContext(), "无法连接远程数据库");
+                                    return 1;
                                 }
-                                return;
                             }
-                            MainActivity.startActivity(getApplicationContext());
+                            return 2;
                         }
-                    }).start();
+
+                        @Override
+                        protected void onPostExecute(Object o) {
+                            int result = (Integer)o;
+                            switch (result){
+                                case 0:
+                                    ToastHelper.show(getApplicationContext(), "该手机已被注册！");
+                                    break;
+                                case 1:
+                                    ToastHelper.show(getApplicationContext(), "无法连接远程数据库");
+                                    break;
+                                case 2:
+                                    MainActivity.startActivity(getApplicationContext());
+                                    break;
+                            }
+                        }
+                    };
+                    task.execute();
                 }
             }
         });

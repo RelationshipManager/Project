@@ -23,13 +23,13 @@ import okhttp3.Response;
 
 public class Neo4jManager extends DatabaseHelper {
     private static final String LOCAL_USER_ID = "local_user_id";
-    private static final String PASSWORD = "local_user_id";
+    private static final String PASSWORD = "password";
     private static final String RS_FRIENDS = "Friends";
     private static final String RS_COLLEAGUES = "Colleagues";
     private static final String NODE_CONTACT = "Contact";
     private static final String NODE_VIRTUAL_CONTACT = "VirtualContact";
-    private static final String REQUEST_URL = "http://10.0.0.2:11001/db/data/cypher";
-    private static final String POST_JSON_URL = "http://10.0.0.2:11001/db/data/transaction/commit";
+    private static final String REQUEST_URL = "http://10.0.2.2:11001/db/data/cypher";
+    private static final String POST_JSON_URL = "http://10.0.2.2:11001/db/data/transaction/commit";
     private static Neo4jManager sNeo4jManager;
 
     private ConnectivityManager mConnectivityManager;
@@ -72,8 +72,8 @@ public class Neo4jManager extends DatabaseHelper {
         OkHttpClient client = new OkHttpClient();
         String cypherOperator = "match(user:" + NODE_CONTACT +
                 ") where user." + CONTACT_PHONE_NUM + "=" + phoneNum +
-                " and user." + PASSWORD + "=" + passwd +
-                " return ID(user)";
+                " and user." + PASSWORD + "=\"" + passwd +
+                "\" return ID(user)";
         RequestBody requestBody = new FormBody.Builder()
                 .add("query", cypherOperator)
                 .build();
@@ -95,7 +95,7 @@ public class Neo4jManager extends DatabaseHelper {
     public void registerUser(Contact contact, String passwd)throws Exception{
         OkHttpClient client = new OkHttpClient();
         String cypherOperator = "create(user:" + NODE_CONTACT +"{" + CONTACT_PHONE_NUM + ":" + contact.getPhoneNumber() + "," +
-                PASSWORD + ":" + passwd + "})" +
+                PASSWORD + ":\"" + passwd + "\"})" +
                 "return ID(user)";
         int userId = -1;
         RequestBody requestBody = new FormBody.Builder()

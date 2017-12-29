@@ -17,6 +17,7 @@ public class User {
 
     private User(Context context){
         mSharedPreferences = context.getSharedPreferences("user_settings", Context.MODE_PRIVATE);
+        mUserId = mSharedPreferences.getInt("user_id", -1);
     }
 
     public void setUserId(int id){

@@ -8,7 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
     //数据库版本
-    static private final int DB_VERSION = 3;
+    static private final int DB_VERSION = 4;
     //数据库名
     static private final String DB_NAME = "relationship_manager";
     //表名
@@ -85,6 +85,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(CONTACT_AGE, Contact.DEFAULT_AGE);
         values.put(CONTACT_SEX, Contact.DEFAULT_SEX);
         values.put(CONTACT_PHONE_NUM, Contact.DEFAULT_PHONE_NUM);
+        values.put(CONTACT_NOTE, Contact.DEFAULT_NOTES);
         values.put(CONTACT_OTHER_CONTACTS, "");
         sqLiteDatabase.insert(CONTACT,null,values);
     }
@@ -95,7 +96,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL("drop table contact");
         sqLiteDatabase.execSQL("drop table relationship");
         sqLiteDatabase.execSQL("drop table relationship_type");
-        sqLiteDatabase.execSQL("drop table cypher_log");
+        if (oldVersion == 3){
+            sqLiteDatabase.execSQL("drop table cypher_log");
+        }
         onCreate(sqLiteDatabase);
     }
 }

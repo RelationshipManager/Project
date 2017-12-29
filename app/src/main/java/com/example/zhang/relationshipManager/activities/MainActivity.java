@@ -16,6 +16,9 @@ import com.example.zhang.relationshipManager.fragment.AddRsDialog;
 import com.example.zhang.relationshipManager.fragment.ContactListFragment;
 import com.example.zhang.relationshipManager.fragment.MyRsFragment;
 import com.example.zhang.relationshipManager.fragment.RsSearchFragment;
+import com.example.zhang.relationshipManager.models.ContactManager;
+import com.example.zhang.relationshipManager.models.Neo4jManager;
+import com.example.zhang.relationshipManager.models.RelationshipManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,6 +38,7 @@ public class MainActivity extends BaseActivity {
 
     public static void startActivity(Context context) {
         Intent intent = new Intent(context, MainActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(intent);
     }
 
