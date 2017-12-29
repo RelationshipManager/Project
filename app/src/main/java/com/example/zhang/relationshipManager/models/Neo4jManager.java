@@ -87,6 +87,12 @@ public class Neo4jManager extends DatabaseHelper {
         userId = data.getInt(0);
         User.getInstance(null).setUserId(userId);
 
+        //更新联系人本地手机号
+        SQLiteDatabase db = getWritableDatabase();
+        //构造联系人的值
+        ContentValues values = new ContentValues();
+        values.put(CONTACT_PHONE_NUM,contact.getPhoneNumber());
+        db.update(CONTACT, values, CONTACT_ID + "=?", new String[]{String.valueOf(contact.getId())});
         addContact(contact);
     }
 

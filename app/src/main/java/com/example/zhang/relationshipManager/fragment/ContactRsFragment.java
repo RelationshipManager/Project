@@ -48,20 +48,33 @@ public class ContactRsFragment extends BaseFragment {
             mContactRsList = contactRsList;
         }
 
-        class ViewHolder extends RecyclerView.ViewHolder {
+        class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener,View.OnLongClickListener{
             TextView contactName;
             TextView contactRelationship;
 
             ViewHolder(View view) {
                 super(view);
+                view.setOnLongClickListener(this);
                 contactName = (TextView) view.findViewById(R.id.contact_name);
                 contactRelationship = (TextView) view.findViewById(R.id.contact_relationship);
+            }
+
+            @Override
+            public void onClick(View view) {
+
+            }
+
+            @Override
+            public boolean onLongClick(View view) {
+                RelationshipManager.getInstance(null).removeRelationship(mContactRsList.get(getAdapterPosition()));
+                return true;
             }
         }
 
         @Override
         public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.fragment_contactrs_item, parent, false);
+//            view.setOnClickListener(this);
             ContactRsFragment.ContactRsAdapter.ViewHolder holder = new ContactRsFragment.ContactRsAdapter.ViewHolder(view);
             return holder;
         }
