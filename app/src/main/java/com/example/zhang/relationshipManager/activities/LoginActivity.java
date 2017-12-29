@@ -20,8 +20,6 @@ import com.example.zhang.relationshipManager.models.User;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.HashMap;
-import java.util.Map;
 
 import butterknife.BindView;
 
@@ -93,28 +91,45 @@ public class LoginActivity extends BaseActivity {
                     }
 
                     String finalPassword = password;
-                    new Thread(new Runnable() {
+                    @SuppressLint("StaticFieldLeak") AsyncTask task = new AsyncTask() {
                         @Override
-                        public void run() {
+                        protected Object doInBackground(Object[] objects) {
                             try {
-                                int id;
-                                if ((id = n.logIn(phoneNum, finalPassword)) == -1){
-                                    ToastHelper.show(getApplicationContext(), "用户名或密码错误！");
-                                    return;
-                                }else {
-                                    User.getInstance(getApplicationContext()).setUserId(id);
-                                }
+                                return n.logIn(phoneNum, finalPassword);
                             } catch (Exception e) {
                                 e.printStackTrace();
+                                return -2;
                             }
-                            MainActivity.startActivity(getApplicationContext());
                         }
-                    }).start();
+
+                        @Override
+                        protected void onPostExecute(Object o) {
+                            int result = (Integer) o;
+                            switch (result) {
+                                case -1:
+                                    ToastHelper.show(getApplicationContext(), "用户名或密码错误！");
+                                    break;
+                                case -2:
+                                    ToastHelper.show(getApplicationContext(), "未知错误");
+                                    break;
+                                default:
+                                    if (result >= 0) {
+                                        User.getInstance(null).setUserId(result);
+                                        MainActivity.startActivity(getApplicationContext());
+                                    } else {
+                                        ToastHelper.show(getApplicationContext(), "未知错误");
+                                    }
+                            }
+                        }
+                    };
+                    task.execute();
                 }
             }
         });
 
-        buttonRegister.setOnClickListener(new View.OnClickListener() {
+        buttonRegister.setOnClickListener(new View.OnClickListener()
+
+        {
             @Override
             public void onClick(View v) {
                 // @todo Just for start Main
@@ -157,6 +172,8 @@ public class LoginActivity extends BaseActivity {
                                 e.printStackTrace();
                                 if (e.getMessage() != null && e.getMessage().equals("rest error")) {
                                     return 1;
+                                } else {
+                                    return 3;
                                 }
                             }
                             return 2;
@@ -164,13 +181,16 @@ public class LoginActivity extends BaseActivity {
 
                         @Override
                         protected void onPostExecute(Object o) {
-                            int result = (Integer)o;
-                            switch (result){
+                            int result = (Integer) o;
+                            switch (result) {
                                 case 0:
                                     ToastHelper.show(getApplicationContext(), "该手机已被注册！");
                                     break;
                                 case 1:
                                     ToastHelper.show(getApplicationContext(), "无法连接远程数据库");
+                                    break;
+                                case 3:
+                                    ToastHelper.show(getApplicationContext(), "未知错误");
                                     break;
                                 case 2:
                                     MainActivity.startActivity(getApplicationContext());
@@ -183,7 +203,9 @@ public class LoginActivity extends BaseActivity {
             }
         });
 
-        editTextPassword.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        editTextPassword.setOnFocusChangeListener(new View.OnFocusChangeListener()
+
+        {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (!hasFocus) {
@@ -198,7 +220,8 @@ public class LoginActivity extends BaseActivity {
             }
         });
 
-        editTextConfirmPwd.setOnKeyListener(new View.OnKeyListener() {
+        editTextConfirmPwd.setOnKeyListener(new View.OnKeyListener()
+        {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 textInputLayoutConfirmPwd.setError(null);
@@ -209,7 +232,9 @@ public class LoginActivity extends BaseActivity {
             }
         });
 
-        editTextPhoneNumber.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        editTextPhoneNumber.setOnFocusChangeListener(new View.OnFocusChangeListener()
+
+        {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (!hasFocus) {
@@ -224,7 +249,9 @@ public class LoginActivity extends BaseActivity {
             }
         });
 
-        textViewSwitch.setOnClickListener(new View.OnClickListener() {
+        textViewSwitch.setOnClickListener(new View.OnClickListener()
+
+        {
             @Override
             public void onClick(View v) {
                 setOrigin();

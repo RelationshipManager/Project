@@ -34,7 +34,7 @@ public class SearchP2PFragment extends BaseFragment {
     ArrayAdapter<String> contactToAdapter, contactFromAdapter;
     ContactDataChangeReceiver contactDataChangeReceiver;
 
-    ArrayList<Contact> contactArrayList = ContactManager.getInstance(getContext()).getAllContacts();
+    ArrayList<Contact> contactArrayList;
 
     @Override
     public void onDestroyView() {
@@ -119,6 +119,7 @@ public class SearchP2PFragment extends BaseFragment {
     }
 
     private void setAdapterData() {
+        contactArrayList = ContactManager.getInstance(null).getAllContacts();
         // spinnerCantactTo's adapter
         contactToAdapter.clear();
         contactToAdapter.addAll(parseAllContact(contactArrayList));

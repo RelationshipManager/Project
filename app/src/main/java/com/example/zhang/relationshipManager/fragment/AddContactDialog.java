@@ -1,16 +1,20 @@
 package com.example.zhang.relationshipManager.fragment;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.app.DialogFragment;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -53,7 +57,10 @@ public class AddContactDialog extends DialogFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         //setStyle(DialogFragment.STYLE_NO_FRAME, R.style.myDialog);
-        View view = inflater.inflate(R.layout.dialog_add_contact, container, false);
+        final Window window = getDialog().getWindow();
+        View view = inflater.inflate(R.layout.dialog_add_contact, ((ViewGroup) window.findViewById(android.R.id.content)), false);
+        window.setLayout(-1, -2);
+//        window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));//注意此处
         ButterKnife.bind(this, view);
         initButtons();
         return view;

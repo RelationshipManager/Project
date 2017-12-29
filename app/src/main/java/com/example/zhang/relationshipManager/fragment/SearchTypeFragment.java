@@ -30,7 +30,7 @@ public class SearchTypeFragment extends BaseFragment {
     @BindView(R.id.searchType_button)
     Button searchButton;
 
-    ArrayList<Contact> contactArrayList = ContactManager.getInstance(getContext()).getAllContacts();
+    ArrayList<Contact> contactArrayList;
 
     @Override
     public void onDestroyView() {
@@ -50,6 +50,7 @@ public class SearchTypeFragment extends BaseFragment {
     }
 
     private void setAdapterData() {
+        contactArrayList = ContactManager.getInstance(null).getAllContacts();
         contactAdapter.clear();
         contactAdapter.addAll(parseAllContact(contactArrayList));
     }
