@@ -60,7 +60,6 @@ public class AddContactDialog extends DialogFragment {
         final Window window = getDialog().getWindow();
         View view = inflater.inflate(R.layout.dialog_add_contact, ((ViewGroup) window.findViewById(android.R.id.content)), false);
         window.setLayout(-1, -2);
-//        window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));//注意此处
         ButterKnife.bind(this, view);
         initButtons();
         return view;

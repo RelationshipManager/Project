@@ -86,7 +86,7 @@ public class Neo4jManager extends DatabaseHelper {
             throw new Exception("rest error");
         JSONObject body = new JSONObject(response.body().string());
         JSONArray data = body.getJSONArray("data");
-        if (data.length() > 1)
+        if (data.length() >= 1)
             resultId = data.getJSONArray(0).getInt(0);
         return resultId;
     }

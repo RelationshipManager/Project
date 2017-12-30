@@ -170,7 +170,7 @@ public class AddRsDialog extends DialogFragment {
 
         ArrayAdapter<String> roleAdapter = new ArrayAdapter<>(getActivity(),
                 R.layout.spinner_contact_item, R.id.spinner_contact_item, mAllRolesList);
-        contactStartAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item_contact);
+        roleAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item_contact);
         mSpStartRoles.setAdapter(roleAdapter);
         mSpEndRoles.setAdapter(roleAdapter);
     }
