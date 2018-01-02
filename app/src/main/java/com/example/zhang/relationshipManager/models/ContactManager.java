@@ -116,16 +116,15 @@ public class ContactManager extends DatabaseHelper{
         SQLiteDatabase db = getWritableDatabase();
         db.beginTransaction();
         String id = String.valueOf(contactToRemove.getId());
-        boolean result = RelationshipManager.getInstance(null).removeRelationships(contactToRemove);
-        if (result){
-            result = db.delete(CONTACT,CONTACT_ID+ "=?",new String[]{id}) > 0;
-            if(result){
-                // 更新内存中数据
-                mContactMap.delete(Integer.valueOf(id));
-                db.setTransactionSuccessful();
-                //更新删除记录
-                mNeo4jManager.removeContact(contactToRemove);
-            }
+        db.delete(RS,RS_END_CONTACT_ID+ "=? or "+RS_START_CONTACT_ID+"=?",new String[]{id, id});
+        boolean result = db.delete(CONTACT,CONTACT_ID+ "=?",new String[]{id}) > 0;
+        if(result){
+            // 更新内存中数据
+            mContactMap.delete(Integer.valueOf(id));
+            db.setTransactionSuccessful();
+            //更新删除记录
+            mNeo4jManager.removeRelationships(contactToRemove);
+            mNeo4jManager.removeContact(contactToRemove);
         }
         db.endTransaction();
         return result;
