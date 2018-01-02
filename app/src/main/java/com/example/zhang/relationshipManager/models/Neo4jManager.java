@@ -175,9 +175,8 @@ public class Neo4jManager extends DatabaseHelper {
 
     //同步本地数据到服务器，不需要在子线程中调用
     public void synchronize(){
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
+        if (isConnected())
+            new Thread(() -> {
                 SQLiteDatabase db = getReadableDatabase();
                 ArrayList<String> failedOperatorList = new ArrayList<>();
                 Cursor cursor = db.query(CL, null, null, null, null, null, null);
@@ -196,9 +195,7 @@ public class Neo4jManager extends DatabaseHelper {
                     values.put(CL_OPERATOR,operator);
                     db.insert(CL,null,values);
                 }
-            }
-        }).start();
-
+            }).start();
     }
 
     //下面是添加、修改、删除联系人以及添加、删除关系，直接调用即可，不需要开子线程

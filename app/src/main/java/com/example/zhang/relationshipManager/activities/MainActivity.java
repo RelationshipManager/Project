@@ -2,6 +2,7 @@ package com.example.zhang.relationshipManager.activities;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -18,6 +19,7 @@ import com.example.zhang.relationshipManager.fragment.MyRsFragment;
 import com.example.zhang.relationshipManager.fragment.RsSearchFragment;
 import com.example.zhang.relationshipManager.models.ContactManager;
 import com.example.zhang.relationshipManager.models.Neo4jManager;
+import com.example.zhang.relationshipManager.models.NetworkChangeReceiver;
 import com.example.zhang.relationshipManager.models.RelationshipManager;
 
 import java.util.ArrayList;
@@ -35,6 +37,8 @@ public class MainActivity extends BaseActivity {
     private List<Fragment> mFragmentList;
     //当前页编号
     private int mNowFragmentPosition;
+    //网络状态监听器
+    private NetworkChangeReceiver mNetworkChangeReceiver;
 
     public static void startActivity(Context context) {
         Intent intent = new Intent(context, MainActivity.class);
@@ -60,6 +64,7 @@ public class MainActivity extends BaseActivity {
         mFragmentList.add(new ContactListFragment());
         mFragmentList.add(new RsSearchFragment());
         mFragmentList.add(new MyRsFragment());
+        mNetworkChangeReceiver = new NetworkChangeReceiver(this);
 
         //初始化toolbar
         setSupportActionBar(mToolbar);
@@ -156,5 +161,11 @@ public class MainActivity extends BaseActivity {
         public int getCount() {
             return mFragmentList.size();
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mNetworkChangeReceiver.unRegister();
     }
 }
