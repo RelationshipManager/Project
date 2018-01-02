@@ -110,7 +110,7 @@ public class SearchP2PFragment extends BaseFragment {
                             e.printStackTrace();
                             ToastHelper.show(getContext(),"暂时无法查询");
                         }
-                        String url = "http://www.baidu.com";
+                        String url = "http://192.168.1.118/my-app/neo4j.html?info=" + result;
                         ShowRsInSVGActivity.startActivity(getContext(), url);
                     }
                 }).start();
