@@ -48,7 +48,6 @@ public class ContactRsFragment extends BaseFragment {
         mRsDataChangeReceiver = new RsDataChangeReceiver(getContext(), () ->
                 ((ContactRsAdapter) contactRsRecyclerView.getAdapter())
                         .update(RelationshipManager.getInstance(null).getRelationships(mContact)));
-        getContext().registerReceiver(mRsDataChangeReceiver, new IntentFilter(RsDataChangeReceiver.INTENTFILTER));
     }
 
     public ContactRsFragment setContact(Contact contact){
