@@ -30,6 +30,7 @@ public class Neo4jManager extends DatabaseHelper {
     private static final String NODE_VIRTUAL_CONTACT = "VirtualContact";
     private static final String REQUEST_URL = "http://10.0.2.2:11001/db/data/cypher";
     private static final String POST_JSON_URL = "http://10.0.2.2:11001/db/data/transaction/commit";
+    private static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
     private static Neo4jManager sNeo4jManager;
 
     private ConnectivityManager mConnectivityManager;
@@ -97,7 +98,6 @@ public class Neo4jManager extends DatabaseHelper {
         String cypherOperator = "create(user:" + NODE_CONTACT +"{" + CONTACT_PHONE_NUM + ":" + contact.getPhoneNumber() + "," +
                 PASSWORD + ":\"" + passwd + "\"})" +
                 "return ID(user)";
-        int userId = -1;
         RequestBody requestBody = new FormBody.Builder()
                 .add("query", cypherOperator)
                 .build();
@@ -110,7 +110,7 @@ public class Neo4jManager extends DatabaseHelper {
             throw new Exception("rest error");
         JSONObject body = new JSONObject(response.body().string());
         JSONArray data = body.getJSONArray("data");
-        userId = data.getJSONArray(0).getInt(0);
+        int userId = data.getJSONArray(0).getInt(0);
         User.getInstance(null).setUserId(userId);
 
         //更新联系人本地手机号
@@ -119,6 +119,8 @@ public class Neo4jManager extends DatabaseHelper {
         ContentValues values = new ContentValues();
         values.put(CONTACT_PHONE_NUM,contact.getPhoneNumber());
         db.update(CONTACT, values, CONTACT_ID + "=?", new String[]{String.valueOf(contact.getId())});
+
+        //添加虚联系人
         addContact(contact);
     }
 
@@ -204,20 +206,20 @@ public class Neo4jManager extends DatabaseHelper {
         String prop = LOCAL_USER_ID + ":" + User.getInstance(null).getUserId() + "," +
                 CONTACT_ID + ":" + contact.getId() + "," +
                 CONTACT_PHONE_NUM + ":" + contact.getPhoneNumber() + "," +
-                CONTACT_NAME + ":" + contact.getName() + "," +
+                CONTACT_NAME + ":\"" + contact.getName() + "\"," +
                 CONTACT_AGE + ":" + contact.getAge() + "," +
                 CONTACT_SEX + ":" + contact.getSex() + "," +
-                CONTACT_NOTE + ":" + contact.getNotes();
+                CONTACT_NOTE + ":\"" + contact.getNotes() + "\"";
         String cypher = "create(:" + NODE_VIRTUAL_CONTACT + "{"+ prop +"})";
         execOperator(cypher);
     }
 
     void updateContact(Contact contact){
-        String prop = CONTACT_NAME + "=" + contact.getName() + "," +
-                CONTACT_AGE + "=" + contact.getAge() + "," +
-                CONTACT_PHONE_NUM + "=" + contact.getPhoneNumber() + "," +
-                CONTACT_SEX + "=" + contact.getSex() + "," +
-                CONTACT_NOTE + "=" + contact.getNotes();
+        String prop = "target." + CONTACT_NAME + "=\"" + contact.getName() + "\"," +
+                "target." + CONTACT_AGE + "=" + contact.getAge() + "," +
+                "target." + CONTACT_PHONE_NUM + "=" + contact.getPhoneNumber() + "," +
+                "target." + CONTACT_SEX + "=" + contact.getSex() + "," +
+                "target." + CONTACT_NOTE + "=\"" + contact.getNotes() + "\"";
         String cypher = "match(target:" + NODE_VIRTUAL_CONTACT + ") where target." + LOCAL_USER_ID + " = " +
                 User.getInstance(null).getUserId() + " and target." + CONTACT_ID + "=" + contact.getId() +
                 " set "+ prop;
@@ -227,7 +229,7 @@ public class Neo4jManager extends DatabaseHelper {
     void removeContact(Contact contact){
         String cypher = "match(target:" + NODE_VIRTUAL_CONTACT + ") where target." + LOCAL_USER_ID + " = " +
                 User.getInstance(null).getUserId() + " and target." + CONTACT_ID + "=" + contact.getId() +
-                "delete target";
+                " delete target";
         execOperator(cypher);
     }
 
@@ -248,7 +250,8 @@ public class Neo4jManager extends DatabaseHelper {
                     " and endContact." + LOCAL_USER_ID + " = "+ User.getInstance(null).getUserId() +
                     " and startContact." + CONTACT_ID + "=" + startContact.getId() +
                     " and endContact." + CONTACT_ID + "=" + endContact.getId() +
-                    " create(startContact)-[:" + rsLabel + "]->(endContact)";
+                    " create(startContact)-[:" + rsLabel + "{start_role:\"" + rsType.getStartRole() +
+                    "\", end_role:\"" + rsType.getEndRole() + "\"}]->(endContact)";
             execOperator(cypher);
         }
     }
@@ -270,7 +273,7 @@ public class Neo4jManager extends DatabaseHelper {
                     " and endContact." + LOCAL_USER_ID + " = "+ User.getInstance(null).getUserId() +
                     " and startContact." + CONTACT_ID + "=" + relationship.getStartContact().getId() +
                     " and endContact." + CONTACT_ID + "=" + relationship.getEndContact().getId() +
-                    "delete target";
+                    " delete target";
             execOperator(cypher);
         }
     }
@@ -279,7 +282,7 @@ public class Neo4jManager extends DatabaseHelper {
         String cypher = "match(:" + NODE_VIRTUAL_CONTACT + ")-[target:]-(contact:" + NODE_VIRTUAL_CONTACT + ")" +
                 " where contact." + LOCAL_USER_ID + " = "+ User.getInstance(null).getUserId() +
                 " and contact." + CONTACT_ID + "=" + contact.getId() +
-                "delete target";
+                " delete target";
         execOperator(cypher);
     }
 
@@ -295,9 +298,10 @@ public class Neo4jManager extends DatabaseHelper {
         String requestJson = "{\"statements\" : [ {    \"statement\" : \"" + searchOperator + "\", " +
                 "\"resultDataContents\":[\"graph\"]} ]}";
         OkHttpClient client = new OkHttpClient();
+        RequestBody body = RequestBody.create(JSON, requestJson);
         Request request = new Request.Builder()
                 .url(POST_JSON_URL)
-                .put(RequestBody.create(MediaType.parse("application/json; charset=utf-8"),requestJson))
+                .post(body)
                 .build();
         try {
             Response response = client.newCall(request).execute();

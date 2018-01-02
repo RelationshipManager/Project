@@ -143,14 +143,16 @@ public class AddRsDialog extends DialogFragment {
                 if ("".equals(rt.getStartRole()) || "".equals(rt.getEndRole())){
                     resultMsg = "请选择角色";
                 }else {
-                    if (RelationshipManager.getInstance(null).addRelationship(mRelationship))
+                    if (RelationshipManager.getInstance(null).addRelationship(mRelationship)){
                         resultMsg = "添加成功";
+                        getActivity().sendBroadcast(new Intent(RsDataChangeReceiver.INTENTFILTER));
+                        dismiss();
+                    }
                     else
                         // TODO: 2017/12/25 应该自动更新另一个列表中的角色，避免类型对应不上
                         resultMsg = "添加失败,选择角色类型有误";
                 }
             }
-            getActivity().sendBroadcast(new Intent(RsDataChangeReceiver.INTENTFILTER));
             ToastHelper.show(getActivity(), resultMsg);
         });
     }

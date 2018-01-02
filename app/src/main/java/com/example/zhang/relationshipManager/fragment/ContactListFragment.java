@@ -73,17 +73,17 @@ public class ContactListFragment extends BaseFragment {
 
         @Override
         public void onBindViewHolder(ViewHolder holder, int position) {
-            Contact contact = mContactList.get(position);
+            Contact contact = mContactList.get(position + 1);//剔除本机用户
             // @todo comment for test
 //          holder.contactImage.setImageResource(contact.getImageId());
             holder.contactName.setText(contact.getName());
             holder.contactView.setOnClickListener(v ->
-                    ContactInfoActivity.startActivity(v.getContext(), mContactList.get(holder.getAdapterPosition()).getId()));
+                    ContactInfoActivity.startActivity(v.getContext(), mContactList.get(holder.getAdapterPosition() + 1).getId()));
         }
 
         @Override
         public int getItemCount() {
-            return mContactList.size();
+            return mContactList.size() - 1;//剔除本机用户
         }
 
         public void update() {

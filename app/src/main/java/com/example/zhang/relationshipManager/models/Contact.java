@@ -142,6 +142,8 @@ public class Contact {
     }
 
     public String getNotes() {
+        if(mNotes == null)
+            mNotes = DEFAULT_NOTES;
         return mNotes;
     }
 

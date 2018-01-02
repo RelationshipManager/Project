@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.example.zhang.relationshipManager.Helper.ToastHelper;
 import com.example.zhang.relationshipManager.R;
 import com.example.zhang.relationshipManager.models.Contact;
+import com.example.zhang.relationshipManager.models.ContactManager;
 import com.example.zhang.relationshipManager.models.Neo4jManager;
 import com.example.zhang.relationshipManager.models.User;
 
@@ -157,7 +158,7 @@ public class LoginActivity extends BaseActivity {
                     }
 
                     // @todo Send data for register verification
-                    Contact c = new Contact();
+                    Contact c = ContactManager.getInstance(LoginActivity.this).getUser();
                     c.setPhoneNumber(phoneNumber);
                     String finalPassword = password;
                     @SuppressLint("StaticFieldLeak") AsyncTask task = new AsyncTask() {

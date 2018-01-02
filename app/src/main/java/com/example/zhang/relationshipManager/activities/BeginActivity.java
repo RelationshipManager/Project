@@ -18,7 +18,8 @@ public class BeginActivity extends AppCompatActivity {
         RelationshipManager.getInstance(this);
         Neo4jManager.getInstance(this);
         User.getInstance(this);
-        LoginActivity.startActivity(this);
+//        LoginActivity.startActivity(this);
+        MainActivity.startActivity(this);
         finish();
     }
 }

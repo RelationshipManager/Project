@@ -28,7 +28,7 @@ public class ContactManager extends DatabaseHelper{
 
     //获取用户
     public Contact getUser(){
-        return mContactMap.get(0);
+        return mContactMap.valueAt(0);
     }
 
     //根据联系人id获取联系人
@@ -80,8 +80,6 @@ public class ContactManager extends DatabaseHelper{
         ContentValues values = getContentValues(contact);
         //执行插入
         db.insert(CONTACT, null, values);
-        //更新添加记录
-        mNeo4jManager.addContact(contact);
 
         //获取插入的id，用来构造contact
         int id = 0;
@@ -92,6 +90,9 @@ public class ContactManager extends DatabaseHelper{
         Contact newContact = contact.copy();
         newContact.setId(id);
         mContactMap.put(id, newContact);
+
+        //更新添加记录
+        mNeo4jManager.addContact(newContact);
         return newContact;
     }
 
@@ -115,15 +116,16 @@ public class ContactManager extends DatabaseHelper{
         SQLiteDatabase db = getWritableDatabase();
         db.beginTransaction();
         String id = String.valueOf(contactToRemove.getId());
-        db.delete(RS,RS_START_CONTACT_ID + "=? or" + RS_END_CONTACT_ID +" =?",new String[]{id,id});
-        RelationshipManager.getInstance(null).removeRelationships(contactToRemove);
-        boolean result= db.delete(CONTACT,CONTACT_ID+ "=?",new String[]{id}) > 0;
-        if(result){
-            // 更新内存中数据
-            mContactMap.delete(Integer.valueOf(id));
-            db.setTransactionSuccessful();
-            //更新删除记录
-            mNeo4jManager.removeContact(contactToRemove);
+        boolean result = RelationshipManager.getInstance(null).removeRelationships(contactToRemove);
+        if (result){
+            result = db.delete(CONTACT,CONTACT_ID+ "=?",new String[]{id}) > 0;
+            if(result){
+                // 更新内存中数据
+                mContactMap.delete(Integer.valueOf(id));
+                db.setTransactionSuccessful();
+                //更新删除记录
+                mNeo4jManager.removeContact(contactToRemove);
+            }
         }
         db.endTransaction();
         return result;
