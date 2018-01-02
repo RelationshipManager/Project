@@ -177,7 +177,7 @@ public class Neo4jManager extends DatabaseHelper {
     public void synchronize(){
         if (isConnected())
             new Thread(() -> {
-                SQLiteDatabase db = getReadableDatabase();
+                SQLiteDatabase db = getWritableDatabase();
                 ArrayList<String> failedOperatorList = new ArrayList<>();
                 Cursor cursor = db.query(CL, null, null, null, null, null, null);
                 if (cursor.moveToFirst()) {
@@ -276,7 +276,7 @@ public class Neo4jManager extends DatabaseHelper {
     }
 
     void removeRelationships(Contact contact){
-        String cypher = "match(:" + NODE_VIRTUAL_CONTACT + ")-[target:]-(contact:" + NODE_VIRTUAL_CONTACT + ")" +
+        String cypher = "match(:" + NODE_VIRTUAL_CONTACT + ")-[target]-(contact:" + NODE_VIRTUAL_CONTACT + ")" +
                 " where contact." + LOCAL_USER_ID + " = "+ User.getInstance(null).getUserId() +
                 " and contact." + CONTACT_ID + "=" + contact.getId() +
                 " delete target";
@@ -327,7 +327,7 @@ public class Neo4jManager extends DatabaseHelper {
                 .build();
         Request request = new Request.Builder()
                 .url(REQUEST_URL)
-                .post(requestBody)
+                .put(requestBody)
                 .build();
         try {
             Response response = client.newCall(request).execute();
