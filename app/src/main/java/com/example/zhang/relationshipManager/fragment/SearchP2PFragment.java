@@ -1,6 +1,9 @@
 package com.example.zhang.relationshipManager.fragment;
 
+import android.annotation.SuppressLint;
 import android.content.AbstractThreadedSyncAdapter;
+import android.os.AsyncTask;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -15,6 +18,10 @@ import com.example.zhang.relationshipManager.models.Contact;
 import com.example.zhang.relationshipManager.models.ContactDataChangeReceiver;
 import com.example.zhang.relationshipManager.models.ContactManager;
 import com.example.zhang.relationshipManager.models.Neo4jManager;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -95,25 +102,48 @@ public class SearchP2PFragment extends BaseFragment {
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (contactTo.getId() == Contact.DEFAULT_ID || contactFrom.getId() == Contact.DEFAULT_ID){
-                    ToastHelper.show(getContext(),"请选择联系人！");
+                if (contactTo.getId() == Contact.DEFAULT_ID || contactFrom.getId() == Contact.DEFAULT_ID) {
+                    ToastHelper.show(getContext(), "请选择联系人！");
                     return;
                 }
                 // @todo Search, need data as part of url
-                new Thread(new Runnable() {
+                @SuppressLint("StaticFieldLeak") AsyncTask task = new AsyncTask() {
                     @Override
-                    public void run() {
+                    protected Object doInBackground(Object[] objects) {
                         String result = null;
                         try {
                             result = Neo4jManager.getInstance(getContext()).searchRsP2P(contactTo, contactFrom);
+                            JSONObject check = (JSONObject) new JSONObject(result).getJSONArray("results").get(0);
+                            if (check.getJSONArray("data").length() == 0)
+                                return 0;
                         } catch (IOException e) {
                             e.printStackTrace();
-                            ToastHelper.show(getContext(),"暂时无法查询");
+                            return 1;
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            return 0;
                         }
-                        String url = "http://192.168.1.118/my-app/neo4j.html?info=" + result;
-                        ShowRsInSVGActivity.startActivity(getContext(), url);
+                        return 1;
                     }
-                }).start();
+
+                    @Override
+                    protected void onPostExecute(Object o) {
+                        int result = (Integer) o;
+                        switch (result) {
+                            case 0:
+                                ToastHelper.show(getContext(), "没有数据需要显示！");
+                                break;
+                            case 1:
+                                ToastHelper.show(getContext(), "暂时无法查询");
+                                break;
+                            case 2:
+                                String url = "http://10.0.2.2/my-app/neo4j.html?info=" + result;
+                                ShowRsInSVGActivity.startActivity(getContext(), url);
+                                break;
+                        }
+                    }
+                };
+                task.execute();
             }
         });
     }
